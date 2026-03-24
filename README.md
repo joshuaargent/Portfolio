@@ -69,6 +69,7 @@ root/
 ## Related Projects
 
 - EloFlos
+- EloFlosMerch
 - NextJsTemplate
 - NestJsTemplate
 
