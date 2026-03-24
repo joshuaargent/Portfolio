@@ -43,16 +43,15 @@ root/
 └── src/
     ├── app/          # routing and pages
     ├── components/   # reusable UI components
-    ├── hooks/        # client-side logic
-    ├── lib/          # utilities and shared logic
-    └── styles/       # global styles and tokens
+    ├── hooks/        # client side logic
+    └──  lib/          # utilities and shared logic
 ```
 
 ---
 
 ## Design Approach
 
-- component-based architecture
+- component based architecture
 - reusable layout patterns
 - consistent design system across pages
 
