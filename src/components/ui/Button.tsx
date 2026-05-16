@@ -1,6 +1,6 @@
 'use client';
 
-import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from 'react';
+import { forwardRef, type ButtonHTMLAttributes, type ReactNode, createElement } from 'react';
 import { cn } from '@/lib/utils';
 import { Loader2 } from 'lucide-react';
 
@@ -47,45 +47,51 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    // Build variant styles with explicit text colors using !important
+    // Build variant styles with explicit text colors
     const getVariantStyles = () => {
       switch (variant) {
         case 'primary':
-          return 'bg-[#0D9488] !text-white hover:bg-[#0F766E] shadow-sm';
+          return 'bg-accent text-white hover:bg-accent-hover shadow-sm [&>*]:text-white';
         case 'secondary':
-          return 'bg-[#F5F5F4] !text-[#1C1917] hover:bg-[#E7E5E4] border border-[#E7E5E4]';
+          return 'bg-bg-secondary text-text-primary hover:bg-border border border-border';
         case 'outline':
-          return 'border border-[#E7E5E4] bg-transparent !text-[#1C1917] hover:bg-[#F5F5F4]';
+          return 'border border-border bg-transparent text-text-primary hover:bg-bg-secondary';
         case 'ghost':
-          return '!text-[#1C1917] hover:bg-[#F5F5F4]';
+          return 'text-text-primary hover:bg-bg-secondary';
         case 'link':
-          return '!text-[#0D9488] hover:!text-[#0F766E] underline-offset-4 hover:underline';
+          return 'text-accent hover:text-accent-hover underline-offset-4 hover:underline';
         case 'danger':
-          return 'bg-red-600 !text-white hover:bg-red-700';
+          return 'bg-red-600 text-white hover:bg-red-700 [&>*]:text-white';
         default:
-          return 'bg-[#0D9488] !text-white hover:bg-[#0F766E]';
+          return 'bg-accent text-white hover:bg-accent-hover [&>*]:text-white';
       }
     };
 
     const buttonStyles = cn(buttonBaseStyles, getVariantStyles(), sizeStyles[size], className);
 
+    // Content to render
+    const content = (
+      <>
+        {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : leftIcon}
+        {children}
+        {!isLoading && rightIcon}
+      </>
+    );
+
+    // If asChild is true, we need to handle it differently
+    // We'll wrap the content in a span with the button styles
     if (asChild) {
-      // When asChild is true, we render a wrapper that applies button styles
-      // The child (Link) will inherit the text color
+      // Return a span styled as a button that wraps the Link
       return (
-        <button ref={ref} className={buttonStyles} disabled={disabled || isLoading} {...props}>
-          {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : leftIcon}
-          <span className="contents">{children}</span>
-          {!isLoading && rightIcon}
-        </button>
+        <span className={buttonStyles} data-disabled={disabled || isLoading ? '' : undefined}>
+          {content}
+        </span>
       );
     }
 
     return (
       <button ref={ref} className={buttonStyles} disabled={disabled || isLoading} {...props}>
-        {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : leftIcon}
-        {children}
-        {!isLoading && rightIcon}
+        {content}
       </button>
     );
   }
