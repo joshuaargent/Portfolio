@@ -27,7 +27,7 @@ export function ExtendedStats({ stats }: ExtendedStatsProps) {
         icon={<Flame className="h-4 w-4 text-orange-500" />}
         label="Total Calories"
         value={stats.totalCalories ? `${stats.totalCalories} kcal` : 'N/A'}
-        subtext={stats.totalRuns ? `${Math.round(stats.totalCalories! / stats.totalRuns)} kcal avg` : ''}
+        subtext={stats.totalCalories && stats.totalRuns ? `${Math.round(stats.totalCalories / stats.totalRuns)} kcal avg` : stats.totalCalories ? `${stats.totalCalories} kcal` : ''}
       />
       <MiniStat
         icon={<Timer className="h-4 w-4 text-blue-500" />}

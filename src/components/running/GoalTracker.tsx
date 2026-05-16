@@ -116,7 +116,7 @@ function GoalCard({ icon, title, current, goal, progress, unit, subtitle, isProj
       </div>
       
       <div className="flex justify-between items-end mb-2">
-        <span className="text-2xl font-bold">{current}{unit}</span>
+        <span className="text-2xl font-bold">{Math.round(current * 10) / 10}{unit}</span>
         <span className="text-text-muted text-sm">of {goal}{unit}</span>
       </div>
       
@@ -140,8 +140,10 @@ function GoalCard({ icon, title, current, goal, progress, unit, subtitle, isProj
         </span>
         {subtitle ? (
           <span className="text-xs text-text-muted">{subtitle}</span>
+        ) : isComplete ? (
+          <span className="text-xs text-green-500">goal reached!</span>
         ) : (
-          <span className="text-xs text-text-muted">{goal - current}{unit} left</span>
+          <span className="text-xs text-text-muted">{Math.max(0, goal - current)}{unit} left</span>
         )}
       </div>
     </Card>
