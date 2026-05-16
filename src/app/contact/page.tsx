@@ -163,7 +163,7 @@ export default function ContactPage() {
                     <Facebook className="h-5 w-5 text-blue-600" />
                     <div>
                       <p className="text-text-primary text-sm font-medium">Facebook</p>
-                      <p className="text-text-muted text-xs">/joshua_argent</p>
+                      <p className="text-text-muted text-xs">@joshua_argent</p>
                     </div>
                   </a>
                 </div>

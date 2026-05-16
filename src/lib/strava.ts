@@ -4,7 +4,8 @@ const STRAVA_CLIENT_ID = process.env.STRAVA_CLIENT_ID;
 const STRAVA_CLIENT_SECRET = process.env.STRAVA_CLIENT_SECRET;
 const STRAVA_ACCESS_TOKEN = process.env.STRAVA_ACCESS_TOKEN;
 const STRAVA_REFRESH_TOKEN = process.env.STRAVA_REFRESH_TOKEN;
-const BASE_URL = 'https://www.strava.com/api/v3';
+
+const API_BASE_URL = 'https://api.strava.com';
 
 function isConfigured(): boolean {
   return !!STRAVA_ACCESS_TOKEN;
@@ -16,7 +17,7 @@ async function refreshAccessToken(): Promise<string | null> {
   }
 
   try {
-    const response = await fetch('https://www.strava.com/oauth/token', {
+    const response = await fetch(`${API_BASE_URL}/oauth/token`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -47,7 +48,7 @@ export async function getStravaActivities(): Promise<RunLog[]> {
     console.log('Fetching Strava activities...');
 
     // Use revalidate instead of no-store for static generation
-    const response = await fetch(`${BASE_URL}/athlete/activities?per_page=100`, {
+    const response = await fetch(`${API_BASE_URL}/athlete/activities?per_page=100`, {
       headers: {
         Authorization: `Bearer ${STRAVA_ACCESS_TOKEN}`,
       },
@@ -58,7 +59,7 @@ export async function getStravaActivities(): Promise<RunLog[]> {
       console.log('Strava token expired, attempting refresh...');
       const newToken = await refreshAccessToken();
       if (newToken) {
-        const retryResponse = await fetch(`${BASE_URL}/athlete/activities?per_page=100`, {
+        const retryResponse = await fetch(`${API_BASE_URL}/athlete/activities?per_page=100`, {
           headers: {
             Authorization: `Bearer ${newToken}`,
           },

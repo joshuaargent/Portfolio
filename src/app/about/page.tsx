@@ -18,7 +18,7 @@ import { ArrowRight, Download, Mail, Youtube, Github, Instagram, Facebook } from
 
 export const metadata: Metadata = {
   title: 'About',
-  description: `Learn more about ${personalInfo.name} — runner, reader, builder, and content creator.`,
+  description: `Learn more about ${personalInfo.name} — runner, reader, Coder, and content creator.`,
 };
 
 // ============================================
@@ -43,7 +43,7 @@ export default async function AboutPage() {
 
   return (
     <>
-      <PageHeader title="About Me" description="Runner. Reader. Builder. Here's my story." />
+      <PageHeader title="About Me" description="Runner. Reader. Coder. Here's my story." />
 
       <section className="pb-12 md:pb-16">
         <div className="container">
@@ -227,7 +227,7 @@ export default async function AboutPage() {
                       className="hover:bg-bg-secondary flex items-center gap-3 rounded-lg p-2 transition-colors"
                     >
                       <Youtube className="h-5 w-5 text-red-500" />
-                      <span className="text-text-secondary text-sm">YouTube</span>
+                      <span className="text-text-secondary text-sm">@joshua_argent</span>
                     </a>
                     <a
                       href={socialLinks.github}
@@ -236,7 +236,7 @@ export default async function AboutPage() {
                       className="hover:bg-bg-secondary flex items-center gap-3 rounded-lg p-2 transition-colors"
                     >
                       <Github className="text-text-primary h-5 w-5" />
-                      <span className="text-text-secondary text-sm">GitHub</span>
+                      <span className="text-text-secondary text-sm">@joshuaargent</span>
                     </a>
                     <a
                       href={socialLinks.instagram}
@@ -245,7 +245,7 @@ export default async function AboutPage() {
                       className="hover:bg-bg-secondary flex items-center gap-3 rounded-lg p-2 transition-colors"
                     >
                       <Instagram className="h-5 w-5 text-pink-500" />
-                      <span className="text-text-secondary text-sm">Instagram</span>
+                      <span className="text-text-secondary text-sm">@joshua_argent</span>
                     </a>
                     <a
                       href={socialLinks.facebook}
@@ -254,7 +254,7 @@ export default async function AboutPage() {
                       className="hover:bg-bg-secondary flex items-center gap-3 rounded-lg p-2 transition-colors"
                     >
                       <Facebook className="h-5 w-5 text-blue-600" />
-                      <span className="text-text-secondary text-sm">Facebook</span>
+                      <span className="text-text-secondary text-sm">@joshua_argent</span>
                     </a>
                   </div>
                 </Card>
