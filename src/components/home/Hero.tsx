@@ -8,7 +8,7 @@ import { Avatar } from '@/components/ui/Avatar';
 
 export function Hero() {
   return (
-    <section className="py-16 md:py-24 lg:py-32">
+    <section className="py-12 md:py-16 lg:py-20">
       <div className="container">
         <div className="flex flex-col items-center gap-12 lg:flex-row lg:gap-16">
           {/* Text Content */}

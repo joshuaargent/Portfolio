@@ -24,19 +24,34 @@ export function NewsletterCTA({ className, variant = 'default' }: NewsletterCTAP
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!email) return;
 
     setIsLoading(true);
+    setError('');
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to subscribe');
+      }
+
       setIsSubscribed(true);
       toast.success('Thanks for subscribing!');
-    } catch {
-      toast.error('Something went wrong. Please try again.');
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Something went wrong. Please try again.';
+      setError(message);
+      toast.error(message);
     } finally {
       setIsLoading(false);
     }
@@ -97,17 +112,17 @@ export function NewsletterCTA({ className, variant = 'default' }: NewsletterCTAP
         ) : (
           <form
             onSubmit={handleSubmit}
-            className="mx-auto mt-6 flex max-w-md flex-col gap-3 sm:flex-row"
+            className="mx-auto mt-6 flex w-full max-w-xs flex-col items-center gap-3"
           >
             <Input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
-              className="flex-1"
+              className="w-full text-center"
               required
             />
-            <Button type="submit" isLoading={isLoading} size="lg" style={{ color: '#ffffff' }}>
+            <Button type="submit" isLoading={isLoading} size="lg" className="w-full" style={{ color: '#ffffff' }}>
               Subscribe
             </Button>
           </form>
