@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react';
 import { CategoryFilter } from '@/components/content/CategoryFilter';
 import { ContentCard } from '@/components/content/ContentCard';
+import { VideoCard } from '@/components/video/VideoCard';
 import { EmptyState } from '@/components/shared/EmptyState';
 import { Filter } from 'lucide-react';
 
@@ -19,6 +20,19 @@ export interface CombinedContent {
   publishedAt: string;
   thumbnail?: string;
   youtubeId?: string;
+  videoData?: {
+    id: string;
+    title: string;
+    description: string;
+    youtubeId: string;
+    thumbnail: string;
+    duration: string;
+    publishedAt: string;
+    type: 'long-form' | 'short' | 'running-short';
+    tags: string[];
+    category?: string;
+    viewCount?: number;
+  };
 }
 
 // ============================================
@@ -60,7 +74,9 @@ export function ContentCombinedFilter({
       {filteredContent.length > 0 ? (
         <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {filteredContent.map((item) =>
-            item.type === 'video' && item.youtubeId ? (
+            item.type === 'video' && item.videoData ? (
+              <VideoCard key={item.slug} video={item.videoData} showDescription />
+            ) : item.type === 'video' && item.youtubeId ? (
               <a
                 key={item.slug}
                 href={`https://youtube.com/watch?v=${item.youtubeId}`}

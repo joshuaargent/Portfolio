@@ -38,6 +38,7 @@ export default async function ContentPage() {
         publishedAt: v.publishedAt,
         thumbnail: v.thumbnail,
         youtubeId: v.youtubeId,
+        videoData: v,
       })),
     ...contentPieces.map((c) => ({
       slug: c.slug,
@@ -64,29 +65,6 @@ export default async function ContentPage() {
           <div className="mt-4">
             <ContentCombinedFilter content={combinedContent} categories={categories} />
           </div>
-
-          {/* Latest Long-form Video */}
-          {(() => {
-            const latestLongForm = allVideos.find((v) => v.type === 'long-form');
-            return latestLongForm ? (
-              <div className="mt-16">
-                <SectionHeading
-                  title="Latest Video"
-                  subtitle="Most recent long-form video."
-                  action={{ label: 'View all', href: 'https://youtube.com/@joshua_argent' }}
-                />
-                <div className="mt-6">
-                  <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-                    <div className="lg:col-span-2">
-                      <VideoEmbed videoId={latestLongForm.youtubeId} title={latestLongForm.title} />
-                      <h3 className="text-text-primary mt-4 text-lg font-semibold">{latestLongForm.title}</h3>
-                      <p className="text-text-secondary mt-2">{latestLongForm.description}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ) : null;
-          })()}
 
           <div className="mt-16">
             <SectionHeading title="Content Schedule" subtitle="What I create each week." />
