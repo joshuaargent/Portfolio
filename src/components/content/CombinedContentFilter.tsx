@@ -6,6 +6,7 @@ import { ContentCard } from '@/components/content/ContentCard';
 import { VideoCard } from '@/components/video/VideoCard';
 import { EmptyState } from '@/components/shared/EmptyState';
 import { Filter } from 'lucide-react';
+import { Video } from '@/types';
 
 // ============================================
 // Types
@@ -20,19 +21,7 @@ export interface CombinedContent {
   publishedAt: string;
   thumbnail?: string;
   youtubeId?: string;
-  videoData?: {
-    id: string;
-    title: string;
-    description: string;
-    youtubeId: string;
-    thumbnail: string;
-    duration: string;
-    publishedAt: string;
-    type: 'long-form' | 'short' | 'running-short';
-    tags: string[];
-    category?: string;
-    viewCount?: number;
-  };
+  videoData?: Video;
 }
 
 // ============================================
