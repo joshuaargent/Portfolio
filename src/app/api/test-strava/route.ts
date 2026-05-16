@@ -69,7 +69,8 @@ export async function GET() {
       hasClientId: !!STRAVA_CLIENT_ID,
       hasClientSecret: !!STRAVA_CLIENT_SECRET,
     });
-  } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
