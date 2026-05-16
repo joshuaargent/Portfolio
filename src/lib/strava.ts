@@ -4,10 +4,7 @@ const STRAVA_CLIENT_ID = process.env.STRAVA_CLIENT_ID;
 const STRAVA_CLIENT_SECRET = process.env.STRAVA_CLIENT_SECRET;
 const STRAVA_ACCESS_TOKEN = process.env.STRAVA_ACCESS_TOKEN;
 const STRAVA_REFRESH_TOKEN = process.env.STRAVA_REFRESH_TOKEN;
-
-// API endpoints
-const STRAVA_API_URL = 'https://www.strava.com/api/v3';
-const STRAVA_OAUTH_URL = 'https://www.strava.com/oauth';
+const BASE_URL = 'https://www.strava.com/api/v3';
 
 function isConfigured(): boolean {
   return !!STRAVA_ACCESS_TOKEN;
@@ -19,17 +16,15 @@ async function refreshAccessToken(): Promise<string | null> {
   }
 
   try {
-    const params = new URLSearchParams({
-      client_id: STRAVA_CLIENT_ID,
-      client_secret: STRAVA_CLIENT_SECRET,
-      refresh_token: STRAVA_REFRESH_TOKEN,
-      grant_type: 'refresh_token',
-    });
-
-    const response = await fetch(`${STRAVA_OAUTH_URL}/token`, {
+    const response = await fetch('https://www.strava.com/oauth/token', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: params.toString(),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        client_id: STRAVA_CLIENT_ID,
+        client_secret: STRAVA_CLIENT_SECRET,
+        refresh_token: STRAVA_REFRESH_TOKEN,
+        grant_type: 'refresh_token',
+      }),
     });
 
     if (!response.ok) throw new Error('Failed to refresh token');
@@ -52,35 +47,20 @@ export async function getStravaActivities(): Promise<RunLog[]> {
     console.log('Fetching Strava activities...');
 
     // Use revalidate instead of no-store for static generation
-    const response = await fetch(`${STRAVA_API_URL}/athlete/activities?per_page=100`, {
+    const response = await fetch(`${BASE_URL}/athlete/activities?per_page=100`, {
       headers: {
         Authorization: `Bearer ${STRAVA_ACCESS_TOKEN}`,
       },
       next: { revalidate: 3600 }, // Revalidate every hour
     });
 
-    if (response.status === 401) {
-      console.log('Strava token expired, attempting refresh...');
-      const newToken = await refreshAccessToken();
-      if (newToken) {
-        const retryResponse = await fetch(`${STRAVA_API_URL}/athlete/activities?per_page=100`, {
-          headers: {
-            Authorization: `Bearer ${newToken}`,
-          },
-          next: { revalidate: 3600 },
-        });
+    console.log('Strava API response status:', response.status, response.statusText);
 
-        if (!retryResponse.ok) {
-          throw new Error(`Strava API error: ${retryResponse.status}`);
-        }
-
-        const activities = await retryResponse.json();
-        return processActivities(activities);
-      }
-    }
-
+    // Log response body for debugging
     if (!response.ok) {
-      throw new Error(`Strava API error: ${response.status}`);
+      const errorBody = await response.text();
+      console.error('Strava API error response:', errorBody);
+      throw new Error(`Strava API error: ${response.status} ${response.statusText} - ${errorBody}`);
     }
 
     const activities = await response.json();
