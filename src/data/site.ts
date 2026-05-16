@@ -10,16 +10,16 @@ export const personalInfo = {
   bio: `I run 5km every day, read  a lot, and share what I lean about fitness and faith.
 
 I believe in the power of consistency, curiosity, and sharing what you learn. This website is my central hub for everything I create.`,
-  location: 'Your City, Country',
+  location: 'Surrey, United Kingdom',
   email: 'argentjackjoshua@outlook.com',
   avatar: '/images/avatar.jpg',
 };
 
 export const socialLinks = {
   youtube: 'https://youtube.com/@joshua_argent',
-  github: 'https://github.com/joshua_argent',
-  instagram: 'https://instagram.com/yourusername',
-  facebook: 'https://facebook.com/yourusername',
+  github: 'https://github.com/joshuaargent',
+  instagram: 'https://instagram.com/joshua_argent',
+  facebook: 'https://facebook.com/joshua_argent',
 };
 
 export const nowData = {

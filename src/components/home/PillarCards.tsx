@@ -5,6 +5,7 @@ import { getRunningStats } from '@/data/running';
 import { getBooks } from '@/data/books';
 import { getProjects } from '@/data/projects';
 import { getContentPieces } from '@/data/content';
+import { getVideos } from '@/data/videos';
 
 // ============================================
 // Types
@@ -24,12 +25,16 @@ interface Pillar {
 
 export async function PillarCards() {
   // Fetch dynamic stats
-  const [stats, books, projects, content] = await Promise.all([
+  const [stats, books, projects, content, videos] = await Promise.all([
     getRunningStats(),
     getBooks(),
     getProjects(),
     getContentPieces(),
+    getVideos(),
   ]);
+
+  // Total content includes both articles (contentPieces) and videos
+  const totalContent = content.length + videos.length;
 
   const pillars: Pillar[] = [
     {
@@ -58,7 +63,7 @@ export async function PillarCards() {
       description: 'Sharing what I learn about faith, psychology, health, and performance.',
       icon: <Lightbulb className="h-6 w-6" />,
       href: '/content',
-      stats: `${content.length} posts`,
+      stats: `${totalContent} posts`,
     },
   ];
 
