@@ -110,15 +110,7 @@ function parseDuration(duration: string): string {
 }
 
 function categorizeVideo(title: string, duration: string): Video['type'] {
-  const lowerTitle = title.toLowerCase();
-
-  // Check for running-related keywords in title
-  const runningKeywords = ['run', '5km', 'daily', '今日のRUN', 'morning run', 'evening run', 'jogging', 'km', ' Strava'];
-  if (runningKeywords.some((keyword) => lowerTitle.includes(keyword))) {
-    return 'running-short';
-  }
-
-  // Also check duration - videos under 60 seconds are usually shorts
+  // Check duration - videos under 60 seconds are usually shorts
   const match = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
   const totalSeconds =
     parseInt(match?.[1] || '0') * 3600 +

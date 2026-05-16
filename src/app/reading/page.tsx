@@ -3,11 +3,9 @@ import Link from 'next/link';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { CurrentBook } from '@/components/reading/CurrentBook';
 import { BookGrid } from '@/components/reading/BookGrid';
-import { VideoEmbed } from '@/components/video/VideoEmbed';
 import { SectionHeading } from '@/components/shared/SectionHeading';
 import { Card } from '@/components/ui/Card';
 import { getCurrentBook, getRecentBooks } from '@/data/books';
-import { getLongFormVideos, getRecentNonRunningVideos } from '@/data/videos';
 import { ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -16,11 +14,9 @@ export const metadata: Metadata = {
 };
 
 export default async function ReadingPage() {
-  const [currentBook, recentBooks, longFormVideos, recentVideos] = await Promise.all([
+  const [currentBook, recentBooks] = await Promise.all([
     getCurrentBook(),
     getRecentBooks(6),
-    getLongFormVideos(),
-    getRecentNonRunningVideos(4),
   ]);
 
   return (
@@ -37,61 +33,6 @@ export default async function ReadingPage() {
               <CurrentBook book={currentBook} progress={60} />
             </div>
           )}
-
-          <div className="mb-12">
-            <SectionHeading
-              title="This Week's Content"
-              subtitle="Long-form summary and short videos about the current book."
-            />
-            <div className="mt-6">
-              {longFormVideos.length > 0 ? (
-                <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-                  <div className="lg:col-span-2">
-                    <VideoEmbed
-                      videoId={longFormVideos[0].youtubeId}
-                      title={longFormVideos[0].title}
-                    />
-                    <h3 className="text-text-primary mt-4 text-lg font-semibold">
-                      {longFormVideos[0].title}
-                    </h3>
-                    <p className="text-text-secondary mt-2">{longFormVideos[0].description}</p>
-                  </div>
-
-                  <div className="space-y-4">
-                    {recentVideos.map((video) => (
-                      <a
-                        key={video.id}
-                        href={`https://youtube.com/shorts/${video.youtubeId}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group block"
-                      >
-                        <div className="bg-bg-secondary relative aspect-video overflow-hidden rounded-lg">
-                          <img
-                            src={video.thumbnail}
-                            alt={video.title}
-                            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                          />
-                          <div className="absolute inset-0 flex items-center justify-center bg-black/20 transition-colors group-hover:bg-black/30">
-                            <div className="text-accent rounded-full bg-white/90 p-2">
-                              <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z" />
-                              </svg>
-                            </div>
-                          </div>
-                        </div>
-                        <h4 className="text-text-primary group-hover:text-accent mt-2 line-clamp-2 text-sm font-medium transition-colors">
-                          {video.title}
-                        </h4>
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              ) : (
-                <p className="text-text-muted">No videos yet for this week.</p>
-              )}
-            </div>
-          </div>
 
           <div>
             <SectionHeading
