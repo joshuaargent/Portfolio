@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { getGitHubReadme } from '@/lib/github';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { ProjectDetail } from '@/components/code/ProjectDetail';
 import { ProjectGrid } from '@/components/code/ProjectGrid';
@@ -57,6 +58,22 @@ export default async function ProjectPage({ params }: PageProps) {
     notFound();
   }
 
+  // Fetch README if project has a repo URL
+  let readme: string | null = null;
+  if (project.repoUrl && project.repoUrl.includes('github.com')) {
+    // Extract owner and repo from URL
+    // URL format: https://github.com/owner/repo
+    const urlParts = project.repoUrl.replace('https://github.com/', '').split('/');
+    if (urlParts.length >= 2) {
+      const owner = urlParts[0];
+      const repo = urlParts[1];
+      readme = await getGitHubReadme(owner, repo);
+    }
+  }
+
+  // Attach README to project (creates a new object to avoid mutating cached project)
+  const projectWithReadme = { ...project, readme: readme || undefined };
+
   // Get related projects (same tags, excluding current)
   const relatedProjects = allProjects
     .filter((p) => p.slug !== slug && p.tags.some((t) => project.tags.includes(t)))
@@ -65,7 +82,7 @@ export default async function ProjectPage({ params }: PageProps) {
   return (
     <div className="py-8">
       <div className="container">
-        <ProjectDetail project={project} />
+        <ProjectDetail project={projectWithReadme} />
 
         {/* Related Projects */}
         {relatedProjects.length > 0 && (
