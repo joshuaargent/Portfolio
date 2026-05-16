@@ -5,109 +5,41 @@ import { getStravaActivities, getStravaStats } from '@/lib/strava';
 // Run Logs
 // ============================================
 
-// Fallback static data
-const fallbackRunLogs: RunLog[] = [
-  {
-    id: '1',
-    date: '2025-01-15',
-    distance: 5,
-    duration: 1500,
-    pace: '5:00',
-    paceSeconds: 300,
-    feeling: 'great',
-    notes: 'Felt strong today. Good energy throughout.',
-    weather: 'Sunny, 15°C',
-    elevation: 25,
-    averageSpeed: 12,
-    maxSpeed: 12,
-  },
-  {
-    id: '2',
-    date: '2025-01-14',
-    distance: 5,
-    duration: 1530,
-    pace: '5:06',
-    paceSeconds: 306,
-    feeling: 'good',
-    notes: 'Solid run. Slightly tired from yesterday.',
-    weather: 'Cloudy, 12°C',
-    elevation: 15,
-    averageSpeed: 11.8,
-    maxSpeed: 12.2,
-  },
-  {
-    id: '3',
-    date: '2025-01-13',
-    distance: 5,
-    duration: 1560,
-    pace: '5:12',
-    paceSeconds: 312,
-    feeling: 'good',
-    notes: 'Easy pace. Focused on form.',
-    weather: 'Rainy, 10°C',
-    elevation: 5,
-    averageSpeed: 11.5,
-    maxSpeed: 12,
-  },
-];
-
-const fallbackStats: RunningStats = {
-  currentStreak: 3,
-  longestStreak: 3,
-  totalRuns: 3,
-  totalDistance: 15,
-  totalTime: 4590,
-  averagePace: '5:06',
-  averagePaceSeconds: 306,
-  averageDistance: 5,
-  thisWeekRuns: 3,
-  thisMonthRuns: 3,
-  // New fields
-  totalElevation: 45,
-  averageElevation: 15,
-  totalCalories: 1200,
-  // Personal Records
-  fastestPace: 300,
-  fastestPaceDate: '2025-01-15',
-  longestRun: 5,
-  longestRunDate: '2025-01-15',
-  highestElevation: 25,
-  highestElevationDate: '2025-01-15',
-  highestSpeed: 11.2,
-  highestSpeedDate: '2025-01-15',
-  // Year to date
-  ytdRuns: 3,
-  ytdDistance: 15,
-};
-
 export async function getRunLogs(): Promise<RunLog[]> {
-  try {
-    const stravaActivities = await getStravaActivities();
-    if (stravaActivities.length > 0) {
-      console.log('Using Strava data for run logs');
-      return stravaActivities;
-    }
-  } catch (error) {
-    console.error('Error getting Strava activities, using fallback:', error);
-  }
-
-  console.log('Using fallback run logs');
-  return fallbackRunLogs;
+  const stravaActivities = await getStravaActivities();
+  return stravaActivities;
 }
 
 export async function getRunningStats(): Promise<RunningStats> {
-  try {
-    const stravaStats = await getStravaStats();
-    if (stravaStats) {
-      console.log('Using Strava data for stats');
-      return stravaStats;
-    }
-  } catch (error) {
-    console.error('Error getting Strava stats, using fallback:', error);
+  const stravaStats = await getStravaStats();
+  // Return empty stats if no data
+  if (!stravaStats) {
+    return {
+      currentStreak: 0,
+      longestStreak: 0,
+      totalRuns: 0,
+      totalDistance: 0,
+      totalTime: 0,
+      averagePace: '0:00',
+      averagePaceSeconds: 0,
+      averageDistance: 0,
+      thisWeekRuns: 0,
+      thisMonthRuns: 0,
+      totalElevation: 0,
+      averageElevation: 0,
+      fastestPace: 0,
+      fastestPaceDate: '',
+      longestRun: 0,
+      longestRunDate: '',
+      highestElevation: 0,
+      highestElevationDate: '',
+      highestSpeed: 0,
+      highestSpeedDate: '',
+      ytdRuns: 0,
+      ytdDistance: 0,
+    };
   }
-
-  console.log('Using fallback stats');
-  return fallbackStats;
+  return stravaStats;
 }
 
 export async function getRecentRuns(limit: number = 10): Promise<RunLog[]> {
