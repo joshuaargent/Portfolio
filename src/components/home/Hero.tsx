@@ -23,7 +23,8 @@ export function Hero() {
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start">
               <Link
                 href="/about"
-                className="focus-visible:ring-accent bg-accent hover:bg-accent-hover inline-flex h-14 items-center justify-center gap-2 rounded-lg px-7 text-lg font-medium text-white shadow-sm transition-all duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+                style={{ backgroundColor: '#0D9488', color: '#ffffff' }}
+                className="focus-visible:ring-accent inline-flex h-14 items-center justify-center gap-2 rounded-lg px-7 text-lg font-medium shadow-sm transition-all duration-200 hover:opacity-90 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
               >
                 Read my story
                 <ArrowRight className="ml-2 h-4 w-4" />
