@@ -25,13 +25,7 @@ export default async function BlogPage() {
       <section className="pb-12 md:pb-16">
         <div className="container">
           <div className="mb-8">
-            <SearchBarWrapper
-              placeholder="Search posts..."
-              onSearch={(query) => {
-                // Client-side filtering happens via SearchBarWrapper state
-                console.log('Searching for:', query);
-              }}
-            />
+            <SearchBarWrapper placeholder="Search posts..." />
           </div>
 
           {featuredPosts.length > 0 && (

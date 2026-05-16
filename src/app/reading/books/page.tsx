@@ -19,12 +19,7 @@ export default async function BooksPage() {
       <section className="pb-12 md:pb-16">
         <div className="container">
           <div className="mb-8">
-            <SearchBarWrapper
-              placeholder="Search books..."
-              onSearch={(query) => {
-                console.log('Searching for:', query);
-              }}
-            />
+            <SearchBarWrapper placeholder="Search books..." />
           </div>
 
           <BookGrid books={books} columns={2} showReview emptyMessage="No books found." />
