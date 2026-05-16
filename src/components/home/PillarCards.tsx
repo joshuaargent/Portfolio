@@ -51,9 +51,9 @@ export function PillarCards() {
   ];
 
   return (
-    <section className="py-12 md:py-16">
+    <section className="py-8 md:py-10">
       <div className="container">
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {pillars.map((pillar) => (
             <Card key={pillar.title} hover className="group">
               <Link href={pillar.href} className="block">

@@ -75,7 +75,7 @@ export async function NowSection() {
     },
   ];
   return (
-    <section className="py-12 md:py-16">
+    <section className="py-8 md:py-10">
       <div className="container">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {nowItems.map((item) => (

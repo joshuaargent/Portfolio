@@ -27,21 +27,21 @@ export default async function HomePage() {
       <NowSection />
       <PillarCards />
 
-      <section className="py-12 md:py-16">
+      <section className="py-8 md:py-12">
         <div className="container">
           <LatestContent videos={videos} books={books} content={content} />
         </div>
       </section>
 
       {featuredProjects.length > 0 && (
-        <section className="bg-bg-secondary py-12 md:py-16">
+        <section className="bg-bg-secondary py-8 md:py-12">
           <div className="container">
             <FeaturedProject project={featuredProjects[0]} />
           </div>
         </section>
       )}
 
-      <section className="py-12 md:py-16">
+      <section className="py-8 md:py-12">
         <div className="container">
           <NewsletterCTA />
         </div>

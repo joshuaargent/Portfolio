@@ -1,34 +1,34 @@
 import { Metadata } from 'next';
 import { PageHeader } from '@/components/layout/PageHeader';
-import { RunningVideosClient } from '@/components/running/RunningVideosClient';
-import { getRunningShorts } from '@/data/videos';
+import { BlogArchiveClient } from '@/components/blog/BlogArchiveClient';
+import { getBlogPosts } from '@/data/blog';
 
 // ============================================
 // Metadata
 // ============================================
 
 export const metadata: Metadata = {
-  title: 'Running Videos',
-  description: 'All my daily running shorts and updates.',
+  title: 'Blog Archive',
+  description: 'All blog posts.',
 };
 
 // ============================================
-// Running Videos Page
+// Blog Archive Page
 // ============================================
 
-export default async function RunningVideosPage() {
-  const videos = await getRunningShorts();
+export default async function BlogArchivePage() {
+  const posts = await getBlogPosts();
 
   return (
     <>
       <PageHeader
-        title="Running Videos"
-        description="Daily running shorts documenting my 5km journey."
+        title="Blog Archive"
+        description="All my blog posts, past and present."
       />
 
       <section className="pb-12 md:pb-16">
         <div className="container">
-          <RunningVideosClient videos={videos} />
+          <BlogArchiveClient posts={posts} />
         </div>
       </section>
     </>

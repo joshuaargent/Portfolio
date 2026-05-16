@@ -19,19 +19,40 @@ export async function getGitHubRepos(): Promise<GitHubRepo[]> {
       headers.Authorization = `token ${GITHUB_TOKEN}`;
     }
 
-    const response = await fetch(
-      `${BASE_URL}/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=100&type=owner`,
-      {
-        headers,
-        next: { revalidate: 3600 },
+    const repos: any[] = [];
+    let page = 1;
+    let hasNextPage = true;
+
+    // Paginate through all pages (GitHub returns max 100 per page)
+    while (hasNextPage) {
+      const response = await fetch(
+        `${BASE_URL}/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=100&page=${page}&type=owner`,
+        {
+          headers,
+          next: { revalidate: 3600 },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`GitHub API error: ${response.status}`);
       }
-    );
 
-    if (!response.ok) throw new Error(`GitHub API error: ${response.status}`);
+      const data = await response.json();
+      
+      if (!data.length || data.length === 0) {
+        hasNextPage = false;
+      } else {
+        repos.push(...data);
+        page++;
+        // Safety limit to prevent infinite loops
+        if (page > 10) {
+          console.warn('GitHub API: Reached max pages (10), truncating');
+          hasNextPage = false;
+        }
+      }
+    }
 
-    const data = await response.json();
-
-    return data
+    return repos
       .filter((repo: any) => !repo.fork)
       .map((repo: any) => ({
         id: repo.id,

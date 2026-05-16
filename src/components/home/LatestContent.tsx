@@ -19,7 +19,6 @@ export interface LatestContentProps {
 // ============================================
 
 export function LatestContent({ videos, books, content }: LatestContentProps) {
-  // TODO: Fetch this data dynamically
   const hasContent = videos.length > 0 || books.length > 0 || content.length > 0;
 
   if (!hasContent) {
@@ -27,7 +26,7 @@ export function LatestContent({ videos, books, content }: LatestContentProps) {
   }
 
   return (
-    <section className="py-12 md:py-16">
+    <section className="py-8 md:py-10">
       <div className="container">
         <SectionHeading
           title="Latest Content"
@@ -35,12 +34,12 @@ export function LatestContent({ videos, books, content }: LatestContentProps) {
           action={{ label: 'View all', href: '/content' }}
         />
 
-        <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {/* Latest Video */}
           {videos[0] && <VideoCard video={videos[0]} />}
 
           {/* Latest Book */}
-          {books[0] && <BookCard book={books[0]} />}
+          {books[0] && <BookCard book={books[0]} layout="vertical" />}
 
           {/* Latest Content */}
           {content[0] && <ContentCard content={content[0]} />}

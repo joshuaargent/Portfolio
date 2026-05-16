@@ -1,0 +1,55 @@
+import { NextResponse } from 'next/server';
+
+const BUTTONDOWN_API_KEY = process.env.BUTTONDOWN_API_KEY;
+const BASE_URL = 'https://api.buttondown.com/v1';
+
+export async function POST(request: Request) {
+  if (!BUTTONDOWN_API_KEY) {
+    return NextResponse.json(
+      { error: 'Newsletter not configured' },
+      { status: 500 }
+    );
+  }
+
+  try {
+    const { email } = await request.json();
+
+    if (!email || !email.includes('@')) {
+      return NextResponse.json(
+        { error: 'Invalid email address' },
+        { status: 400 }
+      );
+    }
+
+    const response = await fetch(`${BASE_URL}/subscribers`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Token ${BUTTONDOWN_API_KEY}`,
+      },
+      body: JSON.stringify({
+        email,
+        tags: ['portfolio'],
+      }),
+    });
+
+    const data = await response.json();
+
+    // 201 = created (success), 409 = already subscribed
+    if (response.ok || response.status === 409) {
+      return NextResponse.json({ success: true });
+    }
+
+    console.error('Buttondown API error:', data);
+    return NextResponse.json(
+      { error: data.detail || 'Failed to subscribe' },
+      { status: response.status }
+    );
+  } catch (error) {
+    console.error('Newsletter subscription error:', error);
+    return NextResponse.json(
+      { error: 'Something went wrong' },
+      { status: 500 }
+    );
+  }
+}
