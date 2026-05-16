@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { PostCard } from '@/components/blog/PostCard';
-import { SearchBarWrapper } from '@/components/shared/SearchBarWrapper';
+import { BlogSearchSection } from '@/components/blog/BlogSearchSection';
 import { NewsletterCTA } from '@/components/shared/NewsletterCTA';
 import { getBlogPosts, getFeaturedBlogPosts } from '@/data/blog';
 import { ArrowRight } from 'lucide-react';
@@ -24,9 +24,7 @@ export default async function BlogPage() {
 
       <section className="pb-12 md:pb-16">
         <div className="container">
-          <div className="mb-8">
-            <SearchBarWrapper placeholder="Search posts..." />
-          </div>
+          <BlogSearchSection posts={posts} />
 
           {featuredPosts.length > 0 && (
             <div className="mb-12">

@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { BookGrid } from '@/components/reading/BookGrid';
-import { SearchBarWrapper } from '@/components/shared/SearchBarWrapper';
+import { BookSearchSection } from '@/components/reading/BookSearchSection';
 import { getCompletedBooks } from '@/data/books';
 
 export const metadata: Metadata = {
@@ -18,9 +18,7 @@ export default async function BooksPage() {
 
       <section className="pb-12 md:pb-16">
         <div className="container">
-          <div className="mb-8">
-            <SearchBarWrapper placeholder="Search books..." />
-          </div>
+          <BookSearchSection books={books} />
 
           <BookGrid books={books} columns={2} showReview emptyMessage="No books found." />
 

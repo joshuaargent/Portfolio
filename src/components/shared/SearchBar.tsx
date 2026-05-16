@@ -1,10 +1,5 @@
 import { cn } from '@/lib/utils';
 import { Search, X } from 'lucide-react';
-import { Button } from '@/components/ui/Button';
-
-// ============================================
-// Types
-// ============================================
 
 export interface SearchBarProps {
   onSearch: (query: string) => void;
@@ -12,10 +7,6 @@ export interface SearchBarProps {
   defaultValue?: string;
   className?: string;
 }
-
-// ============================================
-// Component
-// ============================================
 
 export function SearchBar({
   onSearch,
@@ -28,10 +19,6 @@ export function SearchBar({
     const formData = new FormData(e.target as HTMLFormElement);
     const query = formData.get('search') as string;
     onSearch(query);
-  };
-
-  const handleClear = () => {
-    onSearch('');
   };
 
   return (
@@ -51,16 +38,14 @@ export function SearchBar({
           )}
         />
         {defaultValue && (
-          <Button
+          <button
             type="button"
-            variant="ghost"
-            size="icon"
-            className="absolute top-1/2 right-1 h-8 w-8 -translate-y-1/2"
-            onClick={handleClear}
+            className="hover:bg-bg-secondary absolute top-1/2 right-1 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full"
+            onClick={() => onSearch('')}
             aria-label="Clear search"
           >
             <X className="h-4 w-4" />
-          </Button>
+          </button>
         )}
       </div>
     </form>

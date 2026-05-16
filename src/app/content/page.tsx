@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 import { PageHeader } from '@/components/layout/PageHeader';
-import { ContentFeed } from '@/components/content/ContentFeed';
-import { CategoryFilterWrapper } from '@/components/content/CategoryFilterWrapper';
+import { ContentCategoryFilter } from '@/components/content/ContentCategoryFilter';
 import { SectionHeading } from '@/components/shared/SectionHeading';
 import { Card } from '@/components/ui/Card';
 import { getContentPieces } from '@/data/content';
@@ -29,14 +28,10 @@ export default async function ContentPage() {
 
       <section className="pb-12 md:pb-16">
         <div className="container">
-          <div className="mb-8">
-            <SectionHeading title="Categories" />
-            <div className="mt-4">
-              <CategoryFilterWrapper categories={categories} />
-            </div>
+          <SectionHeading title="Categories" />
+          <div className="mt-4">
+            <ContentCategoryFilter content={content} categories={categories} />
           </div>
-
-          <ContentFeed content={content} columns={3} emptyMessage="No content found." />
 
           <div className="mt-16">
             <SectionHeading title="Content Schedule" subtitle="What I create each week." />

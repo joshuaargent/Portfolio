@@ -2,10 +2,6 @@
 
 import { cn } from '@/lib/utils';
 
-// ============================================
-// Types
-// ============================================
-
 export interface Category {
   id: string;
   label: string;
@@ -17,10 +13,6 @@ export interface CategoryFilterProps {
   onSelect: (categoryId: string | null) => void;
   className?: string;
 }
-
-// ============================================
-// Component
-// ============================================
 
 export function CategoryFilter({ categories, selected, onSelect, className }: CategoryFilterProps) {
   return (
