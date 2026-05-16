@@ -35,7 +35,6 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     title: 'Joshua Argent',
-    statusBarColor: '#FAFAF9',
   },
   openGraph: {
     type: 'website',
