@@ -7,7 +7,7 @@ import { VideoEmbed } from '@/components/video/VideoEmbed';
 import { SectionHeading } from '@/components/shared/SectionHeading';
 import { Card } from '@/components/ui/Card';
 import { getCurrentBook, getRecentBooks } from '@/data/books';
-import { getLongFormVideos, getRecentVideos } from '@/data/videos';
+import { getLongFormVideos, getRecentNonRunningVideos } from '@/data/videos';
 import { ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -20,7 +20,7 @@ export default async function ReadingPage() {
     getCurrentBook(),
     getRecentBooks(6),
     getLongFormVideos(),
-    getRecentVideos(4),
+    getRecentNonRunningVideos(4),
   ]);
 
   return (
