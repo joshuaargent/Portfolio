@@ -1,10 +1,14 @@
 import { Metadata } from 'next';
 import { PageHeader } from '@/components/layout/PageHeader';
+import { VideoCard } from '@/components/video/VideoCard';
+import { VideoGrid } from '@/components/video/VideoGrid';
 import { ContentCategoryFilter } from '@/components/content/ContentCategoryFilter';
 import { SectionHeading } from '@/components/shared/SectionHeading';
 import { Card } from '@/components/ui/Card';
 import { getContentPieces } from '@/data/content';
+import { getRecentNonRunningVideos, getLongFormVideos, getShortVideos } from '@/data/videos';
 import { contentCategories } from '@/lib/constants';
+import { Youtube } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Content',
@@ -12,7 +16,12 @@ export const metadata: Metadata = {
 };
 
 export default async function ContentPage() {
-  const content = await getContentPieces();
+  const [content, recentVideos, longFormVideos, shortVideos] = await Promise.all([
+    getContentPieces(),
+    getRecentNonRunningVideos(12),
+    getLongFormVideos(),
+    getShortVideos(),
+  ]);
 
   const categories = contentCategories.map((cat) => ({
     id: cat.id,
@@ -33,20 +42,30 @@ export default async function ContentPage() {
             <ContentCategoryFilter content={content} categories={categories} />
           </div>
 
+          {/* Recent YouTube Videos */}
+          {recentVideos.length > 0 && (
+            <div className="mt-16">
+              <SectionHeading
+                title="Recent Videos"
+                subtitle="Latest videos from my YouTube channel."
+                action={{ label: 'View all', href: 'https://youtube.com/@joshua_argent' }}
+              />
+              <div className="mt-6">
+                <VideoGrid videos={recentVideos} columns={3} />
+              </div>
+            </div>
+          )}
+
           <div className="mt-16">
             <SectionHeading title="Content Schedule" subtitle="What I create each week." />
             <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
               <Card>
                 <h3 className="text-text-primary font-semibold">1 Long-form Video</h3>
-                <p className="text-text-secondary mt-1 text-sm">
-                  Deep dive into the book of the week
-                </p>
+                <p className="text-text-secondary mt-1 text-sm">Deep dive into the book of the week</p>
               </Card>
               <Card>
                 <h3 className="text-text-primary font-semibold">7 Short Videos</h3>
-                <p className="text-text-secondary mt-1 text-sm">
-                  Key ideas and insights from the book
-                </p>
+                <p className="text-text-secondary mt-1 text-sm">Key ideas and insights from the book</p>
               </Card>
               <Card>
                 <h3 className="text-text-primary font-semibold">Daily Running Shorts</h3>
@@ -54,9 +73,7 @@ export default async function ContentPage() {
               </Card>
               <Card>
                 <h3 className="text-text-primary font-semibold">Weekly Blog Post</h3>
-                <p className="text-text-secondary mt-1 text-sm">
-                  Longer thoughts on learning and growth
-                </p>
+                <p className="text-text-secondary mt-1 text-sm">Longer thoughts on learning and growth</p>
               </Card>
             </div>
           </div>
