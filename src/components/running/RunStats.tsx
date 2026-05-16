@@ -16,18 +16,25 @@ export interface RunStatsProps {
 // ============================================
 
 export function RunStats({ runs }: RunStatsProps) {
-  // Calculate stats
+  // Find the most recent run date in the data
+  const sortedRuns = [...runs].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+  const mostRecentDate = sortedRuns.length > 0 ? new Date(sortedRuns[0].date) : new Date();
+  
+  // Calculate stats relative to the data's most recent date
+  const weekAgo = new Date(mostRecentDate);
+  weekAgo.setDate(weekAgo.getDate() - 7);
+  
   const thisWeekRuns = runs.filter((run) => {
     const runDate = new Date(run.date);
-    const weekAgo = new Date();
-    weekAgo.setDate(weekAgo.getDate() - 7);
-    return runDate >= weekAgo;
+    return runDate >= weekAgo && runDate <= mostRecentDate;
   });
 
+  // Use the most recent run's month/year as "this month"
   const thisMonthRuns = runs.filter((run) => {
     const runDate = new Date(run.date);
-    const now = new Date();
-    return runDate.getMonth() === now.getMonth() && runDate.getFullYear() === now.getFullYear();
+    return runDate.getMonth() === mostRecentDate.getMonth() && runDate.getFullYear() === mostRecentDate.getFullYear();
   });
 
   const averagePace =

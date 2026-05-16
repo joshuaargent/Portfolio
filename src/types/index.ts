@@ -100,10 +100,16 @@ export interface RunLog {
   distance: number;
   duration: number; // in seconds
   pace: string;
+  paceSeconds: number; // pace in seconds per km
   feeling: 'great' | 'good' | 'tired' | 'rough';
   notes?: string;
   weather?: string;
   videoId?: string;
+  // New fields from Strava
+  elevation: number; // total elevation gain in meters
+  calories?: number;
+  averageSpeed: number; // km/h
+  maxSpeed: number; // km/h
 }
 
 // ----- Running Stats -----
@@ -114,9 +120,26 @@ export interface RunningStats {
   totalDistance: number;
   totalTime: number; // in seconds
   averagePace: string;
+  averagePaceSeconds: number; // pace in seconds per km
   averageDistance: number;
   thisWeekRuns: number;
   thisMonthRuns: number;
+  // New fields
+  totalElevation: number;
+  averageElevation: number;
+  totalCalories?: number;
+  // Personal Records
+  fastestPace: number; // seconds per km
+  fastestPaceDate: string;
+  longestRun: number; // km
+  longestRunDate: string;
+  highestElevation: number; // meters
+  highestElevationDate: string;
+  highestSpeed: number; // km/h
+  highestSpeedDate: string;
+  // Year to date
+  ytdRuns: number;
+  ytdDistance: number;
 }
 
 // ----- Blog Post -----

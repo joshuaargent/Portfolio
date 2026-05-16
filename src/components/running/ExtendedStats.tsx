@@ -1,0 +1,85 @@
+import { Card } from '@/components/ui/Card';
+import { RunningStats } from '@/types';
+import { Mountain, Timer } from 'lucide-react';
+
+// ============================================
+// Types
+// ============================================
+
+export interface ExtendedStatsProps {
+  stats: RunningStats;
+}
+
+// ============================================
+// Component
+// ============================================
+
+export function ExtendedStats({ stats }: ExtendedStatsProps) {
+  return (
+    <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+      <MiniStat
+        icon={<Mountain className="h-4 w-4 text-green-600" />}
+        label="Elevation"
+        value={`${stats.totalElevation.toFixed(1)} m`}
+        subtext={`${stats.averageElevation.toFixed(1)} m avg`}
+      />
+      <MiniStat
+        icon={<Timer className="h-4 w-4 text-blue-500" />}
+        label="Total Time"
+        value={formatDuration(stats.totalTime)}
+        subtext={formatPace(stats.averagePaceSeconds)}
+      />
+    </div>
+  );
+}
+
+// ============================================
+// Mini Stat
+// ============================================
+
+interface MiniStatProps {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+  subtext: string;
+}
+
+function MiniStat({ icon, label, value, subtext }: MiniStatProps) {
+  return (
+    <Card>
+      <div className="flex items-center gap-3">
+        <div className="bg-bg-secondary rounded-lg p-2 flex-shrink-0">
+          {icon}
+        </div>
+        <div className="min-w-0">
+          <p className="text-text-muted text-xs">{label}</p>
+          <p className="text-text-primary font-semibold">{value}</p>
+          <p className="text-text-muted text-xs">{subtext}</p>
+        </div>
+      </div>
+    </Card>
+  );
+}
+
+// ============================================
+// Helper Functions
+// ============================================
+
+function formatDuration(seconds: number): string {
+  if (!seconds) return '0:00:00';
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const secs = seconds % 60;
+  
+  if (hours > 0) {
+    return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  }
+  return `${minutes}:${secs.toString().padStart(2, '0')}`;
+}
+
+function formatPace(seconds: number): string {
+  if (!seconds || seconds <= 0) return '';
+  const minutes = Math.floor(seconds / 60);
+  const secs = Math.round(seconds % 60);
+  return `${minutes}:${secs.toString().padStart(2, '0')}/km`;
+}

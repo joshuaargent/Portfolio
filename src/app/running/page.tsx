@@ -6,6 +6,12 @@ import { RunStats } from '@/components/running/RunStats';
 import { RunShortCard } from '@/components/running/RunShortCard';
 import { SectionHeading } from '@/components/shared/SectionHeading';
 import { Card } from '@/components/ui/Card';
+import { RunRecords } from '@/components/running/RunRecords';
+import { ExtendedStats } from '@/components/running/ExtendedStats';
+import { GoalTracker } from '@/components/running/GoalTracker';
+import { DayOfWeekStats } from '@/components/running/DayOfWeekStats';
+import { PaceTrend } from '@/components/running/PaceTrend';
+import { ConsistencyScore } from '@/components/running/ConsistencyScore';
 import { getRunningStats, getRunLogs, getRecentRuns } from '@/data/running';
 
 // ============================================
@@ -37,9 +43,45 @@ export default async function RunningPage() {
 
       <section className="pb-12 md:pb-16">
         <div className="container">
-          {/* Stats */}
+          {/* Main Stats - Current Streak & Totals */}
           <div className="mb-12">
             <StreakCounter stats={stats} />
+          </div>
+
+          {/* Goals & Progress */}
+          <div className="mb-12">
+            <SectionHeading title="Goals" subtitle="Track your progress." />
+            <div className="mt-6">
+              <GoalTracker stats={stats} runs={allRuns} weeklyGoal={35} monthlyGoal={150} yearlyGoal={1820} />
+            </div>
+          </div>
+
+          {/* Two Column Layout: Records & Trends */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
+            {/* Personal Records */}
+            <div>
+              <SectionHeading title="Personal Records" subtitle="Your best moments." />
+              <div className="mt-6">
+                <RunRecords stats={stats} />
+              </div>
+            </div>
+
+            {/* Trends */}
+            <div>
+              <SectionHeading title="Trends" subtitle="How you're improving." />
+              <div className="mt-6 space-y-6">
+                <ConsistencyScore stats={stats} runs={allRuns} />
+                <PaceTrend runs={allRuns} />
+              </div>
+            </div>
+          </div>
+
+          {/* Extended Stats */}
+          <div className="mb-12">
+            <SectionHeading title="All Time Stats" subtitle="Total accumulation." />
+            <div className="mt-6">
+              <ExtendedStats stats={stats} />
+            </div>
           </div>
 
           {/* Calendar */}
@@ -47,9 +89,14 @@ export default async function RunningPage() {
             <StreakCalendar runs={allRuns} />
           </div>
 
-          {/* Weekly Stats */}
+          {/* Day of Week */}
           <div className="mb-12">
-            <SectionHeading title="This Week" subtitle="How I've been doing lately." />
+            <DayOfWeekStats runs={allRuns} />
+          </div>
+
+          {/* Weekly/Monthly Stats */}
+          <div className="mb-12">
+            <SectionHeading title="This Period" subtitle="Recent activity." />
             <div className="mt-6">
               <RunStats runs={allRuns} />
             </div>
