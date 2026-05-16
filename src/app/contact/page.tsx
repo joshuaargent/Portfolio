@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Textarea } from '@/components/ui/Textarea';
 import { personalInfo, socialLinks } from '@/data/site';
-import { Mail, Youtube, Github, Twitter, Linkedin, MapPin, Send } from 'lucide-react';
+import { Mail, Youtube, Github, Instagram, Facebook, MapPin, Send } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -117,28 +117,28 @@ export default function ContactPage() {
                   </a>
 
                   <a
-                    href={socialLinks.twitter}
+                    href={socialLinks.instagram}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:bg-bg-secondary flex items-center gap-3 rounded-lg p-2 transition-colors"
                   >
-                    <Twitter className="h-5 w-5 text-sky-500" />
+                    <Instagram className="h-5 w-5 text-pink-500" />
                     <div>
-                      <p className="text-text-primary text-sm font-medium">Twitter</p>
+                      <p className="text-text-primary text-sm font-medium">Instagram</p>
                       <p className="text-text-muted text-xs">@yourusername</p>
                     </div>
                   </a>
 
                   <a
-                    href={socialLinks.linkedin}
+                    href={socialLinks.facebook}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:bg-bg-secondary flex items-center gap-3 rounded-lg p-2 transition-colors"
                   >
-                    <Linkedin className="h-5 w-5 text-blue-600" />
+                    <Facebook className="h-5 w-5 text-blue-600" />
                     <div>
-                      <p className="text-text-primary text-sm font-medium">LinkedIn</p>
-                      <p className="text-text-muted text-xs">in/yourusername</p>
+                      <p className="text-text-primary text-sm font-medium">Facebook</p>
+                      <p className="text-text-muted text-xs">/yourusername</p>
                     </div>
                   </a>
                 </div>
@@ -147,7 +147,7 @@ export default function ContactPage() {
               <Card className="bg-accent-light">
                 <h3 className="text-text-primary mb-2 font-semibold">Response Time</h3>
                 <p className="text-text-secondary text-sm">
-                  I typically respond within 24-48 hours. For urgent matters, reach out via Twitter
+                  I typically respond within 24-48 hours. For urgent matters, reach out via Instagram
                   DM.
                 </p>
               </Card>

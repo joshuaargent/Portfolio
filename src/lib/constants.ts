@@ -12,8 +12,8 @@ export const siteConfig: SiteConfig = {
   links: {
     youtube: 'https://youtube.com/@joshua_argent',
     github: 'https://github.com/joshua_argent',
-    twitter: 'https://twitter.com/yourusername',
-    linkedin: 'https://linkedin.com/in/yourusername',
+    instagram: 'https://instagram.com/yourusername',
+    facebook: 'https://facebook.com/yourusername',
     email: 'argentjackjoshua@outlook.com',
   },
   author: {
@@ -59,8 +59,8 @@ export const footerNav = {
   social: [
     { label: 'YouTube', href: 'https://youtube.com/@joshua_argent' },
     { label: 'GitHub', href: 'https://github.com/joshua_argent' },
-    { label: 'Twitter', href: 'https://twitter.com/yourusername' },
-    { label: 'LinkedIn', href: 'https://linkedin.com/in/yourusername' },
+    { label: 'Instagram', href: 'https://instagram.com/yourusername' },
+    { label: 'Facebook', href: 'https://facebook.com/yourusername' },
   ],
 };
 
@@ -175,8 +175,8 @@ export const animations = {
 export const externalLinks = {
   youtube: 'https://youtube.com/@joshua_argent',
   github: 'https://github.com/joshua_argent',
-  twitter: 'https://twitter.com/yourusername',
-  linkedin: 'https://linkedin.com/in/yourusername',
+  instagram: 'https://instagram.com/yourusername',
+  facebook: 'https://facebook.com/yourusername',
   email: 'mailto:hello@joshua.com',
 } as const;
 
@@ -200,5 +200,5 @@ export const meta = {
     'personal development',
     'content creator',
   ] as string[],
-  twitterHandle: '@yourusername',
+  instagramHandle: '@yourusername',
 } as const;

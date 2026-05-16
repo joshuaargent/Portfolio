@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     title: meta.title,
     description: meta.description,
     images: [siteConfig.ogImage],
-    creator: meta.twitterHandle,
+    creator: meta.instagramHandle,
   },
   robots: {
     index: true,

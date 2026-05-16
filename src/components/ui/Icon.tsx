@@ -21,8 +21,8 @@ export {
   // Social
   Youtube,
   Github,
-  Twitter,
-  Linkedin,
+  Instagram,
+  Facebook,
   Mail,
   Rss,
 
