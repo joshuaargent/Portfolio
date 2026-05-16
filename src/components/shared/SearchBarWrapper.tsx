@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import { useState, useMemo } from 'react';
 import { SearchBar } from './SearchBar';
 
 // ============================================
@@ -9,19 +9,21 @@ import { SearchBar } from './SearchBar';
 
 interface SearchBarWrapperProps {
   placeholder?: string;
+  onSearch?: (query: string) => void;
 }
 
 // ============================================
 // Component
 // ============================================
 
-export function SearchBarWrapper({ placeholder = 'Search...' }: SearchBarWrapperProps) {
+export function SearchBarWrapper({ placeholder = 'Search...', onSearch }: SearchBarWrapperProps) {
   const [query, setQuery] = useState('');
 
   const handleSearch = (searchQuery: string) => {
     setQuery(searchQuery);
-    // TODO: Implement actual search functionality
-    console.log('Searching for:', searchQuery);
+    if (onSearch) {
+      onSearch(searchQuery);
+    }
   };
 
   return <SearchBar onSearch={handleSearch} placeholder={placeholder} defaultValue={query} />;
