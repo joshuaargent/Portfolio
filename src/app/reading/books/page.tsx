@@ -1,11 +1,8 @@
-'use client';
-
-import { Metadata } from 'next';
+aimport { Metadata } from 'next';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { BookGrid } from '@/components/reading/BookGrid';
 import { SearchBar } from '@/components/shared/SearchBar';
 import { getCompletedBooks } from '@/data/books';
-import { useState } from 'react';
 
 // ============================================
 // Metadata
