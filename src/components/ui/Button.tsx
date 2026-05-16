@@ -29,10 +29,10 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 // ============================================
 
 const variantStyles: Record<string, string> = {
-  primary: 'bg-accent text-white hover:bg-accent-hover shadow-sm',
+  primary: 'bg-accent text-white hover:bg-accent-hover',
   secondary: 'bg-bg-secondary text-text-primary hover:bg-border border border-border',
-  outline: 'border border-border bg-transparent hover:bg-bg-secondary',
-  ghost: 'hover:bg-bg-secondary',
+  outline: 'border border-border bg-transparent text-text-primary hover:bg-bg-secondary',
+  ghost: 'text-text-primary hover:bg-bg-secondary',
   link: 'text-accent hover:text-accent-hover underline-offset-4 hover:underline',
   danger: 'bg-red-600 text-white hover:bg-red-700',
 };
@@ -63,18 +63,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    // Get the combined button styles
     const buttonStyles = cn(buttonBaseStyles, variantStyles[variant], sizeStyles[size], className);
 
-    // If asChild is true, clone the child element with button styles
     if (asChild && isValidElement(children)) {
       const child = children as ReactElement<{ className?: string; [key: string]: unknown }>;
-
-      // Merge classNames
       const childClassName = child.props.className;
       const mergedClassName = cn(buttonStyles, childClassName);
 
-      // Clone the child with merged props
       return cloneElement(child, {
         className: mergedClassName,
         ref,
@@ -82,7 +77,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       } as any);
     }
 
-    // Normal button rendering
     return (
       <button ref={ref} className={buttonStyles} disabled={disabled || isLoading} {...props}>
         {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : leftIcon}
