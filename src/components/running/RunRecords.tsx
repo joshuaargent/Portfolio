@@ -38,7 +38,7 @@ export function RunRecords({ stats }: RunRecordProps) {
       <RecordCard
         icon={<Gauge className="h-4 w-4 text-red-500" />}
         label="Top Speed"
-        value={`${Math.min(stats.highestSpeed, 45)} km/h`}
+        value={`${stats.highestSpeed} km/h`}
         subtext={formatDate(stats.highestSpeedDate)}
       />
     </div>

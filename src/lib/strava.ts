@@ -88,13 +88,30 @@ export async function getStravaActivities(): Promise<RunLog[]> {
 
 function processActivities(activities: any[]): RunLog[] {
   return activities
-    .filter((activity: any) => activity.type === 'Run' || activity.type === 'Walk')
+    .filter((activity: any) => activity.type === 'Run')
     .map((activity: any) => {
       const distanceMeters = activity.distance || 0;
       const movingTimeSeconds = activity.moving_time || 0;
-      const averageSpeedKmh = activity.average_speed ? activity.average_speed * 3.6 : // Strava returns m/s
-        (distanceMeters > 0 && movingTimeSeconds > 0 ? (distanceMeters / 1000) / (movingTimeSeconds / 3600) : 0);
-      const maxSpeedKmh = activity.max_speed ? activity.max_speed * 3.6 : 0;
+      
+      // Strava returns speeds in m/s - convert to km/h
+      // But sometimes Strava returns unrealistic speeds (car/bike rides recorded as runs)
+      // Use calculation from distance/time as fallback and sanity check
+      let averageSpeedKmh = 0;
+      if (activity.average_speed) {
+        const stravaSpeed = activity.average_speed * 3.6; // m/s to km/h
+        // Only trust Strava speed if it's reasonable for running (< 30 km/h)
+        averageSpeedKmh = stravaSpeed < 30 ? stravaSpeed : 
+          (distanceMeters > 0 && movingTimeSeconds > 0 ? (distanceMeters / 1000) / (movingTimeSeconds / 3600) : 0);
+      } else if (distanceMeters > 0 && movingTimeSeconds > 0) {
+        averageSpeedKmh = (distanceMeters / 1000) / (movingTimeSeconds / 3600);
+      }
+      
+      let maxSpeedKmh = 0;
+      if (activity.max_speed) {
+        const stravaMaxSpeed = activity.max_speed * 3.6;
+        // Only trust Strava max speed if reasonable (< 45 km/h for running)
+        maxSpeedKmh = stravaMaxSpeed < 45 ? stravaMaxSpeed : 0;
+      }
       
       return {
         id: activity.id.toString(),

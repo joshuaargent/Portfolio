@@ -20,31 +20,34 @@ export function ConsistencyScore({ stats }: ConsistencyScoreProps) {
   const longestStreak = stats.longestStreak;
   
   // Calculate consistency score (0-100)
-  // Based on: current streak, longest streak, total runs
-  // Expected: ~365 runs/year for daily runner = 100
-  const expectedRuns = 365; // Daily for a year
-  const runScore = Math.min(100, Math.round((totalRuns / expectedRuns) * 100));
+  // Based on: runs this month vs expected monthly runs
+  // Expected: ~20 runs/month (about 5 per week) for daily runner
+  const expectedRunsPerMonth = 20; // ~5 runs/week
+  const runScore = Math.min(100, Math.round((stats.thisMonthRuns / expectedRunsPerMonth) * 100));
   
-  const streakScore = Math.min(100, Math.round((longestStreak / 30) * 100)); // 30 day streak = 100
+  const streakScore = Math.min(100, Math.round((longestStreak / 14) * 100)); // 14 day streak = 100
   
-  const overallScore = Math.round((runScore * 0.4 + streakScore * 0.6));
+  const overallScore = Math.round((runScore * 0.5 + streakScore * 0.5));
   
-  // Get grade
+  // Get grade - now more achievable
   let grade: string;
   let color: string;
-  if (overallScore >= 90) {
+  if (overallScore >= 95) {
     grade = 'A+';
     color = 'text-green-500';
-  } else if (overallScore >= 80) {
+  } else if (overallScore >= 85) {
     grade = 'A';
     color = 'text-green-500';
-  } else if (overallScore >= 70) {
+  } else if (overallScore >= 75) {
     grade = 'B';
     color = 'text-green-400';
-  } else if (overallScore >= 60) {
+  } else if (overallScore >= 65) {
+    grade = 'C+';
+    color = 'text-yellow-400';
+  } else if (overallScore >= 55) {
     grade = 'C';
     color = 'text-yellow-500';
-  } else if (overallScore >= 50) {
+  } else if (overallScore >= 45) {
     grade = 'D';
     color = 'text-orange-500';
   } else {
