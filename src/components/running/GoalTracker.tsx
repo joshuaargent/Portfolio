@@ -143,7 +143,7 @@ function GoalCard({ icon, title, current, goal, progress, unit, subtitle, isProj
         ) : isComplete ? (
           <span className="text-xs text-green-500">goal reached!</span>
         ) : (
-          <span className="text-xs text-text-muted">{Math.max(0, goal - current)}{unit} left</span>
+          <span className="text-xs text-text-muted">{Math.max(0, Math.round(goal - current))}{unit} left</span>
         )}
       </div>
     </Card>

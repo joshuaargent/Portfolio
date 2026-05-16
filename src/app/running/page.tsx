@@ -10,9 +10,7 @@ import { RunRecords } from '@/components/running/RunRecords';
 import { ExtendedStats } from '@/components/running/ExtendedStats';
 import { GoalTracker } from '@/components/running/GoalTracker';
 import { DayOfWeekStats } from '@/components/running/DayOfWeekStats';
-import { StreakMilestones } from '@/components/running/StreakMilestones';
 import { PaceTrend } from '@/components/running/PaceTrend';
-import { ConsistencyScore } from '@/components/running/ConsistencyScore';
 import { getRunningStats, getRunLogs, getRecentRuns } from '@/data/running';
 
 // ============================================
@@ -57,14 +55,6 @@ export default async function RunningPage() {
             </div>
           </div>
 
-          {/* Streak Milestones */}
-          <div className="mb-12">
-            <SectionHeading title="Milestones" subtitle="Keep pushing!" />
-            <div className="mt-6">
-              <StreakMilestones stats={stats} />
-            </div>
-          </div>
-
           {/* Two Column Layout: Records & Trends */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
             {/* Personal Records */}
@@ -80,7 +70,6 @@ export default async function RunningPage() {
               <SectionHeading title="Trends" subtitle="How you're improving." />
               <div className="mt-6 space-y-6">
                 <PaceTrend runs={allRuns} />
-                <ConsistencyScore stats={stats} />
               </div>
             </div>
           </div>
