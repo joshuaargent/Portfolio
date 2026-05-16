@@ -19,15 +19,17 @@ async function refreshAccessToken(): Promise<string | null> {
   }
 
   try {
+    const params = new URLSearchParams({
+      client_id: STRAVA_CLIENT_ID,
+      client_secret: STRAVA_CLIENT_SECRET,
+      refresh_token: STRAVA_REFRESH_TOKEN,
+      grant_type: 'refresh_token',
+    });
+
     const response = await fetch(`${STRAVA_OAUTH_URL}/token`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        client_id: STRAVA_CLIENT_ID,
-        client_secret: STRAVA_CLIENT_SECRET,
-        refresh_token: STRAVA_REFRESH_TOKEN,
-        grant_type: 'refresh_token',
-      }),
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString(),
     });
 
     if (!response.ok) throw new Error('Failed to refresh token');
