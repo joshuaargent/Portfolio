@@ -51,7 +51,7 @@ export default async function RunningPage() {
           <div className="mb-12">
             <SectionHeading title="Goals" subtitle="Track your progress." />
             <div className="mt-6">
-              <GoalTracker stats={stats} runs={allRuns} weeklyGoal={35} monthlyGoal={150} yearlyGoal={1000} />
+              <GoalTracker stats={stats} runs={allRuns} weeklyGoal={35} monthlyGoal={150} yearlyGoal={1820} />
             </div>
           </div>
 
