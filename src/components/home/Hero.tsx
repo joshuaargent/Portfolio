@@ -1,0 +1,58 @@
+import Link from 'next/link';
+import { Button } from '@/components/ui/Button';
+import { ArrowRight, Play } from 'lucide-react';
+import { Avatar } from '@/components/ui/Avatar';
+
+// ============================================
+// Hero Component
+// ============================================
+
+export function Hero() {
+  return (
+    <section className="py-16 md:py-24 lg:py-32">
+      <div className="container">
+        <div className="flex flex-col items-center gap-12 lg:flex-row lg:gap-16">
+          {/* Text Content */}
+          <div className="flex-1 text-center lg:text-left">
+            <h1 className="text-text-primary text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">
+              Hi, I&apos;m <span className="text-accent">Joshua</span>
+            </h1>
+            <p className="text-text-secondary mx-auto mt-6 max-w-xl text-lg md:text-xl lg:mx-0">
+              I run 5km every day. I read one book a week. I build things with code. I share what I
+              learn about faith, learning, psychology, health, and performance.
+            </p>
+            <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start">
+              <Link
+                href="/about"
+                className="focus-visible:ring-accent bg-accent hover:bg-accent-hover inline-flex h-14 items-center justify-center gap-2 rounded-lg px-7 text-lg font-medium text-white shadow-sm transition-all duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+              >
+                Read my story
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+              <Link
+                href="/content"
+                className="focus-visible:ring-accent border-border hover:bg-bg-secondary inline-flex h-14 items-center justify-center gap-2 rounded-lg border bg-transparent px-7 text-lg font-medium transition-all duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+              >
+                <Play className="mr-2 h-4 w-4" />
+                Watch my content
+              </Link>
+            </div>
+          </div>
+
+          {/* Avatar */}
+          <div className="flex-shrink-0">
+            <div className="relative">
+              <div className="bg-accent/20 absolute inset-0 rounded-full blur-3xl" />
+              <Avatar
+                src="/images/avatar.jpg"
+                alt="Joshua"
+                size="xl"
+                className="border-bg-card relative border-4 shadow-xl"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
