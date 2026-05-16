@@ -14,9 +14,12 @@ export async function POST(request: Request) {
   try {
     const { email } = await request.json();
 
-    if (!email || !email.includes('@')) {
+    // Proper email validation using RFC 5322 pattern
+    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+    
+    if (!email || !emailRegex.test(email)) {
       return NextResponse.json(
-        { error: 'Invalid email address' },
+        { error: 'Please provide a valid email address' },
         { status: 400 }
       );
     }
@@ -28,7 +31,7 @@ export async function POST(request: Request) {
         Authorization: `Token ${BUTTONDOWN_API_KEY}`,
       },
       body: JSON.stringify({
-        email,
+        email_address: email,
         tags: ['portfolio'],
       }),
     });
@@ -42,7 +45,7 @@ export async function POST(request: Request) {
 
     console.error('Buttondown API error:', data);
     return NextResponse.json(
-      { error: data.detail || 'Failed to subscribe' },
+      { error: data.detail || data.message || 'Failed to subscribe' },
       { status: response.status }
     );
   } catch (error) {

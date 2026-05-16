@@ -2,23 +2,22 @@ import { SectionHeading } from '@/components/shared/SectionHeading';
 import { VideoCard } from '@/components/video/VideoCard';
 import { BookCard } from '@/components/reading/BookCard';
 import { ContentCard } from '@/components/content/ContentCard';
-import { Video, Book, ContentPiece } from '@/types';
-
-// ============================================
-// Types
-// ============================================
-
-export interface LatestContentProps {
-  videos: Video[];
-  books: Book[];
-  content: ContentPiece[];
-}
+import { getRecentVideos } from '@/data/videos';
+import { getRecentBooks } from '@/data/books';
+import { getRecentContent } from '@/data/content';
 
 // ============================================
 // Component
 // ============================================
 
-export function LatestContent({ videos, books, content }: LatestContentProps) {
+export async function LatestContent() {
+  // Fetch data dynamically
+  const [videos, books, content] = await Promise.all([
+    getRecentVideos(3),
+    getRecentBooks(3),
+    getRecentContent(3),
+  ]);
+
   const hasContent = videos.length > 0 || books.length > 0 || content.length > 0;
 
   if (!hasContent) {

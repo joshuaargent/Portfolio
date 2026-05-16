@@ -25,13 +25,13 @@ export function BookCard({ book, showReview = false, layout = 'horizontal' }: Bo
     return (
       <Card padding="none" hover className="group overflow-hidden">
         <Link href={`/reading/books/${book.slug}`} className="block">
-          {/* Cover Image */}
-          <div className="relative aspect-[2/3] w-full overflow-hidden">
+          {/* Cover Image - cropped to fit */}
+          <div className="relative w-full overflow-hidden" style={{ height: '280px' }}>
             <Image
               src={book.coverImage}
               alt={`Cover of ${book.title}`}
               fill
-              className="object-cover transition-transform duration-300 group-hover:scale-105"
+              className="object-cover object-center transition-transform duration-300 group-hover:scale-105"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
             <div className="absolute inset-0 bg-black/10 transition-colors group-hover:bg-black/20" />

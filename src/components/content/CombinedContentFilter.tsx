@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { CategoryFilter } from '@/components/content/CategoryFilter';
 import { ContentCard } from '@/components/content/ContentCard';
 import { VideoCard } from '@/components/video/VideoCard';
@@ -31,11 +31,20 @@ export interface CombinedContent {
 export function ContentCombinedFilter({
   content,
   categories,
+  initialCategory,
 }: {
   content: CombinedContent[];
   categories: { id: string; label: string }[];
+  initialCategory?: string | null;
 }) {
   const [selected, setSelected] = useState<string | null>(null);
+
+  // Set initial category from URL params
+  useEffect(() => {
+    if (initialCategory) {
+      setSelected(initialCategory);
+    }
+  }, [initialCategory]);
 
   const filteredContent = useMemo(() => {
     if (!selected) return content;

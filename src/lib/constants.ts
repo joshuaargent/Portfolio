@@ -51,10 +51,10 @@ export const footerNav = {
     { label: 'Contact', href: '/contact' },
   ],
   content: [
-    { label: 'Faith', href: '/content/faith' },
-    { label: 'Psychology', href: '/content/psychology' },
-    { label: 'Health', href: '/content/health' },
-    { label: 'Performance', href: '/content/performance' },
+    { label: 'Faith', href: '/content?category=faith' },
+    { label: 'Psychology', href: '/content?category=psychology' },
+    { label: 'Health', href: '/content?category=health' },
+    { label: 'Performance', href: '/content?category=performance' },
   ],
   social: [
     { label: 'YouTube', href: 'https://youtube.com/@joshua_argent' },
