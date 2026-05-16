@@ -7,18 +7,10 @@ import { Card } from '@/components/ui/Card';
 import { getContentPieces } from '@/data/content';
 import { contentCategories } from '@/lib/constants';
 
-// ============================================
-// Metadata
-// ============================================
-
 export const metadata: Metadata = {
   title: 'Content',
   description: 'Videos and articles about faith, learning, psychology, health, and performance.',
 };
-
-// ============================================
-// Content Page
-// ============================================
 
 export default async function ContentPage() {
   const content = await getContentPieces();
@@ -37,18 +29,20 @@ export default async function ContentPage() {
 
       <section className="pb-12 md:pb-16">
         <div className="container">
-          {/* Categories */}
           <div className="mb-8">
             <SectionHeading title="Categories" />
             <div className="mt-4">
-              <CategoryFilterWrapper categories={categories} />
+              <CategoryFilterWrapper
+                categories={categories}
+                onCategoryChange={(categoryId) => {
+                  console.log('Selected category:', categoryId);
+                }}
+              />
             </div>
           </div>
 
-          {/* Content Feed */}
           <ContentFeed content={content} columns={3} emptyMessage="No content found." />
 
-          {/* Content Schedule */}
           <div className="mt-16">
             <SectionHeading title="Content Schedule" subtitle="What I create each week." />
             <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">

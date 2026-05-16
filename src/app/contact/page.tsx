@@ -8,18 +8,10 @@ import { Textarea } from '@/components/ui/Textarea';
 import { personalInfo, socialLinks } from '@/data/site';
 import { Mail, Youtube, Github, Twitter, Linkedin, MapPin, Send } from 'lucide-react';
 
-// ============================================
-// Metadata
-// ============================================
-
 export const metadata: Metadata = {
   title: 'Contact',
   description: "Get in touch with me. I'd love to hear from you.",
 };
-
-// ============================================
-// Contact Page
-// ============================================
 
 export default function ContactPage() {
   return (
@@ -32,7 +24,6 @@ export default function ContactPage() {
       <section className="pb-12 md:pb-16">
         <div className="container max-w-4xl">
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-            {/* Contact Form */}
             <div className="lg:col-span-2">
               <Card>
                 <h2 className="text-text-primary mb-6 text-xl font-semibold">Send a Message</h2>
@@ -68,7 +59,7 @@ export default function ContactPage() {
                     required
                   />
 
-                  <Button type="submit" size="lg" className="w-full">
+                  <Button type="submit" size="lg" className="w-full" style={{ color: '#ffffff' }}>
                     <Send className="mr-2 h-4 w-4" />
                     Send Message
                   </Button>
@@ -76,9 +67,7 @@ export default function ContactPage() {
               </Card>
             </div>
 
-            {/* Sidebar */}
             <div className="space-y-6">
-              {/* Email */}
               <Card>
                 <h3 className="text-text-primary mb-4 font-semibold">Email</h3>
                 <a
@@ -90,7 +79,6 @@ export default function ContactPage() {
                 </a>
               </Card>
 
-              {/* Location */}
               <Card>
                 <h3 className="text-text-primary mb-4 font-semibold">Location</h3>
                 <div className="text-text-secondary flex items-center gap-3">
@@ -99,7 +87,6 @@ export default function ContactPage() {
                 </div>
               </Card>
 
-              {/* Social Links */}
               <Card>
                 <h3 className="text-text-primary mb-4 font-semibold">Connect</h3>
                 <div className="space-y-3">
@@ -157,7 +144,6 @@ export default function ContactPage() {
                 </div>
               </Card>
 
-              {/* Response Time */}
               <Card className="bg-accent-light">
                 <h3 className="text-text-primary mb-2 font-semibold">Response Time</h3>
                 <p className="text-text-secondary text-sm">

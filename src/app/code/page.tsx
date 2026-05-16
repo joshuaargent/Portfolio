@@ -9,18 +9,10 @@ import { Button } from '@/components/ui/Button';
 import { getProjects, getFeaturedProjects } from '@/data/projects';
 import { ArrowRight, ExternalLink, Github } from 'lucide-react';
 
-// ============================================
-// Metadata
-// ============================================
-
 export const metadata: Metadata = {
   title: 'Code',
   description: "Projects I've built. Clean, maintainable software that solves real problems.",
 };
-
-// ============================================
-// Code Page
-// ============================================
 
 export default async function CodePage() {
   const [allProjects, featuredProjects] = await Promise.all([getProjects(), getFeaturedProjects()]);
@@ -47,7 +39,6 @@ export default async function CodePage() {
 
       <section className="pb-12 md:pb-16">
         <div className="container">
-          {/* Featured Projects */}
           {featuredProjects.length > 0 && (
             <div className="mb-12">
               <SectionHeading title="Featured Projects" subtitle="My most impactful work." />
@@ -57,22 +48,17 @@ export default async function CodePage() {
             </div>
           )}
 
-          {/* All Projects */}
           <div className="mb-12">
             <SectionHeading
               title="All Projects"
               subtitle="Everything I've built, from web apps to CLI tools."
-              action={{
-                label: 'View on GitHub',
-                href: 'https://github.com/yourusername',
-              }}
+              action={{ label: 'View on GitHub', href: 'https://github.com/yourusername' }}
             />
             <div className="mt-6">
               <ProjectGrid projects={allProjects} columns={2} />
             </div>
           </div>
 
-          {/* Tech Stack */}
           <div className="mb-12">
             <SectionHeading title="Tech Stack" subtitle="Technologies I work with regularly." />
             <div className="mt-6">
@@ -88,7 +74,6 @@ export default async function CodePage() {
             </div>
           </div>
 
-          {/* Open Source */}
           <div>
             <Card>
               <div className="flex flex-col items-center justify-between gap-6 md:flex-row">

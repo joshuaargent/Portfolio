@@ -3,18 +3,10 @@
 import { useState } from 'react';
 import { CategoryFilter, Category } from './CategoryFilter';
 
-// ============================================
-// Types
-// ============================================
-
 interface CategoryFilterWrapperProps {
   categories: Category[];
   onCategoryChange?: (categoryId: string | null) => void;
 }
-
-// ============================================
-// Component
-// ============================================
 
 export function CategoryFilterWrapper({
   categories,
@@ -24,9 +16,7 @@ export function CategoryFilterWrapper({
 
   const handleSelect = (categoryId: string | null) => {
     setSelected(categoryId);
-    if (onCategoryChange) {
-      onCategoryChange(categoryId);
-    }
+    onCategoryChange?.(categoryId);
   };
 
   return <CategoryFilter categories={categories} selected={selected} onSelect={handleSelect} />;

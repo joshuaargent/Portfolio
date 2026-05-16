@@ -4,18 +4,10 @@ import { BookGrid } from '@/components/reading/BookGrid';
 import { SearchBarWrapper } from '@/components/shared/SearchBarWrapper';
 import { getCompletedBooks } from '@/data/books';
 
-// ============================================
-// Metadata
-// ============================================
-
 export const metadata: Metadata = {
   title: 'Books',
   description: "All the books I've read and recommend.",
 };
-
-// ============================================
-// Books Page
-// ============================================
 
 export default async function BooksPage() {
   const books = await getCompletedBooks();
@@ -26,15 +18,17 @@ export default async function BooksPage() {
 
       <section className="pb-12 md:pb-16">
         <div className="container">
-          {/* Search */}
           <div className="mb-8">
-            <SearchBarWrapper placeholder="Search books..." />
+            <SearchBarWrapper
+              placeholder="Search books..."
+              onSearch={(query) => {
+                console.log('Searching for:', query);
+              }}
+            />
           </div>
 
-          {/* Books Grid */}
           <BookGrid books={books} columns={2} showReview emptyMessage="No books found." />
 
-          {/* Stats */}
           <div className="mt-12 text-center">
             <p className="text-text-muted">
               Total books read:{' '}

@@ -19,18 +19,10 @@ import {
   Heart,
 } from 'lucide-react';
 
-// ============================================
-// Metadata
-// ============================================
-
 export const metadata: Metadata = {
   title: 'CV / Resume',
   description: 'My professional experience, education, and skills.',
 };
-
-// ============================================
-// CV Page
-// ============================================
 
 export default async function CVPage() {
   const cv = await getCVData();
@@ -60,7 +52,6 @@ export default async function CVPage() {
       <section className="pb-12 md:pb-16">
         <div className="container max-w-4xl">
           <div className="space-y-12">
-            {/* Summary */}
             <div>
               <h2 className="text-text-primary mb-4 flex items-center gap-2 text-2xl font-bold">
                 <Heart className="text-accent h-5 w-5" />
@@ -71,7 +62,6 @@ export default async function CVPage() {
               </Card>
             </div>
 
-            {/* Experience */}
             <div>
               <h2 className="text-text-primary mb-6 flex items-center gap-2 text-2xl font-bold">
                 <Briefcase className="text-accent h-5 w-5" />
@@ -131,7 +121,6 @@ export default async function CVPage() {
               </div>
             </div>
 
-            {/* Education */}
             <div>
               <h2 className="text-text-primary mb-6 flex items-center gap-2 text-2xl font-bold">
                 <GraduationCap className="text-accent h-5 w-5" />
@@ -177,7 +166,6 @@ export default async function CVPage() {
               </div>
             </div>
 
-            {/* Skills */}
             <div>
               <h2 className="text-text-primary mb-6 flex items-center gap-2 text-2xl font-bold">
                 <Code className="text-accent h-5 w-5" />
@@ -199,7 +187,6 @@ export default async function CVPage() {
               </div>
             </div>
 
-            {/* Certifications */}
             <div>
               <h2 className="text-text-primary mb-6 flex items-center gap-2 text-2xl font-bold">
                 <Award className="text-accent h-5 w-5" />
@@ -234,7 +221,6 @@ export default async function CVPage() {
               </div>
             </div>
 
-            {/* Content & Community */}
             <div>
               <h2 className="text-text-primary mb-6 text-2xl font-bold">Content & Community</h2>
               <Card>
@@ -264,7 +250,6 @@ export default async function CVPage() {
               </Card>
             </div>
 
-            {/* Contact CTA */}
             <div className="text-center">
               <Card className="bg-accent-light">
                 <h2 className="text-text-primary mb-2 text-2xl font-bold">

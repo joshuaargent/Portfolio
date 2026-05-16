@@ -3,35 +3,25 @@ import Link from 'next/link';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { CurrentBook } from '@/components/reading/CurrentBook';
 import { BookGrid } from '@/components/reading/BookGrid';
-import { VideoGrid } from '@/components/video/VideoGrid';
+import { VideoEmbed } from '@/components/video/VideoEmbed';
 import { SectionHeading } from '@/components/shared/SectionHeading';
-import { Button } from '@/components/ui/Button';
-import { getCurrentBook, getCompletedBooks, getRecentBooks } from '@/data/books';
+import { Card } from '@/components/ui/Card';
+import { getCurrentBook, getRecentBooks } from '@/data/books';
 import { getLongFormVideos, getRecentVideos } from '@/data/videos';
 import { ArrowRight } from 'lucide-react';
-
-// ============================================
-// Metadata
-// ============================================
 
 export const metadata: Metadata = {
   title: 'Reading',
   description: 'One book per week. Distilling key ideas into actionable insights.',
 };
 
-// ============================================
-// Reading Page
-// ============================================
-
 export default async function ReadingPage() {
-  const [currentBook, completedBooks, recentBooks, longFormVideos, recentVideos] =
-    await Promise.all([
-      getCurrentBook(),
-      getCompletedBooks(),
-      getRecentBooks(6),
-      getLongFormVideos(),
-      getRecentVideos(6),
-    ]);
+  const [currentBook, recentBooks, longFormVideos, recentVideos] = await Promise.all([
+    getCurrentBook(),
+    getRecentBooks(6),
+    getLongFormVideos(),
+    getRecentVideos(4),
+  ]);
 
   return (
     <>
@@ -42,14 +32,12 @@ export default async function ReadingPage() {
 
       <section className="pb-12 md:pb-16">
         <div className="container">
-          {/* Currently Reading */}
           {currentBook && (
             <div className="mb-12">
               <CurrentBook book={currentBook} progress={60} />
             </div>
           )}
 
-          {/* This Week's Content */}
           <div className="mb-12">
             <SectionHeading
               title="This Week's Content"
@@ -58,25 +46,19 @@ export default async function ReadingPage() {
             <div className="mt-6">
               {longFormVideos.length > 0 ? (
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-                  {/* Main Video */}
                   <div className="lg:col-span-2">
-                    <div className="video-container">
-                      <iframe
-                        src={`https://www.youtube.com/embed/${longFormVideos[0].youtubeId}`}
-                        title={longFormVideos[0].title}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      />
-                    </div>
+                    <VideoEmbed
+                      videoId={longFormVideos[0].youtubeId}
+                      title={longFormVideos[0].title}
+                    />
                     <h3 className="text-text-primary mt-4 text-lg font-semibold">
                       {longFormVideos[0].title}
                     </h3>
                     <p className="text-text-secondary mt-2">{longFormVideos[0].description}</p>
                   </div>
 
-                  {/* Shorts */}
                   <div className="space-y-4">
-                    {recentVideos.slice(0, 4).map((video) => (
+                    {recentVideos.map((video) => (
                       <a
                         key={video.id}
                         href={`https://youtube.com/shorts/${video.youtubeId}`}
@@ -111,11 +93,10 @@ export default async function ReadingPage() {
             </div>
           </div>
 
-          {/* Books Read */}
           <div>
             <SectionHeading
               title="Books Read"
-              subtitle={`So far this year: ${completedBooks.length} books completed.`}
+              subtitle={`So far this year: ${recentBooks.length} books completed.`}
               action={{ label: 'View all', href: '/reading/books' }}
             />
             <div className="mt-6">
@@ -123,14 +104,14 @@ export default async function ReadingPage() {
             </div>
           </div>
 
-          {/* Reading Philosophy */}
           <div className="mt-16">
             <Card>
               <h2 className="text-text-primary mb-4 text-2xl font-bold">My Reading Philosophy</h2>
               <div className="prose max-w-none">
                 <p>
-                  I read one book per week. It's not about speed reading or skipping pages—it's
-                  about making reading a daily habit and being intentional about what I read.
+                  I read one book per week. It&apos;s not about speed reading or skipping
+                  pages—it&apos;s about making reading a daily habit and being intentional about
+                  what I read.
                 </p>
                 <h3>How I Read</h3>
                 <ul>
@@ -163,6 +144,3 @@ export default async function ReadingPage() {
     </>
   );
 }
-
-// Import Card for the philosophy section
-import { Card } from '@/components/ui/Card';

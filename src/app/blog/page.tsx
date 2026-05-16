@@ -7,18 +7,10 @@ import { NewsletterCTA } from '@/components/shared/NewsletterCTA';
 import { getBlogPosts, getFeaturedBlogPosts } from '@/data/blog';
 import { ArrowRight } from 'lucide-react';
 
-// ============================================
-// Metadata
-// ============================================
-
 export const metadata: Metadata = {
   title: 'Blog',
   description: "Thoughts, essays, and notes on things I'm learning.",
 };
-
-// ============================================
-// Blog Page
-// ============================================
 
 export default async function BlogPage() {
   const [posts, featuredPosts] = await Promise.all([getBlogPosts(), getFeaturedBlogPosts()]);
@@ -32,19 +24,22 @@ export default async function BlogPage() {
 
       <section className="pb-12 md:pb-16">
         <div className="container">
-          {/* Search */}
           <div className="mb-8">
-            <SearchBarWrapper placeholder="Search posts..." />
+            <SearchBarWrapper
+              placeholder="Search posts..."
+              onSearch={(query) => {
+                // Client-side filtering happens via SearchBarWrapper state
+                console.log('Searching for:', query);
+              }}
+            />
           </div>
 
-          {/* Featured Post */}
           {featuredPosts.length > 0 && (
             <div className="mb-12">
               <PostCard post={featuredPosts[0]} featured />
             </div>
           )}
 
-          {/* Recent Posts */}
           <div>
             <div className="mb-6 flex items-center justify-between">
               <h2 className="text-text-primary text-2xl font-bold">Recent Posts</h2>
@@ -56,7 +51,6 @@ export default async function BlogPage() {
             </div>
           </div>
 
-          {/* All Posts Link */}
           {posts.length > 6 && (
             <div className="mt-8 text-center">
               <Link
@@ -69,7 +63,6 @@ export default async function BlogPage() {
             </div>
           )}
 
-          {/* Newsletter */}
           <div className="mt-16">
             <NewsletterCTA />
           </div>
