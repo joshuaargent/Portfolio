@@ -28,6 +28,15 @@ export const metadata: Metadata = {
   keywords: meta.keywords,
   authors: [{ name: siteConfig.author.name }],
   creator: siteConfig.author.name,
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-icon.png',
+  },
+  appleWebApp: {
+    capable: true,
+    title: 'Joshua Argent',
+    statusBarColor: '#FAFAF9',
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
