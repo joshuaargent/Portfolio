@@ -1,6 +1,6 @@
 import { Card } from '@/components/ui/Card';
 import { RunningStats } from '@/types';
-import { Mountain, Flame, Trophy, Gauge, Route, TrendingUp } from 'lucide-react';
+import { Mountain, Trophy, Route, TrendingUp } from 'lucide-react';
 
 // ============================================
 // Types
@@ -16,7 +16,7 @@ export interface RunRecordProps {
 
 export function RunRecords({ stats }: RunRecordProps) {
   return (
-    <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+    <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
       <RecordCard
         icon={<Trophy className="h-4 w-4 text-yellow-500" />}
         label="Best Pace"
@@ -26,20 +26,14 @@ export function RunRecords({ stats }: RunRecordProps) {
       <RecordCard
         icon={<Route className="h-4 w-4 text-blue-500" />}
         label="Longest Run"
-        value={`${stats.longestRun} km`}
+        value={`${stats.longestRun.toFixed(2)} km`}
         subtext={formatDate(stats.longestRunDate)}
       />
       <RecordCard
         icon={<Mountain className="h-4 w-4 text-green-500" />}
-        label="Highest Elevation"
-        value={`${stats.highestElevation} m`}
+        label="Elevation Gain"
+        value={`${stats.highestElevation.toFixed(1)} m`}
         subtext={formatDate(stats.highestElevationDate)}
-      />
-      <RecordCard
-        icon={<Gauge className="h-4 w-4 text-red-500" />}
-        label="Top Speed"
-        value={`${stats.highestSpeed} km/h`}
-        subtext={formatDate(stats.highestSpeedDate)}
       />
     </div>
   );

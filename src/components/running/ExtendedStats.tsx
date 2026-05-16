@@ -1,6 +1,6 @@
 import { Card } from '@/components/ui/Card';
 import { RunningStats } from '@/types';
-import { Mountain, Flame, Zap, Timer } from 'lucide-react';
+import { Mountain, Zap, Timer } from 'lucide-react';
 
 // ============================================
 // Types
@@ -16,18 +16,12 @@ export interface ExtendedStatsProps {
 
 export function ExtendedStats({ stats }: ExtendedStatsProps) {
   return (
-    <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+    <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
       <MiniStat
         icon={<Mountain className="h-4 w-4 text-green-600" />}
-        label="Total Elevation"
-        value={`${stats.totalElevation} m`}
-        subtext={`${stats.averageElevation} m avg`}
-      />
-      <MiniStat
-        icon={<Flame className="h-4 w-4 text-orange-500" />}
-        label="Total Calories"
-        value={`${stats.totalCalories || 0} kcal`}
-        subtext={stats.totalRuns ? `${Math.round(stats.totalCalories! / stats.totalRuns)} kcal avg` : ''}
+        label="Elevation"
+        value={`${stats.totalElevation.toFixed(1)} m`}
+        subtext={`${stats.averageElevation.toFixed(1)} m avg`}
       />
       <MiniStat
         icon={<Timer className="h-4 w-4 text-blue-500" />}
@@ -37,8 +31,8 @@ export function ExtendedStats({ stats }: ExtendedStatsProps) {
       />
       <MiniStat
         icon={<Zap className="h-4 w-4 text-yellow-500" />}
-        label="Avg Distance"
-        value={`${stats.averageDistance} km`}
+        label="Avg"
+        value={`${stats.averageDistance.toFixed(2)} km`}
         subtext="per run"
       />
     </div>

@@ -27,8 +27,8 @@ export function StreakCounter({ stats }: StreakCounterProps) {
       <StatCard
         icon={<MapPin className="text-accent h-5 w-5" />}
         label="Total Distance"
-        value={`${formatNumber(stats.totalDistance)} km`}
-        subtext={`${formatNumber(stats.averageDistance)} km avg`}
+        value={`${stats.totalDistance.toFixed(2)} km`}
+        subtext={`${stats.averageDistance.toFixed(2)} km avg`}
       />
       <StatCard
         icon={<Timer className="h-5 w-5 text-blue-500" />}
@@ -39,7 +39,7 @@ export function StreakCounter({ stats }: StreakCounterProps) {
       <StatCard
         icon={<TrendingUp className="h-5 w-5 text-green-500" />}
         label="Total Runs"
-        value={formatNumber(stats.totalRuns)}
+        value={`${stats.totalRuns}`}
         subtext={`${stats.thisWeekRuns} this week`}
       />
     </div>
