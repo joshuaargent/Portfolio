@@ -130,6 +130,27 @@ export function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+/**
+ * Decodes HTML entities in a string (e.g., &amp; → &, &#39; → ')
+ */
+export function decodeHtmlEntities(str: string): string {
+  const entities: Record<string, string> = {
+    '&amp;': '&',
+    '&lt;': '<',
+    '&gt;': '>',
+    '&quot;': '"',
+    '&#39;': "'",
+    '&#x27;': "'",
+    '&#x2F;': '/',
+    '&nbsp;': ' ',
+    '&apos;': "'",
+    '&#8217;': "'",
+    '&#8216;': "'",
+  };
+
+  return str.replace(/&[#\w]+;/g, (match) => entities[match] || match);
+}
+
 // ============================================
 // URL Utilities
 // ============================================

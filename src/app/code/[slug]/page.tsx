@@ -60,10 +60,12 @@ export default async function ProjectPage({ params }: PageProps) {
 
   // Fetch README if project has a repo URL
   let readme: string | null = null;
+  
   if (project.repoUrl && project.repoUrl.includes('github.com')) {
     // Extract owner and repo from URL
     // URL format: https://github.com/owner/repo
     const urlParts = project.repoUrl.replace('https://github.com/', '').split('/');
+    
     if (urlParts.length >= 2) {
       const owner = urlParts[0];
       const repo = urlParts[1];

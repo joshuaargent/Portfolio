@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
-import { formatRelativeTime, getYouTubeThumbnail } from '@/lib/utils';
+import { formatRelativeTime, getYouTubeThumbnail, decodeHtmlEntities } from '@/lib/utils';
 import { Play, Clock } from 'lucide-react';
 import { Video } from '@/types';
 
@@ -61,10 +61,10 @@ export function VideoCard({ video, showDescription = false }: VideoCardProps) {
         {/* Content */}
         <div className="p-4">
           <h3 className="text-text-primary group-hover:text-accent line-clamp-2 font-semibold transition-colors">
-            {video.title}
+            {decodeHtmlEntities(video.title)}
           </h3>
           {showDescription && video.description && (
-            <p className="text-text-secondary mt-2 line-clamp-2 text-sm">{video.description}</p>
+            <p className="text-text-secondary mt-2 line-clamp-2 text-sm">{decodeHtmlEntities(video.description)}</p>
           )}
           <div className="text-text-muted mt-3 flex items-center gap-2 text-xs">
             <span>{formatRelativeTime(video.publishedAt)}</span>

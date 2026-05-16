@@ -1,6 +1,11 @@
 import { Card } from "@/components/ui/Card";
 import { BookOpen, Code, Video, Activity, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { getRunningStats } from "@/data/running";
+import { getCurrentBook } from "@/data/books";
+import { getProjects } from "@/data/projects";
+import { getRecentVideos } from "@/data/videos";
+import { decodeHtmlEntities } from "@/lib/utils";
 
 // ============================================
 // Types
@@ -15,37 +20,60 @@ interface NowItem {
 
 // ============================================
 // Component
-// ============================================
+// =============================================
 
-export function NowSection() {
-  // TODO: Fetch this data dynamically
+export async function NowSection() {
+  // Fetch data dynamically
+  const [stats, currentBook, projects, recentVideos] = await Promise.all([
+    getRunningStats(),
+    getCurrentBook(),
+    getProjects(),
+    getRecentVideos(1),
+  ]);
+
+  // Running: Day X of daily 5km
+  const runningValue = `Day ${stats.currentStreak} of daily 5km`;
+
+  // Reading: Book Title by Author
+  const readingValue = currentBook
+    ? `${currentBook.title} by ${currentBook.author}`
+    : "No book currently reading";
+
+  // Building: First active project name or default
+  const buildingValue =
+    projects.length > 0 ? projects[0].name : "Working on something";
+
+  // Latest video: Most recent video title
+  const latestVideoValue = recentVideos.length > 0
+    ? decodeHtmlEntities(recentVideos[0].title)
+    : "No videos yet";
+
   const nowItems: NowItem[] = [
     {
       icon: <Activity className="h-5 w-5 text-accent" />,
       label: "Running",
-      value: "Day 87 of daily 5km",
+      value: runningValue,
       href: "/running",
     },
     {
       icon: <BookOpen className="h-5 w-5 text-accent" />,
       label: "Reading",
-      value: "Atomic Habits by James Clear",
+      value: readingValue,
       href: "/reading",
     },
     {
       icon: <Code className="h-5 w-5 text-accent" />,
       label: "Building",
-      value: "Personal portfolio site",
+      value: buildingValue,
       href: "/code",
     },
     {
       icon: <Video className="h-5 w-5 text-accent" />,
       label: "Latest video",
-      value: "How to Build Better Habits",
+      value: latestVideoValue,
       href: "/content",
     },
   ];
-
   return (
     <section className="py-12 md:py-16">
       <div className="container">

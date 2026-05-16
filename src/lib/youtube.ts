@@ -113,7 +113,7 @@ function categorizeVideo(title: string, duration: string): Video['type'] {
   const lowerTitle = title.toLowerCase();
 
   // Check for running-related keywords in title
-  const runningKeywords = ['run', '5km', 'daily', '今日のRUN', 'morning run', 'evening run', 'jogging', 'km', ' Strava'];
+  const runningKeywords = ['run', '5km', 'daily', '今日のRUN', 'morning run', 'evening run', 'jogging', 'km', ' strava', 'walking', 'pb'];
   if (runningKeywords.some((keyword) => lowerTitle.includes(keyword))) {
     return 'running-short';
   }

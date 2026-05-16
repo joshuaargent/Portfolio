@@ -1,6 +1,10 @@
 import { RunLog, RunningStats } from '@/types';
 import { getStravaActivities, getStravaStats } from '@/lib/strava';
 
+// ============================================
+// Run Logs
+// ============================================
+
 // Fallback static data
 const fallbackRunLogs: RunLog[] = [
   {

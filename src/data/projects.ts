@@ -1,5 +1,6 @@
 import { Project } from '@/types';
 import { getGitHubRepos } from '@/lib/github';
+import { siteConfig } from '@/lib/constants';
 
 // Fallback static data
 const fallbackProjects: Project[] = [
@@ -9,8 +10,8 @@ const fallbackProjects: Project[] = [
     description: 'My personal website built with Next.js.',
     longDescription: '<p>This website serves as my central hub.</p>',
     techStack: ['Next.js', 'TypeScript', 'Tailwind CSS'],
-    liveUrl: 'https://joshua.com',
-    repoUrl: 'https://github.com/yourusername/portfolio',
+    liveUrl: siteConfig.url,
+    repoUrl: `${siteConfig.links.github}/portfolio`,
     screenshots: ['/images/projects/portfolio-1.png'],
     status: 'active',
     featured: true,

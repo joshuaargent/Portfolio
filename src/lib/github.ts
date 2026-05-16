@@ -81,28 +81,35 @@ export async function getGitHubProfile() {
 }
 
 export async function getGitHubReadme(owner: string, repo: string): Promise<string | null> {
+  const headers: HeadersInit = {
+    Accept: 'application/vnd.github.html+json',
+  };
+
+  if (GITHUB_TOKEN) {
+    headers.Authorization = `token ${GITHUB_TOKEN}`;
+  } else {
+    console.warn('No GitHub token configured - README fetch may be rate limited');
+  }
+
   try {
-    const headers: HeadersInit = {
-      Accept: 'application/vnd.github.html+json',
-    };
-
-    if (GITHUB_TOKEN) {
-      headers.Authorization = `token ${GITHUB_TOKEN}`;
-    }
-
     const response = await fetch(`${BASE_URL}/repos/${owner}/${repo}/readme`, {
       headers,
       next: { revalidate: 3600 },
     });
 
     if (!response.ok) {
-      // README might not exist
-      if (response.status === 404) return null;
-      throw new Error(`GitHub API error: ${response.status}`);
+      console.error(`GitHub readme failed: ${response.status} for ${owner}/${repo}`);
+      return null;
     }
 
     const data = await response.json();
-    return data.content || null;
+    if (!data.content) {
+      console.log(`Empty readme for ${owner}/${repo}`);
+      return null;
+    }
+    
+    console.log(`Successfully fetched readme for ${owner}/${repo}: ${data.content.length} chars`);
+    return data.content;
   } catch (error) {
     console.error('Error fetching GitHub README:', error);
     return null;
