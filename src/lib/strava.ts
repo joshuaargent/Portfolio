@@ -46,13 +46,27 @@ export async function getStravaActivities(): Promise<RunLog[]> {
   try {
     console.log('Fetching Strava activities...');
 
-    // Use revalidate instead of no-store for static generation
-    const response = await fetch(`${BASE_URL}/athlete/activities?per_page=100`, {
+    // Try with current token first
+    let response = await fetch(`${BASE_URL}/athlete/activities?per_page=100`, {
       headers: {
         Authorization: `Bearer ${STRAVA_ACCESS_TOKEN}`,
       },
       next: { revalidate: 3600 }, // Revalidate every hour
     });
+
+    // If 401, token expired - try to refresh
+    if (response.status === 401) {
+      console.log('Token expired, attempting refresh...');
+      const newToken = await refreshAccessToken();
+      if (newToken) {
+        response = await fetch(`${BASE_URL}/athlete/activities?per_page=100`, {
+          headers: {
+            Authorization: `Bearer ${newToken}`,
+          },
+          next: { revalidate: 3600 },
+        });
+      }
+    }
 
     console.log('Strava API response status:', response.status, response.statusText);
 
