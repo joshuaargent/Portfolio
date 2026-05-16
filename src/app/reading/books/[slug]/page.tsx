@@ -8,7 +8,7 @@ import { Card } from '@/components/ui/Card';
 import { VideoEmbed } from '@/components/video/VideoEmbed';
 import { getBookBySlug, getBooks } from '@/data/books';
 import { getVideosByBook } from '@/data/videos';
-import { formatDate } from '@/lib/utils';
+import { formatDate, decodeHtmlEntities } from '@/lib/utils';
 import { ArrowLeft, Star, ExternalLink, BookOpen } from 'lucide-react';
 
 // ============================================
@@ -178,9 +178,9 @@ export default async function BookPage({ params }: PageProps) {
                     <div key={video.id}>
                       <VideoEmbed videoId={video.youtubeId} title={video.title} />
                       <h3 className="text-text-primary mt-3 text-lg font-semibold">
-                        {video.title}
+                        {decodeHtmlEntities(video.title)}
                       </h3>
-                      <p className="text-text-secondary mt-1 text-sm">{video.description}</p>
+                      <p className="text-text-secondary mt-1 text-sm">{decodeHtmlEntities(video.description)}</p>
                     </div>
                   ))}
                 </div>

@@ -6,6 +6,10 @@ import { personalInfo, socialLinks } from '@/data/site';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
+import { getRunningStats } from '@/data/running';
+import { getCurrentBook } from '@/data/books';
+import { getProjects } from '@/data/projects';
+import { decodeHtmlEntities } from '@/lib/utils';
 import { ArrowRight, Download, Mail, Youtube, Github, Instagram, Facebook } from 'lucide-react';
 
 // ============================================
@@ -21,7 +25,22 @@ export const metadata: Metadata = {
 // About Page
 // ============================================
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  // Fetch dynamic data
+  const [stats, currentBook, projects] = await Promise.all([
+    getRunningStats(),
+    getCurrentBook(),
+    getProjects(),
+  ]);
+
+  const runningValue = `Day ${stats.currentStreak} of daily 5km`;
+  const readingValue = currentBook
+    ? currentBook.title
+    : "No book currently reading";
+  const buildingValue = projects.length > 0
+    ? projects[0].name
+    : "Working on something";
+
   return (
     <>
       <PageHeader title="About Me" description="Runner. Reader. Builder. Here's my story." />
@@ -246,15 +265,15 @@ export default function AboutPage() {
                   <div className="space-y-3 text-sm">
                     <div>
                       <span className="text-text-muted">📖 Reading:</span>
-                      <span className="text-text-secondary ml-2">Atomic Habits</span>
+                      <span className="text-text-secondary ml-2">{readingValue}</span>
                     </div>
                     <div>
                       <span className="text-text-muted">🏃 Running:</span>
-                      <span className="text-text-secondary ml-2">Day 87 of daily 5km</span>
+                      <span className="text-text-secondary ml-2">{runningValue}</span>
                     </div>
                     <div>
                       <span className="text-text-muted">💻 Building:</span>
-                      <span className="text-text-secondary ml-2">This website</span>
+                      <span className="text-text-secondary ml-2">{buildingValue}</span>
                     </div>
                   </div>
                 </Card>
