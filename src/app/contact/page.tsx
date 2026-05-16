@@ -8,6 +8,8 @@ import { Textarea } from '@/components/ui/Textarea';
 import { personalInfo, socialLinks } from '@/data/site';
 import { Mail, Youtube, Github, Instagram, Facebook, MapPin, Send } from 'lucide-react';
 
+const FORMSPREE_FORM_ID = process.env.NEXT_PUBLIC_FORMSPREE_FORM_ID;
+
 export const metadata: Metadata = {
   title: 'Contact',
   description: "Get in touch with me. I'd love to hear from you.",
@@ -27,43 +29,66 @@ export default function ContactPage() {
             <div className="lg:col-span-2">
               <Card>
                 <h2 className="text-text-primary mb-6 text-xl font-semibold">Send a Message</h2>
-                <form
-                  action="https://formspree.io/f/YOUR_FORM_ID"
-                  method="POST"
-                  className="space-y-6"
-                >
-                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                    <Input label="Name" name="name" type="text" placeholder="Your name" required />
+                {FORMSPREE_FORM_ID ? (
+                  <form
+                    action={`https://formspree.io/f/${FORMSPREE_FORM_ID}`}
+                    method="POST"
+                    className="space-y-6"
+                  >
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                      <Input label="Name" name="name" type="text" placeholder="Your name" required />
+                      <Input
+                        label="Email"
+                        name="email"
+                        type="email"
+                        placeholder="your@email.com"
+                        required
+                      />
+                    </div>
+
                     <Input
-                      label="Email"
-                      name="email"
-                      type="email"
-                      placeholder="your@email.com"
+                      label="Subject"
+                      name="subject"
+                      type="text"
+                      placeholder="What's this about?"
                       required
                     />
+
+                    <Textarea
+                      label="Message"
+                      name="message"
+                      placeholder="Your message..."
+                      rows={6}
+                      required
+                    />
+
+                    <Button type="submit" size="lg" className="w-full" style={{ color: '#ffffff' }}>
+                      <Send className="mr-2 h-4 w-4" />
+                      Send Message
+                    </Button>
+                  </form>
+                ) : (
+                  <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-4 text-yellow-800">
+                    <p className="font-medium">Contact form not configured</p>
+                    <p className="mt-1 text-sm">
+                      To enable the contact form, add your Formspree form ID to the environment variable{' '}
+                      <code className="bg-yellow-100 px-1 py-0.5 rounded">NEXT_PUBLIC_FORMSPREE_FORM_ID</code>.<br />
+                      Create a form at{' '}
+                      <a href="https://formspree.io" target="_blank" rel="noopener noreferrer" className="underline">
+                        formspree.io
+                      </a>
+                    </p>
+                    <div className="mt-4">
+                      <a
+                        href={`mailto:${personalInfo.email}`}
+                        className="inline-flex items-center gap-2 text-accent hover:text-accent-hover"
+                      >
+                        <Mail className="h-4 w-4" />
+                        {personalInfo.email}
+                      </a>
+                    </div>
                   </div>
-
-                  <Input
-                    label="Subject"
-                    name="subject"
-                    type="text"
-                    placeholder="What's this about?"
-                    required
-                  />
-
-                  <Textarea
-                    label="Message"
-                    name="message"
-                    placeholder="Your message..."
-                    rows={6}
-                    required
-                  />
-
-                  <Button type="submit" size="lg" className="w-full" style={{ color: '#ffffff' }}>
-                    <Send className="mr-2 h-4 w-4" />
-                    Send Message
-                  </Button>
-                </form>
+                )}
               </Card>
             </div>
 
@@ -99,7 +124,7 @@ export default function ContactPage() {
                     <Youtube className="h-5 w-5 text-red-500" />
                     <div>
                       <p className="text-text-primary text-sm font-medium">YouTube</p>
-                      <p className="text-text-muted text-xs">@yourchannel</p>
+                      <p className="text-text-muted text-xs">@joshua_argent</p>
                     </div>
                   </a>
 
@@ -112,7 +137,7 @@ export default function ContactPage() {
                     <Github className="text-text-primary h-5 w-5" />
                     <div>
                       <p className="text-text-primary text-sm font-medium">GitHub</p>
-                      <p className="text-text-muted text-xs">@yourusername</p>
+                      <p className="text-text-muted text-xs">@joshuaargent</p>
                     </div>
                   </a>
 
@@ -125,7 +150,7 @@ export default function ContactPage() {
                     <Instagram className="h-5 w-5 text-pink-500" />
                     <div>
                       <p className="text-text-primary text-sm font-medium">Instagram</p>
-                      <p className="text-text-muted text-xs">@yourusername</p>
+                      <p className="text-text-muted text-xs">@joshua_argent</p>
                     </div>
                   </a>
 
@@ -138,7 +163,7 @@ export default function ContactPage() {
                     <Facebook className="h-5 w-5 text-blue-600" />
                     <div>
                       <p className="text-text-primary text-sm font-medium">Facebook</p>
-                      <p className="text-text-muted text-xs">/yourusername</p>
+                      <p className="text-text-muted text-xs">/joshua_argent</p>
                     </div>
                   </a>
                 </div>
