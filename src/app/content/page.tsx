@@ -32,12 +32,7 @@ export default async function ContentPage() {
           <div className="mb-8">
             <SectionHeading title="Categories" />
             <div className="mt-4">
-              <CategoryFilterWrapper
-                categories={categories}
-                onCategoryChange={(categoryId) => {
-                  console.log('Selected category:', categoryId);
-                }}
-              />
+              <CategoryFilterWrapper categories={categories} />
             </div>
           </div>
 
