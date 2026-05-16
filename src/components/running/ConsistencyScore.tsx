@@ -1,6 +1,6 @@
 import { Card } from '@/components/ui/Card';
-import { RunningStats } from '@/types';
-import { Heart, Zap } from 'lucide-react';
+import { RunningStats, RunLog } from '@/types';
+import { Heart } from 'lucide-react';
 
 // ============================================
 // Types
@@ -8,46 +8,56 @@ import { Heart, Zap } from 'lucide-react';
 
 export interface ConsistencyScoreProps {
   stats: RunningStats;
+  runs: RunLog[];
 }
 
 // ============================================
 // Component
 // ============================================
 
-export function ConsistencyScore({ stats }: ConsistencyScoreProps) {
-  const totalRuns = stats.totalRuns;
-  const currentStreak = stats.currentStreak;
-  const longestStreak = stats.longestStreak;
+export function ConsistencyScore({ stats, runs }: ConsistencyScoreProps) {
+  if (runs.length === 0) {
+    return null;
+  }
+
+  // Get first run date from data
+  const sortedRuns = [...runs].sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+  );
+  const firstRunDate = new Date(sortedRuns[0].date);
+  firstRunDate.setHours(0, 0, 0, 0);
   
-  // Calculate consistency score (0-100)
-  // Based on: runs this month vs expected monthly runs
-  // Expected: ~20 runs/month (about 5 per week) for daily runner
-  const expectedRunsPerMonth = 20; // ~5 runs/week
-  const runScore = Math.min(100, Math.round((stats.thisMonthRuns / expectedRunsPerMonth) * 100));
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
   
-  const streakScore = Math.min(100, Math.round((longestStreak / 14) * 100)); // 14 day streak = 100
+  // Calculate total days since first run
+  const totalDays = Math.floor((today.getTime() - firstRunDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
   
-  const overallScore = Math.round((runScore * 0.5 + streakScore * 0.5));
+  // Count unique days with runs
+  const runDays = new Set(runs.map(r => r.date)).size;
   
-  // Get grade - now more achievable
+  // Calculate consistency % (100% = every day since first run)
+  const consistencyPercent = Math.round((runDays / totalDays) * 100);
+  
+  // Get grade
   let grade: string;
   let color: string;
-  if (overallScore >= 95) {
+  if (consistencyPercent >= 95) {
     grade = 'A+';
     color = 'text-green-500';
-  } else if (overallScore >= 85) {
+  } else if (consistencyPercent >= 85) {
     grade = 'A';
     color = 'text-green-500';
-  } else if (overallScore >= 75) {
+  } else if (consistencyPercent >= 75) {
     grade = 'B';
     color = 'text-green-400';
-  } else if (overallScore >= 65) {
+  } else if (consistencyPercent >= 65) {
     grade = 'C+';
     color = 'text-yellow-400';
-  } else if (overallScore >= 55) {
+  } else if (consistencyPercent >= 55) {
     grade = 'C';
     color = 'text-yellow-500';
-  } else if (overallScore >= 45) {
+  } else if (consistencyPercent >= 45) {
     grade = 'D';
     color = 'text-orange-500';
   } else {
@@ -69,8 +79,10 @@ export function ConsistencyScore({ stats }: ConsistencyScoreProps) {
         </div>
         
         <div className="text-right space-y-1">
-          <ScoreBar label="Runs" value={runScore} max={100} />
-          <ScoreBar label="Streak" value={streakScore} max={100} />
+          <ScoreBar label="Days" value={consistencyPercent} />
+          <div className="text-xs text-text-muted">
+            {runDays} of {totalDays} days
+          </div>
         </div>
       </div>
     </Card>
@@ -81,11 +93,9 @@ export function ConsistencyScore({ stats }: ConsistencyScoreProps) {
 // Score Bar
 // ============================================
 
-function ScoreBar({ label, value, max }: { label: string; value: number; max: number }) {
-  const percent = Math.round((value / max) * 100);
-  
+function ScoreBar({ label, value }: { label: string; value: number }) {
   return (
-    <div className="text-right">
+    <div>
       <div className="flex justify-between text-xs mb-1">
         <span className="text-text-muted">{label}</span>
         <span className="text-text-muted">{value}%</span>
@@ -93,7 +103,7 @@ function ScoreBar({ label, value, max }: { label: string; value: number; max: nu
       <div className="h-1.5 w-20 bg-bg-secondary rounded-full overflow-hidden">
         <div
           className="h-full bg-accent rounded-full"
-          style={{ width: `${percent}%` }}
+          style={{ width: `${value}%` }}
         />
       </div>
     </div>

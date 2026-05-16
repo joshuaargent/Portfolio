@@ -33,7 +33,7 @@ export function ExtendedStats({ stats }: ExtendedStatsProps) {
         icon={<Zap className="h-4 w-4 text-yellow-500" />}
         label="Avg"
         value={`${stats.averageDistance.toFixed(2)} km`}
-        subtext="per run"
+        subtext="per day"
       />
     </div>
   );

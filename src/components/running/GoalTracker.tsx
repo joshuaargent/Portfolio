@@ -117,7 +117,11 @@ function GoalCard({ icon, title, current, goal, progress, unit, subtitle, isProj
       
       <div className="flex justify-between items-end mb-2">
         <span className="text-2xl font-bold">{Math.round(current * 10) / 10}{unit}</span>
-        <span className="text-text-muted text-sm">of {goal}{unit}</span>
+        {isComplete ? (
+          <span className="text-green-500 text-sm">goal reached!</span>
+        ) : (
+          <span className="text-text-muted text-sm">{Math.round(goal - current)}{unit} left</span>
+        )}
       </div>
       
       {/* Progress Bar */}

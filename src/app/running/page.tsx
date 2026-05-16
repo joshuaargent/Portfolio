@@ -11,6 +11,7 @@ import { ExtendedStats } from '@/components/running/ExtendedStats';
 import { GoalTracker } from '@/components/running/GoalTracker';
 import { DayOfWeekStats } from '@/components/running/DayOfWeekStats';
 import { PaceTrend } from '@/components/running/PaceTrend';
+import { ConsistencyScore } from '@/components/running/ConsistencyScore';
 import { getRunningStats, getRunLogs, getRecentRuns } from '@/data/running';
 
 // ============================================
@@ -69,6 +70,7 @@ export default async function RunningPage() {
             <div>
               <SectionHeading title="Trends" subtitle="How you're improving." />
               <div className="mt-6 space-y-6">
+                <ConsistencyScore stats={stats} runs={allRuns} />
                 <PaceTrend runs={allRuns} />
               </div>
             </div>
