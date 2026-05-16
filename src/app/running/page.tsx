@@ -5,11 +5,9 @@ import { StreakCalendar } from '@/components/running/StreakCalendar';
 import { RunShortCard } from '@/components/running/RunShortCard';
 import { SectionHeading } from '@/components/shared/SectionHeading';
 import { Card } from '@/components/ui/Card';
-import { RunRecords } from '@/components/running/RunRecords';
+import { PersonalRecords } from '@/components/running/PersonalRecords';
 import { GoalTracker } from '@/components/running/GoalTracker';
 import { DayOfWeekStats } from '@/components/running/DayOfWeekStats';
-import { PaceTrend } from '@/components/running/PaceTrend';
-import { ConsistencyScore } from '@/components/running/ConsistencyScore';
 import { getRunningStats, getRunLogs, getRecentRuns } from '@/data/running';
 import { runningGoals } from '@/lib/constants';
 
@@ -55,23 +53,11 @@ export default async function RunningPage() {
             </div>
           </div>
 
-          {/* Two Column Layout: Records & Trends */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
-            {/* Personal Records */}
-            <div>
-              <SectionHeading title="Personal Records" subtitle="Your best moments." />
-              <div className="mt-6">
-                <RunRecords stats={stats} />
-              </div>
-            </div>
-
-            {/* Trends */}
-            <div>
-              <SectionHeading title="Trends" subtitle="How you're improving." />
-              <div className="mt-6 space-y-6">
-                <ConsistencyScore stats={stats} runs={allRuns} />
-                <PaceTrend runs={allRuns} />
-              </div>
+          {/* Records & Predictions */}
+          <div className="mb-12">
+            <SectionHeading title="Records & Predictions" subtitle="Your best moments and what's possible." />
+            <div className="mt-6">
+              <PersonalRecords stats={stats} runs={allRuns} />
             </div>
           </div>
 
