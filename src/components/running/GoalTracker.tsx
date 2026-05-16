@@ -138,7 +138,7 @@ function GoalCard({ icon, title, current, goal, progress, unit, subtitle, isProj
       
       <div className="flex justify-between mt-1">
         <span className={`text-xs ${isComplete ? 'text-green-500' : 'text-text-muted'}`}>
-          {isComplete ? 'goal reached!' : `${Math.max(0, Math.round(goal - current))}${unit} left`}
+          {isComplete ? 'goal reached!' : `${Math.max(0, Math.round(goal - current))} ${unit} left`}
         </span>
         {subtitle && (
           <span className="text-xs text-text-muted">{subtitle}</span>
