@@ -5,7 +5,7 @@ const STRAVA_CLIENT_SECRET = process.env.STRAVA_CLIENT_SECRET;
 const STRAVA_ACCESS_TOKEN = process.env.STRAVA_ACCESS_TOKEN;
 const STRAVA_REFRESH_TOKEN = process.env.STRAVA_REFRESH_TOKEN;
 
-const API_BASE_URL = 'https://api.strava.com';
+const API_BASE_URL = 'https://www.strava.com/api/v3';
 
 function isConfigured(): boolean {
   return !!STRAVA_ACCESS_TOKEN;
