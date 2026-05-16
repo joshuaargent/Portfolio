@@ -60,7 +60,6 @@ export default async function RunningPage() {
             <SectionHeading
               title="Recent Runs"
               subtitle="My latest daily runs with notes and videos."
-              action={{ label: 'View all', href: '/running/videos' }}
             />
             <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {recentRuns.map((run) => (

@@ -53,11 +53,6 @@ export async function getShortVideos(): Promise<Video[]> {
   return getVideosByType('short');
 }
 
-// Legacy function - running-short type was removed, returns all videos for now
-export async function getRunningShorts(): Promise<Video[]> {
-  return getVideos();
-}
-
 export async function getVideosByBook(bookSlug: string): Promise<Video[]> {
   const videos = await getVideos();
   return videos.filter((v) => v.relatedBookSlug === bookSlug);
