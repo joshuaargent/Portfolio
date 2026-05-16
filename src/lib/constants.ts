@@ -185,7 +185,7 @@ export const externalLinks = {
 // ============================================
 
 export const meta = {
-  title: 'Joshua Argent - Runner. Reader. Programmer.',
+  title: 'Joshua Argent | Runner. Reader. Programmer.',
   description: 'I run 5km a day, read a lot, and share what I learn about fitness and faith.',
   keywords: [
     'Joshua',
