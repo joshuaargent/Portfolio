@@ -1,6 +1,6 @@
 import { Card } from '@/components/ui/Card';
 import { RunningStats, RunLog } from '@/types';
-import { Trophy, Route, TrendingUp, Target, Sparkles } from 'lucide-react';
+import { Trophy, Route, Target, TrendingUp } from 'lucide-react';
 
 // ============================================
 // Types
@@ -37,56 +37,31 @@ export function PersonalRecords({ stats, runs }: PersonalRecordsProps) {
 
   return (
     <Card>
-      <div className="grid grid-cols-2 gap-6">
-        {/* Current Records */}
-        <div>
-          <h3 className="text-text-primary font-semibold mb-4">Personal Records</h3>
-          <div className="space-y-3">
-            <RecordRow 
-              icon={<Trophy className="h-4 w-4 text-yellow-500" />}
-              label="Best Pace"
-              value={formatPace(stats.fastestPace)}
-              subtext={formatDate(stats.fastestPaceDate)}
-            />
-            <RecordRow 
-              icon={<Route className="h-4 w-4 text-blue-500" />}
-              label="Longest Run"
-              value={`${stats.longestRun?.toFixed(1) || 'N/A'} km`}
-              subtext={formatDate(stats.longestRunDate)}
-            />
-          </div>
-        </div>
-
-        {/* Predictions */}
-        <div>
-          <h3 className="text-text-primary font-semibold mb-4">Predictions</h3>
-          <div className="space-y-3">
-            {predictions.sub30 && (
-              <PredictionRow 
-                label="Sub-30 5k"
-                target="29:59"
-                current={predictions.sub30}
-                icon={<Target className="h-4 w-4 text-green-500" />}
-              />
-            )}
-            {predictions.sub6 && (
-              <PredictionRow 
-                label="6 min/km pace"
-                target="5:59"
-                current={predictions.sub6}
-                icon={<Sparkles className="h-4 w-4 text-purple-500" />}
-              />
-            )}
-            {predictions.totalByYearEnd > 0 && (
-              <PredictionRow 
-                label="Year-end total"
-                target="1,820 km"
-                current={`${predictions.totalByYearEnd} km`}
-                icon={<TrendIcon progress={predictions.onTrackForYear} />}
-              />
-            )}
-          </div>
-        </div>
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+        <RecordRow 
+          icon={<Trophy className="h-4 w-4 text-yellow-500" />}
+          label="Best Pace"
+          value={formatPace(stats.fastestPace)}
+          subtext={formatDate(stats.fastestPaceDate)}
+        />
+        <RecordRow 
+          icon={<Route className="h-4 w-4 text-blue-500" />}
+          label="Longest Run"
+          value={`${stats.longestRun?.toFixed(1) || 'N/A'} km`}
+          subtext={formatDate(stats.longestRunDate)}
+        />
+        <PredictionRow 
+          label="Sub-30 5k"
+          target="29:59"
+          current={predictions.sub30 || 'N/A'}
+          icon={<Target className="h-4 w-4 text-green-500" />}
+        />
+        <PredictionRow 
+          label="Year-end"
+          target="1,820 km"
+          current={predictions.totalByYearEnd > 0 ? `${predictions.totalByYearEnd} km` : 'N/A'}
+          icon={<TrendIcon progress={predictions.onTrackForYear} />}
+        />
       </div>
     </Card>
   );
@@ -188,7 +163,7 @@ function calculatePredictions(runs: RunLog[], stats: RunningStats) {
   if (avgPaceSeconds < 360) {
     predictions.sub6 = 'Already there!';
   } else if (avgPaceSeconds < 420) {
-    predictions.sub6 = `${Math.ceil((avgPaceSeconds - 354) / 5} weeks`;
+    predictions.sub6 = `${Math.ceil((avgPaceSeconds - 354) / 5)} weeks`;
   } else {
     predictions.sub6 = 'Need more training';
   }
