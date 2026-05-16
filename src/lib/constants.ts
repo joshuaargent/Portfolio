@@ -11,9 +11,9 @@ export const siteConfig: SiteConfig = {
   ogImage: '/og-image.png',
   links: {
     youtube: 'https://youtube.com/@joshua_argent',
-    github: 'https://github.com/joshua_argent',
-    instagram: 'https://instagram.com/yourusername',
-    facebook: 'https://facebook.com/yourusername',
+    github: 'https://github.com/joshuaargent',
+    instagram: 'https://instagram.com/joshua_argent',
+    facebook: 'https://facebook.com/joshua_argent',
     email: 'argentjackjoshua@outlook.com',
   },
   author: {
@@ -58,9 +58,9 @@ export const footerNav = {
   ],
   social: [
     { label: 'YouTube', href: 'https://youtube.com/@joshua_argent' },
-    { label: 'GitHub', href: 'https://github.com/joshua_argent' },
-    { label: 'Instagram', href: 'https://instagram.com/yourusername' },
-    { label: 'Facebook', href: 'https://facebook.com/yourusername' },
+    { label: 'GitHub', href: 'https://github.com/joshuaargent' },
+    { label: 'Instagram', href: 'https://instagram.com/joshua_argent' },
+    { label: 'Facebook', href: 'https://facebook.com/joshua_argent' },
   ],
 };
 
@@ -174,10 +174,10 @@ export const animations = {
 
 export const externalLinks = {
   youtube: 'https://youtube.com/@joshua_argent',
-  github: 'https://github.com/joshua_argent',
-  instagram: 'https://instagram.com/yourusername',
-  facebook: 'https://facebook.com/yourusername',
-  email: 'mailto:hello@joshua.com',
+  github: 'https://github.com/joshuaargent',
+  instagram: 'https://instagram.com/joshua_argent',
+  facebook: 'https://facebook.com/joshua_argent',
+  email: 'mailto:argentjackjoshua@outlook.com',
 } as const;
 
 // ============================================
@@ -185,9 +185,8 @@ export const externalLinks = {
 // ============================================
 
 export const meta = {
-  title: 'Joshua — Runner, Reader, Builder',
-  description:
-    'I run 5km every day. I read one book a week. I build things with code. I share what I learn about faith, learning, psychology, health, and performance.',
+  title: 'Joshua - Runner, Reader, Programmer',
+  description: 'I run 5km a day, read a lot, and share what I learn about fitness and faith.',
   keywords: [
     'Joshua',
     'running',
@@ -200,5 +199,5 @@ export const meta = {
     'personal development',
     'content creator',
   ] as string[],
-  instagramHandle: '@yourusername',
+  instagramHandle: '@joshua_argent',
 } as const;
