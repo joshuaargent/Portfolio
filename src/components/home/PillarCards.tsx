@@ -4,7 +4,7 @@ import { Activity, BookOpen, Code, Lightbulb, ArrowRight } from 'lucide-react';
 import { getRunningStats } from '@/data/running';
 import { getBooks } from '@/data/books';
 import { getProjects } from '@/data/projects';
-import { getContent } from '@/data/content';
+import { getContentPieces } from '@/data/content';
 
 // ============================================
 // Types
@@ -28,7 +28,7 @@ export async function PillarCards() {
     getRunningStats(),
     getBooks(),
     getProjects(),
-    getContent(),
+    getContentPieces(),
   ]);
 
   const pillars: Pillar[] = [
