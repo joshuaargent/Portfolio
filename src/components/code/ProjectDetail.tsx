@@ -128,14 +128,9 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
         </div>
       </div>
 
-      {/* Description */}
-      <div className="prose max-w-none">
-        <div dangerouslySetInnerHTML={{ __html: project.longDescription }} />
-      </div>
-
-      {/* README - More detailed description from the repo */}
+      {/* README - Detailed description from the repo */}
       {project.readme && (
-        <div className="mt-12">
+        <div className="mb-12">
           <h2 className="text-text-primary mb-4 text-xl font-semibold">README</h2>
           <div
             className="prose prose-invert max-w-none rounded-xl border border-border bg-card/50 p-6"
