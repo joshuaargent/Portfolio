@@ -34,14 +34,16 @@ export function EmptyState({ icon, title, description, action, className }: Empt
           {action.href ? (
             <Link
               href={action.href}
-              className="focus-visible:ring-accent bg-accent hover:bg-accent-hover inline-flex h-11 items-center justify-center gap-2 rounded-lg px-5 text-base font-medium text-white shadow-sm transition-all duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+              style={{ backgroundColor: '#0D9488', color: '#ffffff' }}
+              className="focus-visible:ring-accent inline-flex h-11 items-center justify-center gap-2 rounded-lg px-5 text-base font-medium shadow-sm transition-all duration-200 hover:opacity-90 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
             >
               {action.label}
             </Link>
           ) : (
             <button
               onClick={action.onClick}
-              className="focus-visible:ring-accent bg-accent hover:bg-accent-hover inline-flex h-11 items-center justify-center gap-2 rounded-lg px-5 text-base font-medium text-white shadow-sm transition-all duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+              style={{ backgroundColor: '#0D9488', color: '#ffffff' }}
+              className="focus-visible:ring-accent inline-flex h-11 items-center justify-center gap-2 rounded-lg px-5 text-base font-medium shadow-sm transition-all duration-200 hover:opacity-90 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
             >
               {action.label}
             </button>

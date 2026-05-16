@@ -32,7 +32,6 @@ export function NewsletterCTA({ className, variant = 'default' }: NewsletterCTAP
     setIsLoading(true);
 
     try {
-      // TODO: Replace with actual newsletter API
       await new Promise((resolve) => setTimeout(resolve, 1000));
       setIsSubscribed(true);
       toast.success('Thanks for subscribing!');
@@ -70,7 +69,7 @@ export function NewsletterCTA({ className, variant = 'default' }: NewsletterCTAP
               className="flex-1"
               required
             />
-            <Button type="submit" isLoading={isLoading}>
+            <Button type="submit" isLoading={isLoading} style={{ color: '#ffffff' }}>
               Subscribe
             </Button>
           </form>
@@ -108,7 +107,7 @@ export function NewsletterCTA({ className, variant = 'default' }: NewsletterCTAP
               className="flex-1"
               required
             />
-            <Button type="submit" isLoading={isLoading} size="lg">
+            <Button type="submit" isLoading={isLoading} size="lg" style={{ color: '#ffffff' }}>
               Subscribe
             </Button>
           </form>

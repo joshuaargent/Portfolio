@@ -79,7 +79,8 @@ export function CurrentBook({ book, progress }: CurrentBookProps) {
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
               href={`/reading/books/${book.slug}`}
-              className="focus-visible:ring-accent bg-accent hover:bg-accent-hover inline-flex h-11 items-center justify-center gap-2 rounded-lg px-5 text-base font-medium text-white shadow-sm transition-all duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+              style={{ backgroundColor: '#0D9488', color: '#ffffff' }}
+              className="focus-visible:ring-accent inline-flex h-11 items-center justify-center gap-2 rounded-lg px-5 text-base font-medium shadow-sm transition-all duration-200 hover:opacity-90 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
             >
               <BookOpen className="mr-2 h-4 w-4" />
               View Details
@@ -89,7 +90,7 @@ export function CurrentBook({ book, progress }: CurrentBookProps) {
                 href={book.amazonUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="focus-visible:ring-accent border-border hover:bg-bg-secondary inline-flex h-11 items-center justify-center gap-2 rounded-lg border bg-transparent px-5 text-base font-medium transition-all duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+                className="focus-visible:ring-accent border-border text-text-primary hover:bg-bg-secondary inline-flex h-11 items-center justify-center gap-2 rounded-lg border bg-transparent px-5 text-base font-medium transition-all duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
               >
                 <ExternalLink className="mr-2 h-4 w-4" />
                 View on Amazon
@@ -97,7 +98,7 @@ export function CurrentBook({ book, progress }: CurrentBookProps) {
             )}
             <Link
               href="/reading"
-              className="focus-visible:ring-accent hover:bg-bg-secondary inline-flex h-11 items-center justify-center gap-2 rounded-lg px-5 text-base font-medium transition-all duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+              className="focus-visible:ring-accent hover:bg-bg-secondary text-text-primary inline-flex h-11 items-center justify-center gap-2 rounded-lg px-5 text-base font-medium transition-all duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
             >
               All Books
               <ChevronRight className="ml-1 h-4 w-4" />
