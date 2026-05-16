@@ -42,7 +42,7 @@ export async function getVideosByCategory(category: string): Promise<Video[]> {
 
 export async function getRecentVideos(limit: number = 6): Promise<Video[]> {
   const videos = await getVideos();
-  return videos.filter((v) => v.type !== 'running-short').slice(0, limit);
+  return videos.slice(0, limit);
 }
 
 export async function getLongFormVideos(): Promise<Video[]> {
@@ -55,16 +55,6 @@ export async function getShortVideos(): Promise<Video[]> {
 
 export async function getRunningShorts(): Promise<Video[]> {
   return getVideosByType('running-short');
-}
-
-export async function getNonRunningVideos(): Promise<Video[]> {
-  const videos = await getVideos();
-  return videos.filter((v) => v.type !== 'running-short');
-}
-
-export async function getRecentNonRunningVideos(limit: number = 6): Promise<Video[]> {
-  const videos = await getNonRunningVideos();
-  return videos.slice(0, limit);
 }
 
 export async function getVideosByBook(bookSlug: string): Promise<Video[]> {

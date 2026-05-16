@@ -27,19 +27,17 @@ export default async function ContentPage() {
 
   // Combine videos and articles into one array for filtering
   const combinedContent: CombinedContent[] = [
-    ...allVideos
-      .filter((v) => v.type !== 'running-short')
-      .map((v) => ({
-        slug: v.id,
-        title: v.title,
-        excerpt: v.description,
-        type: 'video' as const,
-        category: v.category || 'learning',
-        publishedAt: v.publishedAt,
-        thumbnail: v.thumbnail,
-        youtubeId: v.youtubeId,
-        videoData: v,
-      })),
+    ...allVideos.map((v) => ({
+      slug: v.id,
+      title: v.title,
+      excerpt: v.description,
+      type: 'video' as const,
+      category: v.category || 'learning',
+      publishedAt: v.publishedAt,
+      thumbnail: v.thumbnail,
+      youtubeId: v.youtubeId,
+      videoData: v,
+    })),
     ...contentPieces.map((c) => ({
       slug: c.slug,
       title: c.title,

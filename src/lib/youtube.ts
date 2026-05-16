@@ -118,7 +118,7 @@ function categorizeVideo(title: string, duration: string): Video['type'] {
     return 'running-short';
   }
 
-  // Also check duration - videos under 60 seconds are usually shorts
+  // Check duration - videos under 60 seconds are usually shorts
   const match = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
   const totalSeconds =
     parseInt(match?.[1] || '0') * 3600 +
