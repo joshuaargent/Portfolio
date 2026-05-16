@@ -1,32 +1,52 @@
 import { Metadata } from 'next';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { VideoCard } from '@/components/video/VideoCard';
-import { VideoGrid } from '@/components/video/VideoGrid';
-import { ContentCategoryFilter } from '@/components/content/ContentCategoryFilter';
 import { SectionHeading } from '@/components/shared/SectionHeading';
 import { Card } from '@/components/ui/Card';
 import { getContentPieces } from '@/data/content';
-import { getRecentNonRunningVideos, getLongFormVideos, getShortVideos } from '@/data/videos';
+import { getVideos } from '@/data/videos';
 import { contentCategories } from '@/lib/constants';
-import { Youtube } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Content',
   description: 'Videos and articles about faith, learning, psychology, health, and performance.',
 };
 
+type ContentItem =
+  | { type: 'video'; slug: string; title: string; description: string; publishedAt: string; thumbnail?: string; videoType?: string }
+  | { type: 'article' | 'short'; slug: string; title: string; description: string; publishedAt: string; thumbnail?: string };
+
 export default async function ContentPage() {
-  const [content, recentVideos, longFormVideos, shortVideos] = await Promise.all([
+  const [contentPieces, allVideos] = await Promise.all([
     getContentPieces(),
-    getRecentNonRunningVideos(12),
-    getLongFormVideos(),
-    getShortVideos(),
+    getVideos(),
   ]);
 
   const categories = contentCategories.map((cat) => ({
     id: cat.id,
     label: cat.label,
   }));
+
+  // Combine videos and content into a single feed
+  const contentItems: ContentItem[] = [
+    ...allVideos.slice(0, 20).map((v) => ({
+      type: 'video' as const,
+      slug: v.id,
+      title: v.title,
+      description: v.description,
+      publishedAt: v.publishedAt,
+      thumbnail: v.thumbnail,
+      videoType: v.type,
+    })),
+    ...contentPieces.map((c) => ({
+      type: c.type as 'article' | 'short',
+      slug: c.slug,
+      title: c.title,
+      description: c.excerpt,
+      publishedAt: c.publishedAt,
+      thumbnail: c.thumbnail,
+    })),
+  ].sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
 
   return (
     <>
@@ -39,22 +59,54 @@ export default async function ContentPage() {
         <div className="container">
           <SectionHeading title="Categories" />
           <div className="mt-4">
-            <ContentCategoryFilter content={content} categories={categories} />
+            <p className="text-text-secondary">
+              {categories.map((cat) => cat.label).join(' • ')}
+            </p>
           </div>
 
-          {/* Recent YouTube Videos */}
-          {recentVideos.length > 0 && (
-            <div className="mt-16">
-              <SectionHeading
-                title="Recent Videos"
-                subtitle="Latest videos from my YouTube channel."
-                action={{ label: 'View all', href: 'https://youtube.com/@joshua_argent' }}
-              />
-              <div className="mt-6">
-                <VideoGrid videos={recentVideos} columns={3} />
-              </div>
+          {/* Combined Content Feed - like the home page */}
+          <div className="mt-16">
+            <SectionHeading
+              title="All Content"
+              subtitle="Latest videos and articles, mixed together."
+              action={{ label: 'View YouTube', href: 'https://youtube.com/@joshua_argent' }}
+            />
+            <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {contentItems.slice(0, 12).map((item) => (
+                <div key={`${item.type}-${item.slug}`} className="flex gap-4">
+                  {item.thumbnail && (
+                    <div className="bg-bg-secondary relative aspect-video w-32 shrink-0 overflow-hidden rounded-lg">
+                      <img
+                        src={item.thumbnail}
+                        alt={item.title}
+                        className="h-full w-full object-cover"
+                      />
+                      {item.type === 'video' && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                          <div className="text-white rounded-full bg-black/50 p-1">
+                            <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
+                              <path d="M8 5v14l11-7z" />
+                            </svg>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  <div className="min-w-0 flex-1">
+                    <p className="text-text-muted text-xs uppercase">
+                      {item.type === 'video' ? 'Video' : 'Article'}
+                    </p>
+                    <h3 className="text-text-primary mt-1 text-sm font-medium line-clamp-2">
+                      {item.title}
+                    </h3>
+                    <p className="text-text-secondary mt-1 text-xs line-clamp-2">
+                      {item.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
-          )}
+          </div>
 
           <div className="mt-16">
             <SectionHeading title="Content Schedule" subtitle="What I create each week." />
