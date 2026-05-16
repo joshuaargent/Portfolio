@@ -88,7 +88,7 @@ export async function getStravaActivities(): Promise<RunLog[]> {
 
 function processActivities(activities: any[]): RunLog[] {
   return activities
-    .filter((activity: any) => activity.type === 'Run')
+    .filter((activity: any) => activity.type === 'Run' || activity.type === 'Walk')
     .map((activity: any) => ({
       id: activity.id.toString(),
       date: activity.start_date_local.split('T')[0],
