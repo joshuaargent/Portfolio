@@ -1,6 +1,6 @@
 import { Card } from '@/components/ui/Card';
 import { RunningStats, RunLog } from '@/types';
-import { Trophy, Route, Target, TrendingUp } from 'lucide-react';
+import { Trophy, Route, TrendingUp, Activity } from 'lucide-react';
 
 // ============================================
 // Types
@@ -23,6 +23,17 @@ export function PersonalRecords({ stats, runs }: PersonalRecordsProps) {
     return `${minutes}:${secs.toString().padStart(2, '0')}`;
   };
 
+  const formatDuration = (seconds: number): string => {
+    if (!seconds) return 'N/A';
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    if (hours > 0) {
+      return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+    return `${minutes}:${secs.toString().padStart(2, '0')}`;
+  };
+
   const formatDate = (dateStr: string): string => {
     if (!dateStr) return '';
     try {
@@ -33,45 +44,89 @@ export function PersonalRecords({ stats, runs }: PersonalRecordsProps) {
     }
   };
 
-  const predictions = calculatePredictions(runs, stats);
+  const predictions = calculateRacePredictions(runs);
+  const consistency = calculateConsistency(runs);
 
   return (
     <Card>
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-        <RecordRow 
+      {/* Records Row */}
+      <div className="grid grid-cols-2 gap-4 mb-6">
+        <RecordItem 
           icon={<Trophy className="h-4 w-4 text-yellow-500" />}
           label="Best Pace"
           value={formatPace(stats.fastestPace)}
           subtext={formatDate(stats.fastestPaceDate)}
         />
-        <RecordRow 
+        <RecordItem 
           icon={<Route className="h-4 w-4 text-blue-500" />}
           label="Longest Run"
           value={`${stats.longestRun?.toFixed(1) || 'N/A'} km`}
           subtext={formatDate(stats.longestRunDate)}
         />
-        <PredictionRow 
-          label="Sub-30 5k"
-          target="29:59"
-          current={predictions.sub30 || 'N/A'}
-          icon={<Target className="h-4 w-4 text-green-500" />}
+      </div>
+
+      {/* Predictions Row */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <PredictionItem 
+          label="5k"
+          current={predictions.fiveK}
+          target="30:00"
+          raceInfo={`@ ${formatPace(predictions.fiveKPace)}/km`}
         />
-        <PredictionRow 
-          label="Year-end"
-          target="1,820 km"
-          current={predictions.totalByYearEnd > 0 ? `${predictions.totalByYearEnd} km` : 'N/A'}
-          icon={<TrendIcon progress={predictions.onTrackForYear} />}
+        <PredictionItem 
+          label="10k"
+          current={predictions.tenK}
+          target="1:00:00"
+          raceInfo={`@ ${formatPace(predictions.tenKPace)}/km`}
         />
+        <PredictionItem 
+          label="Half"
+          current={predictions.halfMarathon}
+          target="2:00:00"
+          raceInfo={`@ ${formatPace(predictions.halfPace)}/km`}
+        />
+        <PredictionItem 
+          label="Marathon"
+          current={predictions.marathon}
+          target="4:00:00"
+          raceInfo={`@ ${formatPace(predictions.marathonPace)}/km`}
+        />
+      </div>
+
+      {/* Consistency & Trend */}
+      <div className="grid grid-cols-2 gap-4">
+        <div className="flex items-center gap-3">
+          <div className="bg-bg-secondary rounded-lg p-2 flex-shrink-0">
+            <Activity className="h-4 w-4 text-green-500" />
+          </div>
+          <div>
+            <p className="text-text-muted text-xs">Consistency</p>
+            <p className="text-text-primary font-semibold">{consistency.percent}%</p>
+            <p className="text-text-muted text-xs">{consistency.runDays} of {consistency.totalDays} days</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-3">
+          <div className="bg-bg-secondary rounded-lg p-2 flex-shrink-0">
+            <TrendingUp className={`h-4 w-4 ${predictions.paceTrend > 0 ? 'text-green-500' : 'text-red-500'}`} />
+          </div>
+          <div>
+            <p className="text-text-muted text-xs">Pace Trend</p>
+            <p className={`font-semibold ${predictions.paceTrend > 0 ? 'text-green-500' : 'text-red-500'}`}>
+              {predictions.paceTrend > 0 ? '+' : ''}{predictions.paceTrend}%
+            </p>
+            <p className="text-text-muted text-xs">Last 6 vs previous 6</p>
+          </div>
+        </div>
       </div>
     </Card>
   );
 }
 
 // ============================================
-// Record Row
+// Record Item
 // ============================================
 
-function RecordRow({ icon, label, value, subtext }: { icon: React.ReactNode; label: string; value: string; subtext: string }) {
+function RecordItem({ icon, label, value, subtext }: { icon: React.ReactNode; label: string; value: string; subtext: string }) {
   return (
     <div className="flex items-center gap-3">
       <div className="bg-bg-secondary rounded-lg p-2 flex-shrink-0">
@@ -87,98 +142,171 @@ function RecordRow({ icon, label, value, subtext }: { icon: React.ReactNode; lab
 }
 
 // ============================================
-// Prediction Row
+// Prediction Item
 // ============================================
 
-function PredictionRow({ label, target, current, icon }: { label: string; target: string; current: string; icon: React.ReactNode }) {
-  const isOnTrack = !current.includes('weeks');
+function PredictionItem({ label, current, target, raceInfo }: { label: string; current: string; target: string; raceInfo: string }) {
+  const isOnTrack = current !== 'N/A';
   
   return (
-    <div className="flex items-center gap-3">
-      <div className={`rounded-lg p-2 flex-shrink-0 ${isOnTrack ? 'bg-green-500/10' : 'bg-bg-secondary'}`}>
-        {icon}
-      </div>
-      <div className="flex-1">
-        <p className="text-text-muted text-xs">{label}</p>
-        <p className={`text-sm font-medium ${isOnTrack ? 'text-green-600' : 'text-text-primary'}`}>
-          {current} <span className="text-text-muted text-xs">/ {target}</span>
-        </p>
-      </div>
+    <div className={`text-center ${!isOnTrack ? 'opacity-50' : ''}`}>
+      <p className="text-text-muted text-xs mb-1">{label}</p>
+      <p className="text-text-primary font-semibold text-lg">{current}</p>
+      <p className="text-text-muted text-xs">/ {target}</p>
+      {isOnTrack && <p className="text-text-muted text-xs mt-1">{raceInfo}</p>}
     </div>
   );
 }
 
 // ============================================
-// Trend Icon
+// Race Time Predictions (Smart Algorithm)
 // ============================================
 
-function TrendIcon({ progress }: { progress: boolean }) {
-  if (progress) {
-    return <TrendingUp className="h-4 w-4 text-green-500" />;
-  }
-  return <TrendingUp className="h-4 w-4 text-red-500 rotate-180" />;
+interface RacePredictions {
+  fiveK: string;
+  tenK: string;
+  halfMarathon: string;
+  marathon: string;
+  fiveKPace: number;
+  tenKPace: number;
+  halfPace: number;
+  marathonPace: number;
+  paceTrend: number;
 }
 
-// ============================================
-// Calculations
-// ============================================
-
-function calculatePredictions(runs: RunLog[], stats: RunningStats) {
-  const predictions: { 
-    sub30: string | null; 
-    sub6: string | null;
-    totalByYearEnd: number;
-    onTrackForYear: boolean;
-  } = {
-    sub30: null,
-    sub6: null,
-    totalByYearEnd: 0,
-    onTrackForYear: false,
+function calculateRacePredictions(runs: RunLog[]): RacePredictions {
+  const result: RacePredictions = {
+    fiveK: 'N/A',
+    tenK: 'N/A',
+    halfMarathon: 'N/A',
+    marathon: 'N/A',
+    fiveKPace: 0,
+    tenKPace: 0,
+    halfPace: 0,
+    marathonPace: 0,
+    paceTrend: 0,
   };
 
-  if (runs.length < 3) return predictions;
+  if (runs.length < 3) return result;
 
-  // Sort runs by date
+  // Sort runs by date (newest first)
   const sortedRuns = [...runs].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
 
-  // Get average pace from recent runs
-  const recentRuns = sortedRuns.slice(0, Math.min(5, sortedRuns.length));
-  const avgPaceSeconds = recentRuns.reduce((sum, r) => sum + (r.paceSeconds || 0), 0) / recentRuns.length;
+  // Get recent runs (last 10, or all if less)
+  const recentRuns = sortedRuns.slice(0, Math.min(10, sortedRuns.length));
+  const previousRuns = sortedRuns.slice(10, Math.min(20, sortedRuns.length));
 
-  // Sub-30 prediction (currently 361 sec/km = 6:01/km)
-  if (avgPaceSeconds <= 360) {
-    predictions.sub30 = 'You could do it!';
-  } else if (avgPaceSeconds < 420) { // 7 min/km
-    const paceNeeded = 360; // 6 min/km
-    const improvementPerKm = (avgPaceSeconds - paceNeeded) / avgPaceSeconds;
-    const weeksToImprove = Math.ceil(improvementPerKm * 10);
-    predictions.sub30 = `${weeksToImprove} weeks at current pace`;
-  } else {
-    predictions.sub30 = `${Math.ceil((avgPaceSeconds - 360) / 10)} weeks to sub-30`;
-  }
-
-  // Sub-6 min/km prediction
-  if (avgPaceSeconds < 360) {
-    predictions.sub6 = 'Already there!';
-  } else if (avgPaceSeconds < 420) {
-    predictions.sub6 = `${Math.ceil((avgPaceSeconds - 354) / 5)} weeks`;
-  } else {
-    predictions.sub6 = 'Need more training';
-  }
-
-  // Year-end prediction
-  const mostRecentRun = new Date(sortedRuns[0].date);
-  const daysInYear = 365;
-  const daysPassed = Math.max(1, Math.floor((mostRecentRun.getTime() - new Date(mostRecentRun.getFullYear(), 0, 1).getTime()) / (1000 * 60 * 60 * 24)));
-  const daysLeft = daysInYear - daysPassed;
+  // Calculate weighted average pace (more recent = more weight)
+  let totalWeight = 0;
+  let weightedPaceSum = 0;
   
-  if (daysLeft > 0 && sortedRuns.length > 0) {
-    const avgPerDay = stats.totalDistance / daysPassed;
-    predictions.totalByYearEnd = Math.round(stats.totalDistance + (avgPerDay * daysLeft));
-    predictions.onTrackForYear = predictions.totalByYearEnd >= 1820;
+  recentRuns.forEach((run, index) => {
+    if (run.paceSeconds && run.paceSeconds > 0) {
+      // Weight: most recent runs have higher weight
+      const weight = recentRuns.length - index;
+      weightedPaceSum += run.paceSeconds * weight;
+      totalWeight += weight;
+    }
+  });
+
+  if (totalWeight === 0) return result;
+
+  // Base prediction pace (weighted average)
+  const basePace = weightedPaceSum / totalWeight;
+
+  // Calculate fatigue factor based on consistency
+  const consistency = calculateConsistency(runs);
+  const fatigueFactor = 1 + (0.05 * (100 - consistency.percent) / 100);
+
+  // Race-specific adjustments (each race has different fatigue:
+  // 5k: minimal fatigue adjustment
+  // 10k: slight fatigue, start to feel it
+  // Half: significant fatigue, "wall" potential
+  // Full: major fatigue, extreme endurance demand
+  const raceFactors = {
+    fiveK: 1.0,      // Pure speed
+    tenK: 1.05,     // ~5% slower than 5k pace base
+    half: 1.12,     // ~12% slower (the "wall" zone)
+    marathon: 1.20,  // ~20% slower (extreme endurance)
+  };
+
+  // Calculate adjusted paces using Riegel's formula equivalent
+  // T2 = T1 * (D2 / D1)^1.06 (energy cost model)
+  // But we use direct pace * fatigue for simplicity
+  const predictRaceTime = (basePace: number, distanceKm: number, factor: number, fatigue: number): string => {
+    const adjustedPace = basePace * factor * fatigue;
+    const totalSeconds = adjustedPace * distanceKm;
+    return formatTime(totalSeconds);
+  };
+
+  // 5k prediction
+  result.fiveKPace = basePace * raceFactors.fiveK * fatigueFactor;
+  result.fiveK = predictRaceTime(basePace, 5, raceFactors.fiveK, fatigueFactor);
+
+  // 10k prediction
+  result.tenKPace = basePace * raceFactors.tenK * fatigueFactor;
+  result.tenK = predictRaceTime(basePace, 10, raceFactors.tenK, fatigueFactor);
+
+  // Half marathon (21.1km) - add extra fatigue for long races
+  const halfFatigue = fatigueFactor + 0.02;
+  result.halfPace = basePace * raceFactors.half * halfFatigue;
+  result.halfMarathon = predictRaceTime(basePace, 21.1, raceFactors.half, halfFatigue);
+
+  // Marathon (42.2km) - longest distance, most fatigue
+  const marathonFatigue = fatigueFactor + 0.05;
+  result.marathonPace = basePace * raceFactors.marathon * marathonFatigue;
+  result.marathon = predictRaceTime(basePace, 42.195, raceFactors.marathon, marathonFatigue);
+
+  // Calculate pace trend (last 6 vs previous 6)
+  if (recentRuns.length >= 3 && previousRuns.length >= 3) {
+    const recentAvg = recentRuns.reduce((sum, r) => sum + (r.paceSeconds || 0), 0) / recentRuns.length;
+    const previousAvg = previousRuns.reduce((sum, r) => sum + (r.paceSeconds || 0), 0) / previousRuns.length;
+    if (previousAvg > 0) {
+      result.paceTrend = Math.round(((previousAvg - recentAvg) / previousAvg) * 100);
+    }
   }
 
-  return predictions;
+  return result;
+}
+
+function formatTime(seconds: number): string {
+  if (!seconds || seconds <= 0) return 'N/A';
+  
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const secs = Math.round(seconds % 60);
+
+  if (hours > 0) {
+    return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  }
+  return `${minutes}:${secs.toString().padStart(2, '0')}`;
+}
+
+// ============================================
+// Consistency Calculation
+// ============================================
+
+function calculateConsistency(runs: RunLog[]): { percent: number; runDays: number; totalDays: number } {
+  if (runs.length === 0) {
+    return { percent: 0, runDays: 0, totalDays: 0 };
+  }
+
+  // Sort runs by date
+  const sortedRuns = [...runs].sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+  );
+
+  const firstRunDate = new Date(sortedRuns[0].date);
+  firstRunDate.setHours(0, 0, 0, 0);
+  
+  const lastRunDate = new Date(sortedRuns[sortedRuns.length - 1].date);
+  lastRunDate.setHours(0, 0, 0, 0);
+  
+  const totalDays = Math.floor((lastRunDate.getTime() - firstRunDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+  const runDays = new Set(runs.map(r => r.date)).size;
+  const percent = Math.min(100, Math.round((runDays / totalDays) * 100));
+
+  return { percent, runDays, totalDays };
 }
