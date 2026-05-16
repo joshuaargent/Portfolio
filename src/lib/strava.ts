@@ -54,28 +54,13 @@ export async function getStravaActivities(): Promise<RunLog[]> {
       next: { revalidate: 3600 }, // Revalidate every hour
     });
 
-    if (response.status === 401) {
-      console.log('Strava token expired, attempting refresh...');
-      const newToken = await refreshAccessToken();
-      if (newToken) {
-        const retryResponse = await fetch(`${BASE_URL}/athlete/activities?per_page=100`, {
-          headers: {
-            Authorization: `Bearer ${newToken}`,
-          },
-          next: { revalidate: 3600 },
-        });
+    console.log('Strava API response status:', response.status, response.statusText);
 
-        if (!retryResponse.ok) {
-          throw new Error(`Strava API error: ${retryResponse.status}`);
-        }
-
-        const activities = await retryResponse.json();
-        return processActivities(activities);
-      }
-    }
-
+    // Log response body for debugging
     if (!response.ok) {
-      throw new Error(`Strava API error: ${response.status}`);
+      const errorBody = await response.text();
+      console.error('Strava API error response:', errorBody);
+      throw new Error(`Strava API error: ${response.status} ${response.statusText} - ${errorBody}`);
     }
 
     const activities = await response.json();
