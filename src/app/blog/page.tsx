@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { PostCard } from '@/components/blog/PostCard';
-import { SearchBar } from '@/components/shared/SearchBar';
+import { SearchBarWrapper } from '@/components/shared/SearchBarWrapper';
 import { NewsletterCTA } from '@/components/shared/NewsletterCTA';
 import { getBlogPosts, getFeaturedBlogPosts } from '@/data/blog';
 import { ArrowRight } from 'lucide-react';
@@ -34,13 +34,7 @@ export default async function BlogPage() {
         <div className="container">
           {/* Search */}
           <div className="mb-8">
-            <SearchBar
-              onSearch={(query) => {
-                // TODO: Implement search functionality
-                console.log('Searching for:', query);
-              }}
-              placeholder="Search posts..."
-            />
+            <SearchBarWrapper placeholder="Search posts..." />
           </div>
 
           {/* Featured Post */}

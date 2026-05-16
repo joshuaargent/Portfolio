@@ -1,6 +1,3 @@
-'use client';
-
-import { useState, type FormEvent } from 'react';
 import { cn } from '@/lib/utils';
 import { Search, X } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
@@ -26,15 +23,14 @@ export function SearchBar({
   defaultValue = '',
   className,
 }: SearchBarProps) {
-  const [query, setQuery] = useState(defaultValue);
-
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+    const query = formData.get('search') as string;
     onSearch(query);
   };
 
   const handleClear = () => {
-    setQuery('');
     onSearch('');
   };
 
@@ -44,8 +40,8 @@ export function SearchBar({
         <Search className="text-text-muted absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
         <input
           type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          name="search"
+          defaultValue={defaultValue}
           placeholder={placeholder}
           className={cn(
             'border-border bg-bg-card h-11 w-full rounded-lg border pr-10 pl-10',
@@ -54,7 +50,7 @@ export function SearchBar({
             'transition-all duration-200'
           )}
         />
-        {query && (
+        {defaultValue && (
           <Button
             type="button"
             variant="ghost"
