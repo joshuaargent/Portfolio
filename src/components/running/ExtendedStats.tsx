@@ -1,6 +1,6 @@
 import { Card } from '@/components/ui/Card';
 import { RunningStats } from '@/types';
-import { Mountain, Zap, Timer } from 'lucide-react';
+import { Mountain, Timer } from 'lucide-react';
 
 // ============================================
 // Types
@@ -28,12 +28,6 @@ export function ExtendedStats({ stats }: ExtendedStatsProps) {
         label="Total Time"
         value={formatDuration(stats.totalTime)}
         subtext={formatPace(stats.averagePaceSeconds)}
-      />
-      <MiniStat
-        icon={<Zap className="h-4 w-4 text-yellow-500" />}
-        label="Avg"
-        value={`${stats.averageDistance.toFixed(2)} km`}
-        subtext="per day"
       />
     </div>
   );
