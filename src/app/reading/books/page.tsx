@@ -1,3 +1,5 @@
+'use client';
+
 import { Metadata } from 'next';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { BookGrid } from '@/components/reading/BookGrid';
