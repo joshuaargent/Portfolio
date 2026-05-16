@@ -132,6 +132,17 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
       <div className="prose max-w-none">
         <div dangerouslySetInnerHTML={{ __html: project.longDescription }} />
       </div>
+
+      {/* README - More detailed description from the repo */}
+      {project.readme && (
+        <div className="mt-12">
+          <h2 className="text-text-primary mb-4 text-xl font-semibold">README</h2>
+          <div
+            className="prose prose-invert max-w-none rounded-xl border border-border bg-card/50 p-6"
+            dangerouslySetInnerHTML={{ __html: project.readme }}
+          />
+        </div>
+      )}
     </article>
   );
 }

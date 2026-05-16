@@ -32,12 +32,12 @@ export async function getGitHubRepos(): Promise<GitHubRepo[]> {
     const data = await response.json();
 
     return data
-      .filter((repo: any) => !repo.fork && repo.description)
+      .filter((repo: any) => !repo.fork)
       .map((repo: any) => ({
         id: repo.id,
         name: repo.name,
         fullName: repo.full_name,
-        description: repo.description,
+        description: repo.description || repo.name,
         url: repo.html_url,
         homepage: repo.homepage || undefined,
         stars: repo.stargazers_count,
@@ -76,6 +76,35 @@ export async function getGitHubProfile() {
     return await response.json();
   } catch (error) {
     console.error('Error fetching GitHub profile:', error);
+    return null;
+  }
+}
+
+export async function getGitHubReadme(owner: string, repo: string): Promise<string | null> {
+  try {
+    const headers: HeadersInit = {
+      Accept: 'application/vnd.github.html+json',
+    };
+
+    if (GITHUB_TOKEN) {
+      headers.Authorization = `token ${GITHUB_TOKEN}`;
+    }
+
+    const response = await fetch(`${BASE_URL}/repos/${owner}/${repo}/readme`, {
+      headers,
+      next: { revalidate: 3600 },
+    });
+
+    if (!response.ok) {
+      // README might not exist
+      if (response.status === 404) return null;
+      throw new Error(`GitHub API error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.content || null;
+  } catch (error) {
+    console.error('Error fetching GitHub README:', error);
     return null;
   }
 }

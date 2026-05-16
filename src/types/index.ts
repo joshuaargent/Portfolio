@@ -90,6 +90,7 @@ export interface Project {
   language?: string;
   updatedAt?: string;
   createdAt: string;
+  readme?: string;
 }
 
 // ----- Run Log -----
