@@ -13,6 +13,7 @@ import { DayOfWeekStats } from '@/components/running/DayOfWeekStats';
 import { PaceTrend } from '@/components/running/PaceTrend';
 import { ConsistencyScore } from '@/components/running/ConsistencyScore';
 import { getRunningStats, getRunLogs, getRecentRuns } from '@/data/running';
+import { runningGoals } from '@/lib/constants';
 
 // ============================================
 // Metadata
@@ -52,7 +53,7 @@ export default async function RunningPage() {
           <div className="mb-12">
             <SectionHeading title="Goals" subtitle="Track your progress." />
             <div className="mt-6">
-              <GoalTracker stats={stats} runs={allRuns} weeklyGoal={35} monthlyGoal={150} yearlyGoal={1820} />
+              <GoalTracker stats={stats} runs={allRuns} weeklyGoal={runningGoals.weekly} monthlyGoal={runningGoals.monthly} yearlyGoal={runningGoals.yearly} />
             </div>
           </div>
 

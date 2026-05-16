@@ -15,6 +15,8 @@ export interface RunRecordProps {
 // ============================================
 
 export function RunRecords({ stats }: RunRecordProps) {
+  const formatNum = (n: number | undefined, decimals = 2) => n && n > 0 ? n.toFixed(decimals) : 'N/A';
+  
   return (
     <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
       <RecordCard
@@ -26,13 +28,13 @@ export function RunRecords({ stats }: RunRecordProps) {
       <RecordCard
         icon={<Route className="h-4 w-4 text-blue-500" />}
         label="Longest Run"
-        value={`${stats.longestRun.toFixed(2)} km`}
+        value={`${formatNum(stats.longestRun)} km`}
         subtext={formatDate(stats.longestRunDate)}
       />
       <RecordCard
         icon={<Mountain className="h-4 w-4 text-green-500" />}
         label="Elevation Gain"
-        value={`${stats.highestElevation.toFixed(1)} m`}
+        value={`${formatNum(stats.highestElevation, 1)} m`}
         subtext={formatDate(stats.highestElevationDate)}
       />
     </div>

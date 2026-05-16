@@ -16,6 +16,9 @@ export interface StreakCounterProps {
 // ============================================
 
 export function StreakCounter({ stats }: StreakCounterProps) {
+  const totalDist = typeof stats.totalDistance === 'number' ? stats.totalDistance : Number(stats.totalDistance) || 0;
+  const avgDist = typeof stats.averageDistance === 'number' ? stats.averageDistance : Number(stats.averageDistance) || 0;
+  
   return (
     <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
       <StatCard
@@ -27,8 +30,8 @@ export function StreakCounter({ stats }: StreakCounterProps) {
       <StatCard
         icon={<MapPin className="text-accent h-5 w-5" />}
         label="Total Distance"
-        value={`${stats.totalDistance.toFixed(2)} km`}
-        subtext={`${stats.averageDistance.toFixed(2)} km avg/day`}
+        value={`${totalDist.toFixed(2)} km`}
+        subtext={`${avgDist.toFixed(2)} km avg/day`}
       />
       <StatCard
         icon={<Timer className="h-5 w-5 text-blue-500" />}

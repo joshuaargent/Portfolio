@@ -141,29 +141,27 @@ export async function getStravaStats(): Promise<RunningStats | null> {
   const sortedActivities = [...activities].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
-  const mostRecentDate = new Date(sortedActivities[0].date);
-  mostRecentDate.setHours(0, 0, 0, 0);
 
   // Calculate streak starting from the most recent data date
+  // Work backwards from the most recent run to count consecutive days
   let currentStreak = 0;
-  const checkDate = new Date(mostRecentDate);
-
-  const hasRunOnMostRecentDate = sortedActivities.some(
-    (run) => new Date(run.date).toDateString() === checkDate.toDateString()
-  );
-
-  if (!hasRunOnMostRecentDate) {
-    checkDate.setDate(checkDate.getDate() - 1);
-  }
-
-  for (const run of sortedActivities) {
-    const runDate = new Date(run.date);
-    runDate.setHours(0, 0, 0, 0);
-
-    if (runDate.toDateString() === checkDate.toDateString()) {
+  const mostRecentRunDate = new Date(sortedActivities[0].date);
+  mostRecentRunDate.setHours(0, 0, 0, 0);
+  
+  // Create a map of date strings for fast lookup
+  const runDateSet = new Set(sortedActivities.map(r => r.date));
+  
+  // Start counting from the most recent run date
+  const checkDate = new Date(mostRecentRunDate);
+  
+  while (true) {
+    const dateStr = checkDate.toISOString().split('T')[0];
+    if (runDateSet.has(dateStr)) {
       currentStreak++;
       checkDate.setDate(checkDate.getDate() - 1);
-    } else if (runDate < checkDate) {
+    } else {
+      // If most recent data is not today, check if streak was broken before data starts
+      // Otherwise, streak is broken
       break;
     }
   }
@@ -313,12 +311,4 @@ function calculatePace(distanceMeters: number, timeSeconds: number): string {
   const minutes = Math.floor(paceSecondsPerKm / 60);
   const seconds = Math.round(paceSecondsPerKm % 60);
   return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-}
-
-function mapHeartrateToFeeling(heartrate?: number): RunLog['feeling'] {
-  if (!heartrate) return 'good';
-  if (heartrate > 170) return 'rough';
-  if (heartrate > 150) return 'tired';
-  if (heartrate > 130) return 'good';
-  return 'great';
 }

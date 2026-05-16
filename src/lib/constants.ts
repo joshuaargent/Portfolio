@@ -201,3 +201,13 @@ export const meta = {
   ] as string[],
   instagramHandle: '@joshua_argent',
 } as const;
+
+// ============================================
+// Running Goals
+// ============================================
+
+export const runningGoals = {
+  weekly: 35,      // km per week
+  monthly: 150,    // km per month
+  yearly: 1820,    // km per year (5km x 364 days)
+} as const;

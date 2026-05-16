@@ -1,6 +1,7 @@
 import { Card } from '@/components/ui/Card';
 import { RunningStats, RunLog } from '@/types';
 import { Target, TrendingUp, Calendar } from 'lucide-react';
+import { runningGoals } from '@/lib/constants';
 
 // ============================================
 // Types
@@ -18,7 +19,7 @@ export interface GoalTrackerProps {
 // Component
 // ============================================
 
-export function GoalTracker({ stats, runs, weeklyGoal = 30, monthlyGoal = 150, yearlyGoal = 1000 }: GoalTrackerProps) {
+export function GoalTracker({ stats, runs, weeklyGoal = runningGoals.weekly, monthlyGoal = runningGoals.monthly, yearlyGoal = runningGoals.yearly }: GoalTrackerProps) {
   // Get runs from last 7 days (relative to most recent data)
   const sortedRuns = [...runs].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()

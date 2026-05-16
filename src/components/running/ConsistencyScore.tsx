@@ -20,18 +20,18 @@ export function ConsistencyScore({ stats, runs }: ConsistencyScoreProps) {
     return null;
   }
 
-  // Get first run date from data
+  // Get date range from actual data, not today
   const sortedRuns = [...runs].sort(
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
   );
   const firstRunDate = new Date(sortedRuns[0].date);
   firstRunDate.setHours(0, 0, 0, 0);
   
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const lastRunDate = new Date(sortedRuns[sortedRuns.length - 1].date);
+  lastRunDate.setHours(0, 0, 0, 0);
   
-  // Calculate total days since first run
-  const totalDays = Math.floor((today.getTime() - firstRunDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+  // Calculate total days in the data range (from first run to most recent run)
+  const totalDays = Math.floor((lastRunDate.getTime() - firstRunDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
   
   // Count unique days with runs
   const runDays = new Set(runs.map(r => r.date)).size;
