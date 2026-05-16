@@ -53,6 +53,10 @@ export async function getShortVideos(): Promise<Video[]> {
   return getVideosByType('short');
 }
 
+export async function getRunningShorts(): Promise<Video[]> {
+  return getVideosByType('running-short');
+}
+
 export async function getVideosByBook(bookSlug: string): Promise<Video[]> {
   const videos = await getVideos();
   return videos.filter((v) => v.relatedBookSlug === bookSlug);
