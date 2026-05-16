@@ -46,25 +46,23 @@ export async function getStravaActivities(): Promise<RunLog[]> {
   try {
     console.log('Fetching Strava activities...');
 
+    // Use revalidate instead of no-store for static generation
     const response = await fetch(`${BASE_URL}/athlete/activities?per_page=100`, {
       headers: {
         Authorization: `Bearer ${STRAVA_ACCESS_TOKEN}`,
-        'Content-Type': 'application/json',
       },
-      cache: 'no-store', // Don't cache during development
+      next: { revalidate: 3600 }, // Revalidate every hour
     });
 
     if (response.status === 401) {
       console.log('Strava token expired, attempting refresh...');
       const newToken = await refreshAccessToken();
       if (newToken) {
-        // Retry with new token
         const retryResponse = await fetch(`${BASE_URL}/athlete/activities?per_page=100`, {
           headers: {
             Authorization: `Bearer ${newToken}`,
-            'Content-Type': 'application/json',
           },
-          cache: 'no-store',
+          next: { revalidate: 3600 },
         });
 
         if (!retryResponse.ok) {
@@ -95,12 +93,12 @@ function processActivities(activities: any[]): RunLog[] {
     .map((activity: any) => ({
       id: activity.id.toString(),
       date: activity.start_date_local.split('T')[0],
-      distance: Math.round((activity.distance / 1000) * 10) / 10, // Convert to km, 1 decimal
+      distance: Math.round((activity.distance / 1000) * 10) / 10,
       duration: activity.moving_time,
       pace: calculatePace(activity.distance, activity.moving_time),
       feeling: mapHeartrateToFeeling(activity.average_heartrate),
       notes: activity.name || undefined,
-      weather: undefined, // Strava doesn't provide weather in basic API
+      weather: undefined,
     }));
 }
 
@@ -109,7 +107,6 @@ export async function getStravaStats(): Promise<RunningStats | null> {
 
   if (activities.length === 0) return null;
 
-  // Calculate current streak
   let currentStreak = 0;
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -139,7 +136,6 @@ export async function getStravaStats(): Promise<RunningStats | null> {
     }
   }
 
-  // Calculate longest streak
   let longestStreak = 0;
   let tempStreak = 1;
   const chronological = [...activities].sort(
@@ -163,10 +159,12 @@ export async function getStravaStats(): Promise<RunningStats | null> {
   const totalDistance = activities.reduce((sum, run) => sum + run.distance, 0);
   const totalTime = activities.reduce((sum, run) => sum + run.duration, 0);
   const avgPaceSeconds =
-    activities.reduce((sum, run) => {
-      const [min, sec] = run.pace.split(':').map(Number);
-      return sum + min * 60 + (sec || 0);
-    }, 0) / activities.length;
+    activities.length > 0
+      ? activities.reduce((sum, run) => {
+          const [min, sec] = run.pace.split(':').map(Number);
+          return sum + min * 60 + (sec || 0);
+        }, 0) / activities.length
+      : 0;
 
   const weekAgo = new Date();
   weekAgo.setDate(weekAgo.getDate() - 7);
@@ -194,7 +192,7 @@ export async function getStravaStats(): Promise<RunningStats | null> {
 }
 
 function calculatePace(distanceMeters: number, timeSeconds: number): string {
-  if (distanceMeters === 0) return '0:00';
+  if (distanceMeters === 0 || timeSeconds === 0) return '0:00';
   const distanceKm = distanceMeters / 1000;
   const paceSecondsPerKm = timeSeconds / distanceKm;
   const minutes = Math.floor(paceSecondsPerKm / 60);
