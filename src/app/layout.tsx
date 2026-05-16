@@ -44,12 +44,12 @@ export const metadata: Metadata = {
       },
     ],
   },
-  twitter: {
+  instagram: {
     card: 'summary_large_image',
     title: meta.title,
     description: meta.description,
     images: [siteConfig.ogImage],
-    creator: meta.twitterHandle,
+    creator: meta.instagramHandle,
   },
   robots: {
     index: true,

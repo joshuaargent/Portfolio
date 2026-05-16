@@ -18,8 +18,8 @@ I believe in the power of consistency, curiosity, and sharing what you learn. Th
 export const socialLinks = {
   youtube: 'https://youtube.com/@joshua_argent',
   github: 'https://github.com/joshua_argent',
-  twitter: 'https://twitter.com/yourusername',
-  linkedin: 'https://linkedin.com/in/yourusername',
+  instagram: 'https://instagram.com/yourusername',
+  facebook: 'https://facebook.com/yourusername',
 };
 
 export const nowData = {

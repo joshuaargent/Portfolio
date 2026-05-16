@@ -11,8 +11,8 @@ export interface SiteConfig {
   links: {
     youtube: string;
     github: string;
-    twitter: string;
-    linkedin: string;
+    instagram: string;
+    facebook: string;
     email: string;
   };
   author: {

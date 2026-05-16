@@ -6,7 +6,7 @@ import { personalInfo, socialLinks } from '@/data/site';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
-import { ArrowRight, Download, Mail, Youtube, Github, Twitter, Linkedin } from 'lucide-react';
+import { ArrowRight, Download, Mail, Youtube, Github, Instagram, Facebook } from 'lucide-react';
 
 // ============================================
 // Metadata
@@ -220,22 +220,22 @@ export default function AboutPage() {
                       <span className="text-text-secondary text-sm">GitHub</span>
                     </a>
                     <a
-                      href={socialLinks.twitter}
+                      href={socialLinks.instagram}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="hover:bg-bg-secondary flex items-center gap-3 rounded-lg p-2 transition-colors"
                     >
-                      <Twitter className="h-5 w-5 text-sky-500" />
-                      <span className="text-text-secondary text-sm">Twitter</span>
+                      <Instagram className="h-5 w-5 text-pink-500" />
+                      <span className="text-text-secondary text-sm">Instagram</span>
                     </a>
                     <a
-                      href={socialLinks.linkedin}
+                      href={socialLinks.facebook}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="hover:bg-bg-secondary flex items-center gap-3 rounded-lg p-2 transition-colors"
                     >
-                      <Linkedin className="h-5 w-5 text-blue-600" />
-                      <span className="text-text-secondary text-sm">LinkedIn</span>
+                      <Facebook className="h-5 w-5 text-blue-600" />
+                      <span className="text-text-secondary text-sm">Facebook</span>
                     </a>
                   </div>
                 </Card>
