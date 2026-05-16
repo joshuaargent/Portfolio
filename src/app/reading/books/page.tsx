@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { BookGrid } from '@/components/reading/BookGrid';
-import { SearchBar } from '@/components/shared/SearchBar';
+import { SearchBarWrapper } from '@/components/shared/SearchBarWrapper';
 import { getCompletedBooks } from '@/data/books';
 
 // ============================================
@@ -28,13 +28,7 @@ export default async function BooksPage() {
         <div className="container">
           {/* Search */}
           <div className="mb-8">
-            <SearchBar
-              onSearch={(query) => {
-                // TODO: Implement search functionality
-                console.log('Searching for:', query);
-              }}
-              placeholder="Search books..."
-            />
+            <SearchBarWrapper placeholder="Search books..." />
           </div>
 
           {/* Books Grid */}
