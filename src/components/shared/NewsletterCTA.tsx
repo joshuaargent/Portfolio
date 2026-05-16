@@ -122,7 +122,7 @@ export function NewsletterCTA({ className, variant = 'default' }: NewsletterCTAP
               className="w-full text-center"
               required
             />
-            <Button type="submit" isLoading={isLoading} size="lg" className="w-full" style={{ color: '#ffffff' }}>
+            <Button type="submit" isLoading={isLoading} style={{ color: '#ffffff' }}>
               Subscribe
             </Button>
           </form>

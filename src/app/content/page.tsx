@@ -1,7 +1,5 @@
 import { Metadata } from 'next';
 import { PageHeader } from '@/components/layout/PageHeader';
-import { VideoGrid } from '@/components/video/VideoGrid';
-import { VideoEmbed } from '@/components/video/VideoEmbed';
 import { SectionHeading } from '@/components/shared/SectionHeading';
 import { Card } from '@/components/ui/Card';
 import { ContentCombinedFilter, type CombinedContent } from '@/components/content/CombinedContentFilter';
@@ -14,7 +12,14 @@ export const metadata: Metadata = {
   description: 'Videos and articles about faith, learning, psychology, health, and performance.',
 };
 
-export default async function ContentPage() {
+export default async function ContentPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string }>;
+}) {
+  const params = await searchParams;
+  const initialCategory = params.category || null;
+
   const [contentPieces, allVideos] = await Promise.all([
     getContentPieces(),
     getVideos(),
@@ -61,7 +66,7 @@ export default async function ContentPage() {
         <div className="container">
           <SectionHeading title="Categories" />
           <div className="mt-4">
-            <ContentCombinedFilter content={combinedContent} categories={categories} />
+            <ContentCombinedFilter content={combinedContent} categories={categories} initialCategory={initialCategory} />
           </div>
 
           <div className="mt-16">

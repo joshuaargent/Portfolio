@@ -4,9 +4,6 @@ import { PillarCards } from '@/components/home/PillarCards';
 import { LatestContent } from '@/components/home/LatestContent';
 import { FeaturedProject } from '@/components/home/FeaturedProject';
 import { NewsletterCTA } from '@/components/shared/NewsletterCTA';
-import { getRecentVideos } from '@/data/videos';
-import { getRecentBooks } from '@/data/books';
-import { getRecentContent } from '@/data/content';
 import { getFeaturedProjects } from '@/data/projects';
 
 // ============================================
@@ -14,12 +11,7 @@ import { getFeaturedProjects } from '@/data/projects';
 // ============================================
 
 export default async function HomePage() {
-  const [videos, books, content, featuredProjects] = await Promise.all([
-    getRecentVideos(3),
-    getRecentBooks(3),
-    getRecentContent(3),
-    getFeaturedProjects(),
-  ]);
+  const featuredProjects = await getFeaturedProjects();
 
   return (
     <>
@@ -29,7 +21,7 @@ export default async function HomePage() {
 
       <section className="py-8 md:py-12">
         <div className="container">
-          <LatestContent videos={videos} books={books} content={content} />
+          <LatestContent />
         </div>
       </section>
 

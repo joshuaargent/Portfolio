@@ -1,6 +1,10 @@
 import Link from 'next/link';
 import { Card } from '@/components/ui/Card';
 import { Activity, BookOpen, Code, Lightbulb, ArrowRight } from 'lucide-react';
+import { getRunningStats } from '@/data/running';
+import { getBooks } from '@/data/books';
+import { getProjects } from '@/data/projects';
+import { getContent } from '@/data/content';
 
 // ============================================
 // Types
@@ -16,37 +20,45 @@ interface Pillar {
 
 // ============================================
 // Component
-// ============================================
+// ==============================================
 
-export function PillarCards() {
+export async function PillarCards() {
+  // Fetch dynamic stats
+  const [stats, books, projects, content] = await Promise.all([
+    getRunningStats(),
+    getBooks(),
+    getProjects(),
+    getContent(),
+  ]);
+
   const pillars: Pillar[] = [
     {
       title: 'Running',
       description: '5km every day. Building consistency, one step at a time.',
       icon: <Activity className="h-6 w-6" />,
       href: '/running',
-      stats: '87 day streak',
+      stats: `${stats.currentStreak} day streak`,
     },
     {
       title: 'Reading',
       description: 'One book per week. Distilling key ideas into actionable insights.',
       icon: <BookOpen className="h-6 w-6" />,
       href: '/reading',
-      stats: '52 books/year',
+      stats: `${books.length} books`,
     },
     {
       title: 'Code',
       description: 'Building things that solve real problems. Clean, maintainable software.',
       icon: <Code className="h-6 w-6" />,
       href: '/code',
-      stats: '12 projects',
+      stats: `${projects.length} projects`,
     },
     {
       title: 'Content',
       description: 'Sharing what I learn about faith, psychology, health, and performance.',
       icon: <Lightbulb className="h-6 w-6" />,
       href: '/content',
-      stats: '1 long-form + 7 shorts/week',
+      stats: `${content.length} posts`,
     },
   ];
 
