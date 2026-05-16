@@ -14,7 +14,7 @@ export function Hero() {
           {/* Text Content */}
           <div className="flex-1 text-center lg:text-left">
             <h1 className="text-text-primary text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">
-              Hi, I&apos;m <span className="text-accent">Joshua</span>
+              Hi, I&apos;m <span className="text-accent">Joshua Argent</span>
             </h1>
             <p className="text-text-secondary mx-auto mt-6 max-w-xl text-lg md:text-xl lg:mx-0">
               I run 5km every day. I read one book a week. I build things with code. I share what I

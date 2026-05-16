@@ -5,21 +5,20 @@ import { SiteConfig, NavItem } from '@/types';
 // ============================================
 
 export const siteConfig: SiteConfig = {
-  name: 'Joshua',
-  description:
-    'I run 5km every day. I read one book a week. I build things with code. I share what I learn.',
-  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://joshua.com',
+  name: 'Joshua Argent',
+  description: 'I run 5km a day, read a lot, and share what I learn about fitness and faith.',
+  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://joshuaargent.vercel.app',
   ogImage: '/og-image.png',
   links: {
-    youtube: 'https://youtube.com/@yourchannel',
-    github: 'https://github.com/yourusername',
+    youtube: 'https://youtube.com/@joshua_argent',
+    github: 'https://github.com/joshua_argent',
     twitter: 'https://twitter.com/yourusername',
     linkedin: 'https://linkedin.com/in/yourusername',
-    email: 'hello@joshua.com',
+    email: 'argentjackjoshua@outlook.com',
   },
   author: {
-    name: 'Joshua',
-    bio: 'Runner. Reader. Builder. I create content about faith, learning, psychology, health, and performance.',
+    name: 'Joshua Argent',
+    bio: 'I run 5km a day, read a lot, and share what I learn about fitness and faith.',
     avatar: '/images/avatar.jpg',
   },
 };
@@ -58,8 +57,8 @@ export const footerNav = {
     { label: 'Performance', href: '/content/performance' },
   ],
   social: [
-    { label: 'YouTube', href: 'https://youtube.com/@yourchannel' },
-    { label: 'GitHub', href: 'https://github.com/yourusername' },
+    { label: 'YouTube', href: 'https://youtube.com/@joshua_argent' },
+    { label: 'GitHub', href: 'https://github.com/joshua_argent' },
     { label: 'Twitter', href: 'https://twitter.com/yourusername' },
     { label: 'LinkedIn', href: 'https://linkedin.com/in/yourusername' },
   ],
@@ -174,8 +173,8 @@ export const animations = {
 // ============================================
 
 export const externalLinks = {
-  youtube: 'https://youtube.com/@yourchannel',
-  github: 'https://github.com/yourusername',
+  youtube: 'https://youtube.com/@joshua_argent',
+  github: 'https://github.com/joshua_argent',
   twitter: 'https://twitter.com/yourusername',
   linkedin: 'https://linkedin.com/in/yourusername',
   email: 'mailto:hello@joshua.com',
