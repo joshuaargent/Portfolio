@@ -34,7 +34,7 @@ export function StreakCounter({ stats }: StreakCounterProps) {
         icon={<Timer className="h-5 w-5 text-blue-500" />}
         label="Total Time"
         value={formatDuration(stats.totalTime)}
-        subtext={`${formatPace(parseInt(stats.averagePace))} /km`}
+        subtext={`${formatPace(stats.averagePaceSeconds)} /km`}
       />
       <StatCard
         icon={<TrendingUp className="h-5 w-5 text-green-500" />}
