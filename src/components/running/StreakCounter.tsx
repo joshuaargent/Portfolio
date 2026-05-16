@@ -61,13 +61,15 @@ interface StatCardProps {
 }
 
 function StatCard({ icon, label, value, subtext }: StatCardProps) {
+  const isStreak = label === 'Current Streak';
+  
   return (
-    <Card className="text-center">
+    <Card className={`text-center ${isStreak ? 'ring-2 ring-orange-500/30' : ''}`}>
       <div className="mb-3 flex justify-center">
-        <div className="bg-bg-secondary rounded-lg p-2">{icon}</div>
+        <div className={`rounded-lg p-2 ${isStreak ? 'bg-orange-500/10' : 'bg-bg-secondary'}`}>{icon}</div>
       </div>
-      <p className="text-text-muted text-sm">{label}</p>
-      <p className="text-text-primary mt-1 text-2xl font-bold">{value}</p>
+      <p className="text-text-muted text-sm uppercase tracking-wide">{label}</p>
+      <p className={`text-text-primary mt-1 font-bold ${isStreak ? 'text-4xl' : 'text-2xl'}`}>{value}</p>
       <p className="text-text-muted mt-1 text-xs">{subtext}</p>
     </Card>
   );

@@ -55,47 +55,54 @@ interface RunShortContentProps {
 }
 
 function RunShortContent({ run, videoId, feelingColors }: RunShortContentProps) {
+  const feelingLabels = {
+    great: '🔥 Great',
+    good: '✓ Good',
+    tired: '😓 Tired',
+    rough: '😩 Rough',
+  };
+  
   return (
     <>
       {/* Thumbnail or Placeholder */}
-      <div className="bg-bg-secondary relative aspect-video">
+      <div className="bg-gradient-to-br from-accent/10 to-accent/5 relative aspect-video">
         {videoId ? (
           <>
             <Image
               src={getYouTubeThumbnail(videoId)}
               alt={`Run on ${run.date}`}
               fill
-              className="object-cover transition-transform duration-300 group-hover:scale-105"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
-            <div className="absolute inset-0 flex items-center justify-center bg-black/20 transition-colors group-hover:bg-black/30">
-              <div className="text-accent rounded-full bg-white/90 p-3 transition-transform group-hover:scale-110">
-                <Play className="h-5 w-5 fill-current" />
+            <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="bg-white rounded-full p-4 shadow-lg">
+                <Play className="h-6 w-6 fill-accent text-accent" />
               </div>
             </div>
           </>
         ) : (
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center">
-              <div className="text-text-primary text-3xl font-bold">{run.distance}km</div>
-              <div className="text-text-muted text-sm">{formatDate(run.date, 'MMM d')}</div>
+              <div className="text-accent text-4xl font-bold">{run.distance}</div>
+              <div className="text-text-muted font-medium">km</div>
             </div>
           </div>
         )}
       </div>
 
       {/* Content */}
-      <div className="p-4">
-        <div className="flex items-center justify-between">
-          <span className="text-text-primary text-sm font-medium">
-            {formatDate(run.date, 'EEEE, MMM d')}
+      <div className="p-5">
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-text-primary font-medium">
+            {formatDate(run.date, 'EEE, MMM d')}
           </span>
           <Badge variant={feelingColors[run.feeling]} size="sm">
-            {run.feeling}
+            {feelingLabels[run.feeling]}
           </Badge>
         </div>
 
-        <div className="text-text-muted mt-3 flex items-center gap-4 text-sm">
+        <div className="text-text-muted flex items-center gap-4 text-sm">
           <span className="flex items-center gap-1">
             <Clock className="h-3.5 w-3.5" />
             {Math.floor(run.duration / 60)} min
@@ -106,7 +113,9 @@ function RunShortContent({ run, videoId, feelingColors }: RunShortContentProps) 
           </span>
         </div>
 
-        {run.notes && <p className="text-text-secondary mt-3 line-clamp-2 text-sm">{run.notes}</p>}
+        {run.notes && (
+          <p className="text-text-secondary mt-3 line-clamp-2 text-sm italic">"{run.notes}"</p>
+        )}
       </div>
     </>
   );

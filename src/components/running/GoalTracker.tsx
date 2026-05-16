@@ -107,42 +107,39 @@ interface GoalCardProps {
 function GoalCard({ icon, title, current, goal, progress, unit, subtitle, isProjection }: GoalCardProps) {
   const isComplete = progress >= 100;
   const progressClamped = Math.min(progress, 100);
+  const progressColor = isComplete ? 'bg-green-500' : isProjection ? 'bg-purple-500' : 'bg-accent';
   
   return (
-    <Card className={isProjection ? 'opacity-80' : ''}>
-      <div className="flex items-center gap-3 mb-3">
+    <Card className={`${isProjection ? 'opacity-80' : ''}`}>
+      <div className="flex items-center gap-3 mb-4">
         {icon}
-        <span className="font-semibold">{title}</span>
-        {isProjection && <span className="text-xs text-text-muted">(if keep pace)</span>}
+        <span className="font-semibold text-lg">{title}</span>
       </div>
       
-      <div className="flex justify-between items-end mb-2">
-        <span className="text-2xl font-bold">{Math.round(current * 10) / 10} / {goal}{unit}</span>
-        <span className={`text-sm ${isComplete ? 'text-green-500' : 'text-text-muted'}`}>
+      <div className="flex justify-between items-end mb-3">
+        <div>
+          <span className="text-3xl font-bold">{Math.round(current)}</span>
+          <span className="text-text-muted"> / {goal}{unit}</span>
+        </div>
+        <span className={`text-xl font-bold ${isComplete ? 'text-green-500' : 'text-text-muted'}`}>
           {progress}%
         </span>
       </div>
       
       {/* Progress Bar */}
-      <div className="h-2 bg-bg-secondary rounded-full overflow-hidden">
+      <div className="h-3 bg-bg-secondary rounded-full overflow-hidden">
         <div
-          className={`h-full rounded-full transition-all ${
-            isComplete
-              ? 'bg-green-500'
-              : isProjection
-              ? 'bg-purple-500'
-              : 'bg-blue-500'
-          }`}
+          className={`h-full rounded-full transition-all duration-500 ${progressColor}`}
           style={{ width: `${progressClamped}%` }}
         />
       </div>
       
-      <div className="flex justify-between mt-1">
-        <span className={`text-xs ${isComplete ? 'text-green-500' : 'text-text-muted'}`}>
-          {isComplete ? 'goal reached!' : `${Math.max(0, Math.round(goal - current))} ${unit} left`}
+      <div className="flex justify-between mt-2">
+        <span className={`text-sm ${isComplete ? 'text-green-500 font-medium' : 'text-text-muted'}`}>
+          {isComplete ? '✓ Goal reached!' : `${Math.max(0, Math.round(goal - current))} ${unit} to go`}
         </span>
         {subtitle && (
-          <span className="text-xs text-text-muted">{subtitle}</span>
+          <span className="text-sm text-text-muted">{subtitle}</span>
         )}
       </div>
     </Card>

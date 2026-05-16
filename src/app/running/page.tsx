@@ -2,12 +2,10 @@ import { Metadata } from 'next';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { StreakCounter } from '@/components/running/StreakCounter';
 import { StreakCalendar } from '@/components/running/StreakCalendar';
-import { RunStats } from '@/components/running/RunStats';
 import { RunShortCard } from '@/components/running/RunShortCard';
 import { SectionHeading } from '@/components/shared/SectionHeading';
 import { Card } from '@/components/ui/Card';
 import { RunRecords } from '@/components/running/RunRecords';
-import { ExtendedStats } from '@/components/running/ExtendedStats';
 import { GoalTracker } from '@/components/running/GoalTracker';
 import { DayOfWeekStats } from '@/components/running/DayOfWeekStats';
 import { PaceTrend } from '@/components/running/PaceTrend';
@@ -77,14 +75,6 @@ export default async function RunningPage() {
             </div>
           </div>
 
-          {/* Extended Stats */}
-          <div className="mb-12">
-            <SectionHeading title="All Time Stats" subtitle="Total accumulation." />
-            <div className="mt-6">
-              <ExtendedStats stats={stats} />
-            </div>
-          </div>
-
           {/* Calendar */}
           <div className="mb-12">
             <StreakCalendar runs={allRuns} />
@@ -93,14 +83,6 @@ export default async function RunningPage() {
           {/* Day of Week */}
           <div className="mb-12">
             <DayOfWeekStats runs={allRuns} />
-          </div>
-
-          {/* Weekly/Monthly Stats */}
-          <div className="mb-12">
-            <SectionHeading title="This Period" subtitle="Recent activity." />
-            <div className="mt-6">
-              <RunStats runs={allRuns} />
-            </div>
           </div>
 
           {/* Recent Runs */}
