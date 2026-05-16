@@ -1,11 +1,10 @@
 import { Metadata } from 'next';
 import { PageHeader } from '@/components/layout/PageHeader';
-import { VideoCard } from '@/components/video/VideoCard';
 import { VideoGrid } from '@/components/video/VideoGrid';
-import { ContentCategoryFilter } from '@/components/content/ContentCategoryFilter';
 import { VideoEmbed } from '@/components/video/VideoEmbed';
 import { SectionHeading } from '@/components/shared/SectionHeading';
 import { Card } from '@/components/ui/Card';
+import { ContentCombinedFilter, type CombinedContent } from '@/components/content/CombinedContentFilter';
 import { getContentPieces } from '@/data/content';
 import { getVideos } from '@/data/videos';
 import { contentCategories } from '@/lib/constants';
@@ -26,6 +25,32 @@ export default async function ContentPage() {
     label: cat.label,
   }));
 
+  // Combine videos and articles into one array for filtering
+  const combinedContent: CombinedContent[] = [
+    ...allVideos
+      .filter((v) => v.type !== 'running-short')
+      .map((v) => ({
+        slug: v.id,
+        title: v.title,
+        excerpt: v.description,
+        type: 'video' as const,
+        category: v.category || 'learning',
+        publishedAt: v.publishedAt,
+        thumbnail: v.thumbnail,
+        youtubeId: v.youtubeId,
+      })),
+    ...contentPieces.map((c) => ({
+      slug: c.slug,
+      title: c.title,
+      excerpt: c.excerpt,
+      type: 'article' as const,
+      category: c.category,
+      publishedAt: c.publishedAt,
+      thumbnail: c.thumbnail,
+      youtubeId: c.youtubeId,
+    })),
+  ].sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+
   return (
     <>
       <PageHeader
@@ -37,52 +62,42 @@ export default async function ContentPage() {
         <div className="container">
           <SectionHeading title="Categories" />
           <div className="mt-4">
-            <ContentCategoryFilter content={contentPieces} categories={categories} />
+            <ContentCombinedFilter content={combinedContent} categories={categories} />
           </div>
 
           {/* Latest Long-form Video */}
-          {allVideos.length > 0 && (
-            <div className="mt-16">
-              <SectionHeading
-                title="Latest Video"
-                subtitle="Most recent long-form video."
-                action={{ label: 'View all', href: 'https://youtube.com/@joshua_argent' }}
-              />
-              <div className="mt-6">
-                {allVideos.find((v) => v.type === 'long-form') ? (
+          {(() => {
+            const latestLongForm = allVideos.find((v) => v.type === 'long-form');
+            return latestLongForm ? (
+              <div className="mt-16">
+                <SectionHeading
+                  title="Latest Video"
+                  subtitle="Most recent long-form video."
+                  action={{ label: 'View all', href: 'https://youtube.com/@joshua_argent' }}
+                />
+                <div className="mt-6">
                   <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
                     <div className="lg:col-span-2">
-                      {(() => {
-                        const video = allVideos.find((v) => v.type === 'long-form');
-                        return video ? (
-                          <>
-                            <VideoEmbed videoId={video.youtubeId} title={video.title} />
-                            <h3 className="text-text-primary mt-4 text-lg font-semibold">{video.title}</h3>
-                            <p className="text-text-secondary mt-2">{video.description}</p>
-                          </>
-                        ) : null;
-                      })()}
+                      <VideoEmbed videoId={latestLongForm.youtubeId} title={latestLongForm.title} />
+                      <h3 className="text-text-primary mt-4 text-lg font-semibold">{latestLongForm.title}</h3>
+                      <p className="text-text-secondary mt-2">{latestLongForm.description}</p>
                     </div>
                   </div>
-                ) : null}
+                </div>
               </div>
-            </div>
-          )}
+            ) : null;
+          })()}
 
           <div className="mt-16">
             <SectionHeading title="Content Schedule" subtitle="What I create each week." />
             <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
               <Card>
                 <h3 className="text-text-primary font-semibold">1 Long-form Video</h3>
-                <p className="text-text-secondary mt-1 text-sm">
-                  Deep dive into the book of the week
-                </p>
+                <p className="text-text-secondary mt-1 text-sm">Deep dive into the book of the week</p>
               </Card>
               <Card>
                 <h3 className="text-text-primary font-semibold">7 Short Videos</h3>
-                <p className="text-text-secondary mt-1 text-sm">
-                  Key ideas and insights from the book
-                </p>
+                <p className="text-text-secondary mt-1 text-sm">Key ideas and insights from the book</p>
               </Card>
               <Card>
                 <h3 className="text-text-primary font-semibold">Daily Running Shorts</h3>
@@ -90,9 +105,7 @@ export default async function ContentPage() {
               </Card>
               <Card>
                 <h3 className="text-text-primary font-semibold">Weekly Blog Post</h3>
-                <p className="text-text-secondary mt-1 text-sm">
-                  Longer thoughts on learning and growth
-                </p>
+                <p className="text-text-secondary mt-1 text-sm">Longer thoughts on learning and growth</p>
               </Card>
             </div>
           </div>
