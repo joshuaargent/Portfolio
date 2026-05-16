@@ -1,6 +1,13 @@
 'use client';
 
-import { forwardRef, type ButtonHTMLAttributes, type ReactNode, createElement } from 'react';
+import {
+  forwardRef,
+  type ButtonHTMLAttributes,
+  type ReactNode,
+  type ReactElement,
+  cloneElement,
+  isValidElement,
+} from 'react';
 import { cn } from '@/lib/utils';
 import { Loader2 } from 'lucide-react';
 
@@ -48,50 +55,50 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     // Build variant styles with explicit text colors
-    const getVariantStyles = () => {
-      switch (variant) {
-        case 'primary':
-          return 'bg-accent text-white hover:bg-accent-hover shadow-sm [&>*]:text-white';
-        case 'secondary':
-          return 'bg-bg-secondary text-text-primary hover:bg-border border border-border';
-        case 'outline':
-          return 'border border-border bg-transparent text-text-primary hover:bg-bg-secondary';
-        case 'ghost':
-          return 'text-text-primary hover:bg-bg-secondary';
-        case 'link':
-          return 'text-accent hover:text-accent-hover underline-offset-4 hover:underline';
-        case 'danger':
-          return 'bg-red-600 text-white hover:bg-red-700 [&>*]:text-white';
-        default:
-          return 'bg-accent text-white hover:bg-accent-hover [&>*]:text-white';
-      }
-    };
+    let variantStyles = '';
 
-    const buttonStyles = cn(buttonBaseStyles, getVariantStyles(), sizeStyles[size], className);
+    switch (variant) {
+      case 'primary':
+        variantStyles = 'bg-[#0D9488] text-white hover:bg-[#0F766E] shadow-sm';
+        break;
+      case 'secondary':
+        variantStyles = 'bg-[#F5F5F4] text-[#1C1917] hover:bg-[#E7E5E4] border border-[#E7E5E4]';
+        break;
+      case 'outline':
+        variantStyles = 'border border-[#E7E5E4] bg-transparent text-[#1C1917] hover:bg-[#F5F5F4]';
+        break;
+      case 'ghost':
+        variantStyles = 'text-[#1C1917] hover:bg-[#F5F5F4]';
+        break;
+      case 'link':
+        variantStyles = 'text-[#0D9488] hover:text-[#0F766E] underline-offset-4 hover:underline';
+        break;
+      case 'danger':
+        variantStyles = 'bg-red-600 text-white hover:bg-red-700';
+        break;
+      default:
+        variantStyles = 'bg-[#0D9488] text-white hover:bg-[#0F766E]';
+    }
 
-    // Content to render
-    const content = (
-      <>
-        {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : leftIcon}
-        {children}
-        {!isLoading && rightIcon}
-      </>
-    );
+    const buttonStyles = cn(buttonBaseStyles, variantStyles, sizeStyles[size], className);
 
-    // If asChild is true, we need to handle it differently
-    // We'll wrap the content in a span with the button styles
-    if (asChild) {
-      // Return a span styled as a button that wraps the Link
-      return (
-        <span className={buttonStyles} data-disabled={disabled || isLoading ? '' : undefined}>
-          {content}
-        </span>
-      );
+    if (asChild && isValidElement(children)) {
+      const child = children as ReactElement<{ className?: string; [key: string]: unknown }>;
+      const childClassName = child.props.className;
+      const mergedClassName = cn(buttonStyles, childClassName);
+
+      return cloneElement(child, {
+        className: mergedClassName,
+        ref,
+        ...props,
+      } as any);
     }
 
     return (
       <button ref={ref} className={buttonStyles} disabled={disabled || isLoading} {...props}>
-        {content}
+        {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : leftIcon}
+        {children}
+        {!isLoading && rightIcon}
       </button>
     );
   }

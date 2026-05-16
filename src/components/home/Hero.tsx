@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { Button } from '@/components/ui/Button';
 import { ArrowRight, Play } from 'lucide-react';
 import { Avatar } from '@/components/ui/Avatar';
 
@@ -22,18 +21,20 @@ export function Hero() {
               learn about faith, learning, psychology, health, and performance.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start">
-              <Button asChild size="lg">
-                <Link href="/about">
-                  Read my story
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-              <Button asChild variant="outline" size="lg">
-                <Link href="/content">
-                  <Play className="mr-2 h-4 w-4" />
-                  Watch my content
-                </Link>
-              </Button>
+              <Link
+                href="/about"
+                className="focus-visible:ring-accent bg-accent hover:bg-accent-hover inline-flex h-14 items-center justify-center gap-2 rounded-lg px-7 text-lg font-medium text-white shadow-sm transition-all duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+              >
+                Read my story
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+              <Link
+                href="/content"
+                className="focus-visible:ring-accent border-border text-text-primary hover:bg-bg-secondary inline-flex h-14 items-center justify-center gap-2 rounded-lg border bg-transparent px-7 text-lg font-medium transition-all duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+              >
+                <Play className="mr-2 h-4 w-4" />
+                Watch my content
+              </Link>
             </div>
           </div>
 
