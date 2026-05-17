@@ -41,7 +41,7 @@ function getIntensityColor(paceSeconds: number | undefined, avgPace: number): st
 
 export interface StreakCalendarProps {
   runs: RunLog[];
-  year?: number;
+  year: number;
   avgPace?: number;
 }
 
@@ -49,7 +49,7 @@ export interface StreakCalendarProps {
 // Component
 // ============================================
 
-export function StreakCalendar({ runs, year = new Date().getFullYear(), avgPace }: StreakCalendarProps) {
+export function StreakCalendar({ runs, year, avgPace }: StreakCalendarProps) {
   const calendarData = useMemo(() => {
     // Create a map of dates to runs
     const runMap = new Map<string, RunLog>();
@@ -122,9 +122,9 @@ export function StreakCalendar({ runs, year = new Date().getFullYear(), avgPace 
 
   return (
     <Card>
-      <div className="mb-6 flex items-center justify-between">
-        <h3 className="text-text-primary text-lg font-semibold">{year} Running Calendar</h3>
-        <div className="text-text-muted flex items-center gap-2 text-xs">
+      <div className="mb-4 flex items-center justify-between md:mb-6">
+        <h3 className="text-base font-semibold md:text-lg">{year} Running Calendar</h3>
+        <div className="text-text-muted hidden items-center gap-2 text-xs md:flex">
           <span>Less</span>
           <div className="bg-bg-secondary h-3 w-3 rounded-sm" />
           <div className="bg-accent-light h-3 w-3 rounded-sm" />
@@ -134,34 +134,34 @@ export function StreakCalendar({ runs, year = new Date().getFullYear(), avgPace 
       </div>
 
       {/* Month labels */}
-      <div className="mb-2 ml-8 flex">
+      <div className="mb-1 ml-6 flex md:mb-2 md:ml-8">
         {months.map((month, index) => (
-          <span key={month} className="text-text-muted text-xs" style={{ width: `${100 / 12}%` }}>
+          <span key={month} className="text-text-muted text-[8px] md:text-xs" style={{ width: `${100 / 12}%` }}>
             {index % 2 === 0 ? month : ''}
           </span>
         ))}
       </div>
 
       {/* Calendar grid */}
-      <div className="flex gap-1">
-        {/* Day labels */}
-        <div className="text-text-muted flex flex-col gap-1 pr-2 text-xs">
+      <div className="flex gap-px md:gap-1">
+        {/* Day labels - hidden on mobile */}
+        <div className="text-text-muted hidden flex-col gap-px pr-1 text-xs md:flex md:gap-1 md:pr-2">
           {days.map((day, index) => (
-            <span key={index} className="flex h-3 items-center">
+            <span key={index} className="flex h-2 items-center md:h-3">
               {index % 2 === 1 ? day : ''}
             </span>
           ))}
         </div>
 
-        {/* Weeks */}
-        <div className="flex flex-1 gap-1">
+        {/* Weeks - scrollable on mobile */}
+        <div className="flex flex-1 gap-px overflow-x-auto md:gap-1">
           {weeks.map((week, weekIndex) => (
-            <div key={weekIndex} className="flex flex-col gap-1">
+            <div key={weekIndex} className="flex flex-col gap-px md:gap-1">
               {week.map((day, dayIndex) => (
                 <div
                   key={dayIndex}
                   className={cn(
-                    'h-3 w-3 rounded-sm transition-colors',
+                    'h-2 w-2 rounded-sm transition-colors md:h-3 md:w-3',
                     !day.isCurrentYear && 'bg-transparent',
                     day.isCurrentYear && !day.run && 'bg-bg-secondary',
                     day.run && getIntensityColor(day.run.paceSeconds, avgPace || 0)
@@ -174,20 +174,23 @@ export function StreakCalendar({ runs, year = new Date().getFullYear(), avgPace 
         </div>
       </div>
 
-      {/* Legend */}
-      <div className="border-border mt-6 border-t pt-4">
-        <div className="text-text-secondary flex flex-wrap gap-4 text-xs">
-          <span className="flex items-center gap-1.5">
-            <span className="bg-accent h-3 w-3 rounded-sm" />
-            Faster than avg
+      {/* Legend - compact on mobile */}
+      <div className="border-border mt-4 border-t pt-3 md:mt-6 md:pt-4">
+        <div className="text-text-secondary flex flex-wrap gap-x-3 gap-y-1 text-[10px] md:gap-4 md:text-xs">
+          <span className="flex items-center gap-1">
+            <span className="bg-accent h-2 w-2 rounded-sm md:h-3 md:w-3" />
+            <span className="hidden md:inline">Faster than avg</span>
+            <span className="md:hidden">Fast</span>
           </span>
-          <span className="flex items-center gap-1.5">
-            <span className="bg-accent/70 h-3 w-3 rounded-sm" />
-            At average
+          <span className="flex items-center gap-1">
+            <span className="bg-accent/70 h-2 w-2 rounded-sm md:h-3 md:w-3" />
+            <span className="hidden md:inline">At average</span>
+            <span className="md:hidden">Avg</span>
           </span>
-          <span className="flex items-center gap-1.5">
-            <span className="bg-accent/40 h-3 w-3 rounded-sm" />
-            Slower than avg
+          <span className="flex items-center gap-1">
+            <span className="bg-accent/40 h-2 w-2 rounded-sm md:h-3 md:w-3" />
+            <span className="hidden md:inline">Slower than avg</span>
+            <span className="md:hidden">Slow</span>
           </span>
         </div>
       </div>

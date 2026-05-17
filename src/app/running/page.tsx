@@ -62,7 +62,7 @@ export default async function RunningPage() {
 
           {/* Calendar */}
           <div className="mb-12">
-            <StreakCalendar runs={allRuns} avgPace={stats.averagePaceSeconds} />
+            <StreakCalendar runs={allRuns} year={new Date().getFullYear()} avgPace={stats.averagePaceSeconds} />
           </div>
 
           {/* Recent Runs */}
