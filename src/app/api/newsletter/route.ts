@@ -43,13 +43,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: true });
     }
 
-    console.error('Buttondown API error:', data);
     return NextResponse.json(
       { error: data.detail || data.message || 'Failed to subscribe' },
       { status: response.status }
     );
   } catch (error) {
-    console.error('Newsletter subscription error:', error);
     return NextResponse.json(
       { error: 'Something went wrong' },
       { status: 500 }
