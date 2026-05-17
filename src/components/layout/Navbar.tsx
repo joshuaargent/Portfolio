@@ -186,8 +186,8 @@ export function Navbar() {
                     className="text-text-secondary hover:text-text-primary p-2 transition-colors"
                     aria-label="Strava"
                   >
-                    <svg className="h-5 w-5" viewBox="0 0 24 24">
-                      <path fill="currentColor" d="M15.388 17.944l-2.09-4.116h-3.065L15.388 24l5.15-10.172h-3.066l-2.083 8.116zM12.736 8.403L9.142 0H0l5.338 15.597h3.183l.214-1.397 3.183-7.797h-3.183l.214-2.055 1.834-4.944h-2.919z" />
+                    <svg className="h-5 w-5" viewBox="0 0 16 16">
+                      <path fill="currentColor" d="M6.731 0 2 9.125h2.788L6.73 5.497l1.93 3.628h2.766zm4.694 9.125-1.372 2.756L8.66 9.125H6.547L10.053 16l3.484-6.875z"/>
                     </svg>
                   </a>
                   <a
