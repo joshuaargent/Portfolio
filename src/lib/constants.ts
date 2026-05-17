@@ -208,6 +208,6 @@ export const meta = {
 
 export const runningGoals = {
   weekly: 35,      // km per week
-  monthly: 150,    // km per month
-  yearly: 1820,    // km per year (5km x 364 days)
+  monthly: 156.7, // km per month (5km x 31.34 days avg)
+  yearly: 1820,   // km per year (5km x 364 days)
 } as const;

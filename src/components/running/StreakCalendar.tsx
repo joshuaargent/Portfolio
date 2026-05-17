@@ -5,6 +5,34 @@ import { cn, formatDate } from '@/lib/utils';
 import { Card } from '@/components/ui/Card';
 import { RunLog } from '@/types';
 
+// Walk threshold: pace > 8:30 min/km (510 sec/km) is considered a walk
+const WALK_PACE_THRESHOLD = 510;
+
+// Calculate dynamic intensity based on pace (faster = more intense color)
+function getIntensityColor(paceSeconds: number | undefined): string {
+  if (!paceSeconds || paceSeconds <= 0 || paceSeconds > WALK_PACE_THRESHOLD) {
+    return 'bg-accent';
+  }
+  
+  // Baseline: 5:00/km (300 sec/km) = 100% intensity
+  // Slower paces = lower intensity
+  const baselinePace = 300;
+  const minPace = 420; // 7:00/km = minimum intensity
+  
+  if (paceSeconds >= minPace) {
+    return 'bg-accent/40';
+  }
+  
+  if (paceSeconds <= baselinePace) {
+    return 'bg-accent';
+  }
+  
+  // Interpolate between 40% and 100%
+  const ratio = (minPace - paceSeconds) / (minPace - baselinePace);
+  const intensity = Math.round(40 + ratio * 60);
+  return `bg-accent/${intensity}`;
+}
+
 // ============================================
 // Types
 // ============================================
@@ -133,11 +161,7 @@ export function StreakCalendar({ runs, year = new Date().getFullYear() }: Streak
                     'h-3 w-3 rounded-sm transition-colors',
                     !day.isCurrentYear && 'bg-transparent',
                     day.isCurrentYear && !day.run && 'bg-bg-secondary',
-                    day.run && 'bg-accent',
-                    day.run?.feeling === 'great' && 'bg-accent',
-                    day.run?.feeling === 'good' && 'bg-accent/80',
-                    day.run?.feeling === 'tired' && 'bg-accent/60',
-                    day.run?.feeling === 'rough' && 'bg-accent/40'
+                    day.run && getIntensityColor(day.run.paceSeconds)
                   )}
                   title={day.run ? `${day.date}: ${day.run.distance}km` : day.date}
                 />
@@ -149,18 +173,18 @@ export function StreakCalendar({ runs, year = new Date().getFullYear() }: Streak
 
       {/* Legend */}
       <div className="border-border mt-6 border-t pt-4">
-        <div className="text-text-muted flex flex-wrap gap-4 text-xs">
+        <div className="text-text-secondary flex flex-wrap gap-4 text-xs">
           <span className="flex items-center gap-1.5">
             <span className="bg-accent h-3 w-3 rounded-sm" />
-            Great run
+            Fast (&lt;5:00/km)
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="bg-accent/60 h-3 w-3 rounded-sm" />
-            Tired
+            <span className="bg-accent/70 h-3 w-3 rounded-sm" />
+            Moderate
           </span>
           <span className="flex items-center gap-1.5">
             <span className="bg-accent/40 h-3 w-3 rounded-sm" />
-            Rough day
+            Slow (&gt;7:00/km)
           </span>
         </div>
       </div>
