@@ -26,15 +26,16 @@ export function GoalTracker({ stats, runs, weeklyGoal = runningGoals.weekly, mon
   );
   const mostRecentDate = sortedRuns.length > 0 ? new Date(sortedRuns[0].date) : new Date();
   
-  // Calculate 7 days ago (exclude the exact day 7 days ago)
+  // Calculate 7 days ago - go back 7 days and set to start of that day (midnight)
   const sevenDaysAgo = new Date(mostRecentDate);
   sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
   sevenDaysAgo.setHours(0, 0, 0, 0);
   
   const thisWeekRuns = runs.filter((run) => {
     const runDate = new Date(run.date);
-    // Use > to exclude the exact 7 days ago date (only last 7 full days)
-    return runDate > sevenDaysAgo && runDate <= mostRecentDate;
+    runDate.setHours(0, 0, 0, 0);
+    // Only include runs from after 7 days ago (not including the 7th day)
+    return runDate.getTime() > sevenDaysAgo.getTime();
   });
   
   const thisWeekDistance = thisWeekRuns.reduce((sum, run) => sum + run.distance, 0);
