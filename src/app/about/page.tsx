@@ -192,9 +192,9 @@ export default async function AboutPage() {
                       sizes="128px"
                     />
                   </div>
-                  <h2 className="text-text-primary text-xl font-semibold">{personalInfo.name}</h2>
-                  <p className="text-text-secondary mt-1">{personalInfo.tagline}</p>
-                  <p className="text-text-muted mt-1 text-sm">{personalInfo.location}</p>
+                  <h2 className="text-text-primary text-center text-xl font-semibold">{personalInfo.name}</h2>
+                  <p className="text-text-secondary mt-1 text-center">{personalInfo.tagline}</p>
+                  <p className="text-text-muted mt-1 text-center text-sm">{personalInfo.location}</p>
                 </Card>
 
                 {/* Quick Links */}

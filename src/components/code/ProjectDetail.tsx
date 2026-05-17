@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { ExternalLink, Github, ArrowLeft, Star, GitFork, Calendar } from 'lucide-react';
 import { Project } from '@/types';
-import { formatDate } from '@/lib/utils';
+import { formatDate, cn } from '@/lib/utils';
 
 // ============================================
 // Types
@@ -35,17 +35,19 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
       {/* Title & Meta */}
       <header className="mb-8">
         <div className="mb-4 flex flex-wrap items-center gap-3">
-          <Badge
-            variant={
-              project.status === 'active'
-                ? 'health'
-                : project.status === 'completed'
-                  ? 'accent'
-                  : 'default'
-            }
-          >
-            {project.status}
-          </Badge>
+          {project.status && (
+            <Badge
+              variant={
+                project.status === 'active'
+                  ? 'health'
+                  : project.status === 'completed'
+                    ? 'accent'
+                    : 'default'
+              }
+            >
+              {project.status}
+            </Badge>
+          )}
           {project.featured && <Badge variant="accent">Featured</Badge>}
         </div>
 
@@ -132,8 +134,24 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
       {project.readme && (
         <div className="mb-12">
           <h2 className="text-text-primary mb-4 text-xl font-semibold">README</h2>
-          <div
-            className="prose prose-invert max-w-none rounded-xl border border-border bg-card/50 p-6"
+          <article
+            className={cn(
+              "prose max-w-none rounded-xl border border-border bg-card/50 p-6",
+              "prose-headings:font-semibold",
+              "prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4",
+              "prose-h3:text-xl prose-h3:mt-6 prose-h3:mb-3",
+              "prose-p:text-text-secondary prose-p:leading-relaxed",
+              "prose-a:text-accent prose-a:no-underline hover:prose-a:underline",
+              "prose-strong:text-text-primary",
+              "prose-code:text-accent prose-code:bg-accent-light prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm",
+              "prose-pre:bg-text-primary prose-pre:text-bg-primary prose-pre:rounded-lg",
+              "prose-blockquote:border-accent prose-blockquote:text-text-secondary prose-blockquote:pl-4",
+              "prose-ul:text-text-secondary prose-li:text-text-secondary",
+              "prose-ol:text-text-secondary",
+              "prose-img:rounded-xl prose-img:border prose-img:border-border",
+              "prose-hr:border-border",
+              "dark:prose-invert"
+            )}
             dangerouslySetInnerHTML={{ __html: project.readme }}
           />
         </div>

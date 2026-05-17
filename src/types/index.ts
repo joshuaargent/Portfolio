@@ -83,7 +83,7 @@ export interface Project {
   liveUrl?: string;
   repoUrl?: string;
   screenshots: string[];
-  status: ProjectStatus;
+  status?: ProjectStatus;
   featured: boolean;
   tags: string[];
   stars?: number;
