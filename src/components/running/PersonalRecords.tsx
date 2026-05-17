@@ -207,31 +207,31 @@ interface RacePredictions {
 // Walk threshold: pace > 8:30 min/km (510 sec/km) is considered a walk
 const WALK_PACE_THRESHOLD = 510;
 
-// Calculate dynamic fatigue factor based on:
-// 1. Average pace (slower = more fatigue)
-// 2. Recent trend (getting slower = more fatigue)
-// 3. Consistency (missing days = more fatigue)
-function calculateFatigueFactor(avgPace: number, paceTrend: number, consistencyPercent: number): number {
-  if (!avgPace || avgPace <= 0) return 1.0;
+// Calculate fatigue - less fatigue if more walking (restful activity)
+function calculateFatigue(pace: number, runWalkRatio: number, consistency: number): number {
+  if (!pace || pace <= 0) return 1.0;
   
-  // Baseline is around 5:00/km (300 sec/km) = 1.0 fatigue
+  // Baseline 5:00/km = 1.0 fatigue (0% adjustment)
   const baselinePace = 300;
-  const paceDiff = avgPace - baselinePace;
-  const paceFatigue = (paceDiff / 10) * 0.025;
+  const paceDiff = pace - baselinePace;
   
-  // Trend impact: if getting slower, add fatigue
-  const trendFatigue = paceTrend < 0 ? Math.abs(paceTrend) / 100 * 0.03 : 0;
+  // Slower = more fatigue (2.5% per 10 sec/km)
+  let fatigue = 1 + (paceDiff / 10) * 0.025;
   
-  // Consistency impact: if missing days, add fatigue
-  const consistencyFatigue = (100 - consistencyPercent) / 100 * 0.03;
+  // More walks than runs = less fatigue (walking is restful)
+  // If runWalkRatio < 1, reduce fatigue
+  if (runWalkRatio < 1) {
+    fatigue -= (1 - runWalkRatio) * 0.1; // up to 10% less fatigue
+  }
   
-  const fatigue = 1 + paceFatigue + trendFatigue + consistencyFatigue;
+  // Consistency impact
+  const consistencyFatigue = (100 - consistency) / 100 * 0.02;
+  fatigue += consistencyFatigue;
   
-  // Clamp between 1.0 and 1.30 (max 30% fatigue)
-  return Math.max(1.0, Math.min(1.30, fatigue));
+  return Math.max(1.0, Math.min(1.25, fatigue));
 }
 
-// Best possible prediction algorithm
+// Best prediction algorithm
 function calculateRacePredictions(runs: RunLog[], consistency: { percent: number }): RacePredictions {
   const result: RacePredictions = {
     fiveK: 'N/A',
@@ -252,91 +252,88 @@ function calculateRacePredictions(runs: RunLog[], consistency: { percent: number
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
 
+  // Recent = last 10 runs
   const recentRuns = sortedRuns.slice(0, Math.min(10, sortedRuns.length));
   const previousRuns = sortedRuns.slice(10, Math.min(20, sortedRuns.length));
-  const olderRuns = sortedRuns.slice(20, Math.min(30, sortedRuns.length));
 
-  // Calculate average pace - ONLY using runs (not walks)
-  // Walks are completely excluded from pace calculations
-  const recentRunPaces = recentRuns
+  // Separate runs and walks
+  const runPaces = recentRuns
     .filter(r => r.paceSeconds && r.paceSeconds > 0 && r.paceSeconds <= WALK_PACE_THRESHOLD)
     .map(r => r.paceSeconds);
     
-  const previousRunPaces = previousRuns
-    .filter(r => r.paceSeconds && r.paceSeconds > 0 && r.paceSeconds <= WALK_PACE_THRESHOLD)
+  const walkPaces = recentRuns
+    .filter(r => r.paceSeconds && r.paceSeconds > WALK_PACE_THRESHOLD)
     .map(r => r.paceSeconds);
     
-  const olderRunPaces = olderRuns
+  const prevRunPaces = previousRuns
     .filter(r => r.paceSeconds && r.paceSeconds > 0 && r.paceSeconds <= WALK_PACE_THRESHOLD)
     .map(r => r.paceSeconds);
 
-  // Need at least some runs to calculate
-  if (recentRunPaces.length === 0) return result;
+  // Need at least one run to predict
+  if (runPaces.length === 0) return result;
 
-  // Calculate averages with recency weighting for recent runs
-  const recentWeightedPace = recentRunPaces.reduce((sum, pace, i) => sum + pace * (recentRunPaces.length - i), 0) 
-    / (recentRunPaces.reduce((sum, _, i) => sum + (recentRunPaces.length - i), 0));
+  // Calculate run/walk ratio for fatigue adjustment
+  const totalRecent = recentRuns.filter(r => r.paceSeconds && r.paceSeconds > 0).length;
+  const runCount = runPaces.length;
+  const runWalkRatio = totalRecent > 0 ? runCount / totalRecent : 1;
+
+  // Recent weighted pace (most recent = highest weight)
+  const weightedPace = runPaces.reduce((sum, pace, i) => sum + pace * (runPaces.length - i), 0) 
+    / (runPaces.reduce((sum, _, i) => sum + (runPaces.length - i), 0));
     
-  const avgRunningPace = recentRunPaces.reduce((sum, p) => sum + p, 0) / recentRunPaces.length;
+  // Simple average pace
+  const avgPace = runPaces.reduce((sum, p) => sum + p, 0) / runPaces.length;
   
-  // Use ALL runs (recent + previous + older) for overall average
-  const allPaces = [...recentRunPaces, ...previousRunPaces, ...olderRunPaces];
-  const overallAvgPace = allPaces.length > 0 
-    ? allPaces.reduce((sum, p) => sum + p, 0) / allPaces.length 
-    : avgRunningPace;
+  // Overall average for longer races (all recent runs)
+  const overallRecentRunPaces = sortedRuns
+    .filter(r => r.paceSeconds && r.paceSeconds > 0 && r.paceSeconds <= WALK_PACE_THRESHOLD)
+    .slice(0, 20)
+    .map(r => r.paceSeconds);
+    
+  const overallPace = overallRecentRunPaces.length > 0
+    ? overallRecentRunPaces.reduce((sum, p) => sum + p, 0) / overallRecentRunPaces.length
+    : avgPace;
 
-  // Calculate pace trend (recent vs previous)
+  // Pace trend
   let paceTrend = 0;
-  if (recentRunPaces.length > 0 && previousRunPaces.length > 0) {
-    const recentAvg = recentRunPaces.reduce((sum, p) => sum + p, 0) / recentRunPaces.length;
-    const previousAvg = previousRunPaces.reduce((sum, p) => sum + p, 0) / previousRunPaces.length;
-    if (previousAvg > 0) {
-      paceTrend = Math.round(((previousAvg - recentAvg) / previousAvg) * 100);
+  if (runPaces.length > 0 && prevRunPaces.length > 0) {
+    const recentAvg = runPaces.reduce((sum, p) => sum + p, 0) / runPaces.length;
+    const prevAvg = prevRunPaces.reduce((sum, p) => sum + p, 0) / prevRunPaces.length;
+    if (prevAvg > 0) {
+      paceTrend = Math.round(((prevAvg - recentAvg) / prevAvg) * 100);
     }
   }
 
-  // Calculate dynamic fatigue factor
-  const fatigueFactor = calculateFatigueFactor(avgRunningPace, paceTrend, consistency.percent);
+  // Calculate fatigue
+  const fatigueFactor = calculateFatigue(avgPace, runWalkRatio, consistency.percent);
 
-  // Race-specific adjustments (more realistic factors)
-  const raceFactors = {
-    fiveK: 1.0,
-    tenK: 1.02,
-    half: 1.05,
-    marathon: 1.10,
-  };
+  // Race factors (minor adjustments for longer distances)
+  const raceFactors = { fiveK: 1.0, tenK: 1.01, half: 1.03, marathon: 1.06 };
 
-  const predictRaceTime = (pace: number, distanceKm: number, factor: number, fatigue: number): { time: string; secs: number } => {
+  const predict = (pace: number, km: number, factor: number, fatigue: number) => {
     const adjustedPace = pace * factor * fatigue;
-    const totalSeconds = adjustedPace * distanceKm;
-    return { time: formatTime(totalSeconds), secs: totalSeconds };
+    const seconds = adjustedPace * km;
+    return { time: formatTime(seconds), secs: seconds };
   };
 
-  result.avgPace = avgRunningPace;
+  result.avgPace = avgPace;
   result.paceTrend = paceTrend;
 
-  // 5K - use recent weighted pace (most relevant)
-  const fiveKResult = predictRaceTime(recentWeightedPace, 5, raceFactors.fiveK, fatigueFactor);
-  result.fiveK = fiveKResult.time;
-  result.fiveKSecs = fiveKResult.secs;
+  // 5K - recent weighted pace
+  result.fiveK = predict(weightedPace, 5, raceFactors.fiveK, fatigueFactor).time;
+  result.fiveKSecs = predict(weightedPace, 5, raceFactors.fiveK, fatigueFactor).secs;
 
-  // 10K - blend recent and overall
-  const tenKPace = (recentWeightedPace + overallAvgPace) / 2;
-  const tenKResult = predictRaceTime(tenKPace, 10, raceFactors.tenK, fatigueFactor);
-  result.tenK = tenKResult.time;
-  result.tenKSecs = tenKResult.secs;
+  // 10K - blend
+  result.tenK = predict((weightedPace + overallPace) / 2, 10, raceFactors.tenK, fatigueFactor).time;
+  result.tenKSecs = predict((weightedPace + overallPace) / 2, 10, raceFactors.tenK, fatigueFactor).secs;
 
-  // Half marathon - use overall average
-  const halfFatigue = fatigueFactor + 0.02;
-  const halfResult = predictRaceTime(overallAvgPace, 21.1, raceFactors.half, halfFatigue);
-  result.halfMarathon = halfResult.time;
-  result.halfSecs = halfResult.secs;
+  // Half - overall pace
+  result.halfMarathon = predict(overallPace, 21.1, raceFactors.half, fatigueFactor + 0.02).time;
+  result.halfSecs = predict(overallPace, 21.1, raceFactors.half, fatigueFactor + 0.02).secs;
 
-  // Marathon - use overall average
-  const marathonFatigue = fatigueFactor + 0.04;
-  const marathonResult = predictRaceTime(overallAvgPace, 42.195, raceFactors.marathon, marathonFatigue);
-  result.marathon = marathonResult.time;
-  result.marathonSecs = marathonResult.secs;
+  // Marathon - overall pace
+  result.marathon = predict(overallPace, 42.195, raceFactors.marathon, fatigueFactor + 0.04).time;
+  result.marathonSecs = predict(overallPace, 42.195, raceFactors.marathon, fatigueFactor + 0.04).secs;
 
   return result;
 }

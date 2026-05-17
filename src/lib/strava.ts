@@ -212,9 +212,17 @@ export async function getStravaStats(): Promise<RunningStats | null> {
   // Calculate this week runs relative to the most recent data date
   const weekAgo = new Date(dataMostRecentDate);
   weekAgo.setDate(weekAgo.getDate() - 7);
+  weekAgo.setHours(0, 0, 0, 0);
+  
+  // Set most recent date to midnight for comparison
+  const recentDateMidnight = new Date(dataMostRecentDate);
+  recentDateMidnight.setHours(0, 0, 0, 0);
+  
   const thisWeekRuns = activities.filter((run) => {
     const runDate = new Date(run.date);
-    return runDate >= weekAgo && runDate <= dataMostRecentDate;
+    runDate.setHours(0, 0, 0, 0);
+    // Only runs strictly after the 7-day-ago date
+    return runDate.getTime() > weekAgo.getTime() && runDate.getTime() <= recentDateMidnight.getTime();
   }).length;
 
   // Calculate this month runs relative to the most recent data month
