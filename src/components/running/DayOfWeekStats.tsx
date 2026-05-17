@@ -17,7 +17,7 @@ export interface DayOfWeekProps {
 export function DayOfWeekStats({ runs }: DayOfWeekProps) {
   const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   
-  // Count runs per day of week
+  // Count runs and distance per day of week
   const dayCounts = [0, 0, 0, 0, 0, 0, 0];
   const dayDistance = [0, 0, 0, 0, 0, 0, 0];
   
@@ -28,11 +28,11 @@ export function DayOfWeekStats({ runs }: DayOfWeekProps) {
     dayDistance[dayIndex] += run.distance;
   }
   
-  const maxCount = Math.max(...dayCounts, 1);
+  const maxDistance = Math.max(...dayDistance, 1);
   
-  // Find favorite day
-  const favoriteDay = dayCounts.indexOf(Math.max(...dayCounts));
-  const favoriteCount = dayCounts[favoriteDay];
+  // Find favorite day (by distance for more variation)
+  const favoriteDay = dayDistance.indexOf(Math.max(...dayDistance));
+  const favoriteDistance = dayDistance[favoriteDay];
   
   return (
     <Card>
@@ -41,14 +41,18 @@ export function DayOfWeekStats({ runs }: DayOfWeekProps) {
         <span className="font-semibold">Runs by Day</span>
       </div>
       
-      {/* Bar chart */}
+      {/* Bar chart - show distance for more variation */}
       <div className="flex items-end justify-between gap-1 h-24 mb-4">
-        {dayCounts.map((count, index) => (
+        {dayDistance.map((dist, index) => (
           <div key={index} className="flex-1 flex flex-col items-center">
             <div
               className="w-full bg-accent rounded-t hover:bg-accent/80 transition-colors"
-              style={{ height: `${(count / maxCount) * 100}%`, minHeight: count > 0 ? '4px' : '0' }}
-              title={`${count} runs`}
+              style={{ 
+                height: `${(dist / maxDistance) * 100}%`, 
+                minHeight: dist > 0 ? '4px' : '0',
+                opacity: dist > 0 ? 0.4 + (dist / maxDistance) * 0.6 : 0
+              }}
+              title={`${dist.toFixed(1)} km`}
             />
             <span className="text-xs text-text-muted mt-1">{dayNames[index]}</span>
           </div>
@@ -56,9 +60,9 @@ export function DayOfWeekStats({ runs }: DayOfWeekProps) {
       </div>
       
       {/* Favorite day */}
-      {favoriteCount > 0 && (
+      {favoriteDistance > 0 && (
         <div className="text-center text-sm text-text-muted">
-          <span className="text-text-primary font-medium">{dayNames[favoriteDay]}</span> is your favorite day ({favoriteCount} runs)
+          <span className="text-text-primary font-medium">{dayNames[favoriteDay]}</span> is your favorite day ({favoriteDistance.toFixed(1)} km)
         </div>
       )}
     </Card>
