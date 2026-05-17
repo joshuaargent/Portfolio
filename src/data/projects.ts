@@ -34,7 +34,8 @@ export async function getProjects(): Promise<Project[]> {
     liveUrl: repo.homepage || undefined,
     repoUrl: repo.url,
     screenshots: [],
-    status: 'completed',
+    // GitHub doesn't provide reliable completion status - only show for manually defined projects
+    status: undefined,
     featured: repo.stars > 10,
     tags: repo.topics,
     stars: repo.stars,

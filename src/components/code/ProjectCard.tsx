@@ -47,17 +47,19 @@ export function ProjectCard({ project, showImage = true }: ProjectCardProps) {
             <h3 className="text-text-primary group-hover:text-accent text-xl font-semibold transition-colors">
               {project.name}
             </h3>
-            <Badge
-              variant={
-                project.status === 'active'
-                  ? 'health'
-                  : project.status === 'completed'
-                    ? 'accent'
-                    : 'default'
-              }
-            >
-              {project.status}
-            </Badge>
+            {project.status && (
+              <Badge
+                variant={
+                  project.status === 'active'
+                    ? 'health'
+                    : project.status === 'completed'
+                      ? 'accent'
+                      : 'default'
+                }
+              >
+                {project.status}
+              </Badge>
+            )}
           </div>
 
           <p className="text-text-secondary mt-3 line-clamp-2">{project.description}</p>

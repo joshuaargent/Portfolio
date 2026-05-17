@@ -35,17 +35,19 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
       {/* Title & Meta */}
       <header className="mb-8">
         <div className="mb-4 flex flex-wrap items-center gap-3">
-          <Badge
-            variant={
-              project.status === 'active'
-                ? 'health'
-                : project.status === 'completed'
-                  ? 'accent'
-                  : 'default'
-            }
-          >
-            {project.status}
-          </Badge>
+          {project.status && (
+            <Badge
+              variant={
+                project.status === 'active'
+                  ? 'health'
+                  : project.status === 'completed'
+                    ? 'accent'
+                    : 'default'
+              }
+            >
+              {project.status}
+            </Badge>
+          )}
           {project.featured && <Badge variant="accent">Featured</Badge>}
         </div>
 
