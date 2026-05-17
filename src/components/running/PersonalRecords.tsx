@@ -241,27 +241,26 @@ function calculateRacePredictions(runs: RunLog[], consistency: { percent: number
     .filter(r => r.paceSeconds && r.paceSeconds > 0)
     .map(r => r.paceSeconds);
 
-  // Need at least one activity to predict
-  if (allPaces.length === 0) return result;
+  // Runs only (pace <= 8:30/km) for predictions
+  const runPaces = recentRuns
+    .filter(r => r.paceSeconds && r.paceSeconds > 0 && r.paceSeconds <= 510)
+    .map(r => r.paceSeconds);
 
-  // Simple average pace (runs + walks)
-  const avgPace = allPaces.reduce((sum, p) => sum + p, 0) / allPaces.length;
-  
-  // Recent weighted pace (slightly favor recent)
-  const weightedPace = allPaces.reduce((sum, pace, i) => sum + pace * (allPaces.length - i), 0) 
-    / (allPaces.reduce((sum, _, i) => sum + (allPaces.length - i), 0));
-    
-  // Overall pace (more activities for stability)
-  const allOverallPaces = sortedRuns
-    .filter(r => r.paceSeconds && r.paceSeconds > 0)
+  const allRunPaces = sortedRuns
+    .filter(r => r.paceSeconds && r.paceSeconds > 0 && r.paceSeconds <= 510)
     .slice(0, 20)
     .map(r => r.paceSeconds);
-    
-  const overallPace = allOverallPaces.length > 0
-    ? allOverallPaces.reduce((sum, p) => sum + p, 0) / allOverallPaces.length
+
+  // Need at least one run for predictions
+  if (runPaces.length === 0) return result;
+
+  // Average pace (runs only)
+  const avgPace = runPaces.reduce((sum, p) => sum + p, 0) / runPaces.length;
+  const overallPace = allRunPaces.length > 0
+    ? allRunPaces.reduce((sum, p) => sum + p, 0) / allRunPaces.length
     : avgPace;
 
-  // Pace trend (runs + walks)
+  // Pace trend uses all activities (runs + walks)
   let paceTrend = 0;
   if (allPaces.length > 0 && prevAllPaces.length > 0) {
     const recentAvg = allPaces.reduce((sum, p) => sum + p, 0) / allPaces.length;
@@ -271,9 +270,7 @@ function calculateRacePredictions(runs: RunLog[], consistency: { percent: number
     }
   }
 
-  // Calculate predictions
-  // Simple formula: pace (sec/km) × distance (km)
-  // Use avgPace directly - no extra fatigue for 5K
+  // Calculate predictions using RUNS ONLY
   const predict = (paceSec: number, km: number) => {
     const seconds = paceSec * km;
     return { time: formatTime(seconds), secs: seconds };
@@ -282,23 +279,23 @@ function calculateRacePredictions(runs: RunLog[], consistency: { percent: number
   result.avgPace = avgPace;
   result.paceTrend = paceTrend;
 
-  // 5K - use average pace
+  // 5K
   const fiveK = predict(avgPace, 5);
   result.fiveK = fiveK.time;
   result.fiveKSecs = fiveK.secs;
 
-  // 10K - use overall pace
+  // 10K
   const tenK = predict(overallPace, 10);
   result.tenK = tenK.time;
   result.tenKSecs = tenK.secs;
 
-  // Half marathon - add 3% for endurance
+  // Half marathon
   const halfPace = overallPace * 1.03;
   const half = predict(halfPace, 21.1);
   result.halfMarathon = half.time;
   result.halfSecs = half.secs;
 
-  // Marathon - add 6% for endurance
+  // Marathon
   const marathonPace = overallPace * 1.06;
   const marathon = predict(marathonPace, 42.195);
   result.marathon = marathon.time;
