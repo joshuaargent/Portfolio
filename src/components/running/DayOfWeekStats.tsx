@@ -17,7 +17,7 @@ export interface DayOfWeekProps {
 export function DayOfWeekStats({ runs }: DayOfWeekProps) {
   const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   
-  // Count runs and distance per day of week
+  // Distance per day of week - ALL runs included
   const dayDistance = [0, 0, 0, 0, 0, 0, 0];
   
   for (const run of runs) {
@@ -26,26 +26,24 @@ export function DayOfWeekStats({ runs }: DayOfWeekProps) {
     dayDistance[dayIndex] += run.distance;
   }
   
-  // Calculate average distance
+  // Calculate average - all days with data
   const totalDistance = dayDistance.reduce((sum, d) => sum + d, 0);
-  const daysWithRuns = dayDistance.filter(d => d > 0).length;
-  const avgDistance = daysWithRuns > 0 ? totalDistance / daysWithRuns : 0;
+  const avgDistance = totalDistance / 7; // Average across ALL 7 days
   
-  // Calculate height as percentage of average
-  // Below average = shorter (min 20%), At average = 50%, Above average = taller (max 100%)
+  // Calculate height: average = 50%, less = below, more = above
+  // Scale: min 20%, max 100%
   const getHeight = (dist: number): number => {
-    if (dist === 0) return 10; // minimal height for no runs
-    if (avgDistance === 0) return 50;
+    if (avgDistance === 0) return 50; // Default to middle
     
     const ratio = dist / avgDistance;
-    if (ratio < 0.5) return 20; // very low = 20%
-    if (ratio < 1) return 20 + (ratio - 0.5) * 60; // 20-50%
-    if (ratio === 1) return 50; // average = 50%
-    if (ratio < 1.5) return 50 + (ratio - 1) * 50; // 50-75%
-    return Math.min(100, 50 + (ratio - 1) * 60); // max 100%
+    // ratio = 1 → 50%
+    // ratio = 0 → 20%
+    // ratio = 2 → 100%
+    const height = 20 + (ratio * 30);
+    return Math.max(20, Math.min(100, height));
   };
   
-  // Find favorite day (by distance)
+  // Find favorite day
   const favoriteDay = dayDistance.indexOf(Math.max(...dayDistance));
   const favoriteDistance = dayDistance[favoriteDay];
   
@@ -56,7 +54,7 @@ export function DayOfWeekStats({ runs }: DayOfWeekProps) {
         <span className="font-semibold">Distance per Day</span>
       </div>
       
-      {/* Bar chart - height varies with distance vs average */}
+      {/* Bar chart - height relative to average (50% = middle) */}
       <div className="flex items-end justify-between gap-1 h-24 mb-4">
         {dayDistance.map((dist, index) => (
           <div key={index} className="flex-1 flex flex-col items-center">
