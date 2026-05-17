@@ -103,7 +103,7 @@ export async function getGitHubProfile() {
 
 export async function getGitHubReadme(owner: string, repo: string): Promise<string | null> {
   const headers: HeadersInit = {
-    Accept: 'application/vnd.github.html+json',
+    Accept: 'application/vnd.github.v3+json',
   };
 
   if (GITHUB_TOKEN) {
@@ -123,7 +123,24 @@ export async function getGitHubReadme(owner: string, repo: string): Promise<stri
       return null;
     }
 
-    const data = await response.json();
+    // Get the response text first to check if it's actually HTML
+    const responseText = await response.text();
+    
+    // Check if we got HTML instead of JSON (rate limiting or error pages)
+    if (responseText.trim().startsWith('<')) {
+      console.warn(`GitHub readme: HTML response for ${owner}/${repo} (likely rate limited or access denied)`);
+      return null;
+    }
+
+    // Parse as JSON
+    let data: { content?: string };
+    try {
+      data = JSON.parse(responseText);
+    } catch {
+      console.warn(`GitHub readme: Failed to parse JSON for ${owner}/${repo}`);
+      return null;
+    }
+
     if (!data.content) {
       console.log(`Empty readme for ${owner}/${repo}`);
       return null;
