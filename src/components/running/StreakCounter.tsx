@@ -19,6 +19,12 @@ export function StreakCounter({ stats }: StreakCounterProps) {
   const totalDist = typeof stats.totalDistance === 'number' ? stats.totalDistance : Number(stats.totalDistance) || 0;
   const avgDist = typeof stats.averageDistance === 'number' ? stats.averageDistance : Number(stats.averageDistance) || 0;
   
+  // Get the most recent run date to show context for "this week"
+  const mostRecentDate = stats.mostRecentDate ? new Date(stats.mostRecentDate) : new Date();
+  const weekAgo = new Date(mostRecentDate);
+  weekAgo.setDate(weekAgo.getDate() - 7);
+  const dateRangeText = `Since ${weekAgo.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
+  
   return (
     <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
       <StatCard
@@ -41,9 +47,9 @@ export function StreakCounter({ stats }: StreakCounterProps) {
       />
       <StatCard
         icon={<TrendingUp className="h-5 w-5 text-green-500" />}
-        label="Total Runs"
-        value={`${stats.totalRuns}`}
-        subtext={`${stats.thisWeekRuns} this week`}
+        label="This Week"
+        value={`${stats.thisWeekRuns} runs`}
+        subtext={dateRangeText}
       />
     </div>
   );

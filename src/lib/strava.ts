@@ -284,6 +284,7 @@ export async function getStravaStats(): Promise<RunningStats | null> {
     averageDistance: Math.round(avgPerDay * 100) / 100,
     thisWeekRuns,
     thisMonthRuns,
+    mostRecentDate: sortedByDate[0]?.date || new Date().toISOString(),
     // New fields
     totalElevation,
     averageElevation,
