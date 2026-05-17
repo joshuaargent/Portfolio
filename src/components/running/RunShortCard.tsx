@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { Card } from '@/components/ui/Card';
-import { Badge } from '@/components/ui/Badge';
 import { formatDate, getYouTubeThumbnail } from '@/lib/utils';
 import { Play, Clock, Zap } from 'lucide-react';
 import Image from 'next/image';
@@ -20,23 +19,6 @@ export interface RunShortCardProps {
 // ============================================
 
 export function RunShortCard({ run, videoId }: RunShortCardProps) {
-  // Walk threshold: pace > 8:30 min/km (510 sec/km)
-  const WALK_PACE_THRESHOLD = 510;
-  const paceSeconds = run.paceSeconds || 0;
-  
-  // Calculate intensity based on pace
-  const getPaceIntensity = (pace: number): 'accent' | 'performance' | 'default' => {
-    if (!pace || pace <= 0 || pace > WALK_PACE_THRESHOLD) return 'default';
-    // Fast (< 5:00/km): accent
-    // Moderate (5:00-6:00/km): performance
-    // Slow (> 6:00/km): default
-    if (pace < 300) return 'accent';
-    if (pace < 360) return 'performance';
-    return 'default';
-  };
-  
-  const paceIntensity = getPaceIntensity(paceSeconds);
-
   return (
     <Card padding="none" hover className="group overflow-hidden">
       {videoId ? (
@@ -45,10 +27,10 @@ export function RunShortCard({ run, videoId }: RunShortCardProps) {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <RunShortContent run={run} videoId={videoId} paceIntensity={paceIntensity} />
+          <RunShortContent run={run} videoId={videoId} />
         </Link>
       ) : (
-        <RunShortContent run={run} videoId={videoId} paceIntensity={paceIntensity} />
+        <RunShortContent run={run} videoId={videoId} />
       )}
     </Card>
   );
@@ -61,10 +43,9 @@ export function RunShortCard({ run, videoId }: RunShortCardProps) {
 interface RunShortContentProps {
   run: RunLog;
   videoId?: string;
-  paceIntensity: 'accent' | 'performance' | 'default';
 }
 
-function RunShortContent({ run, videoId, paceIntensity }: RunShortContentProps) {
+function RunShortContent({ run, videoId }: RunShortContentProps) {
   return (
     <>
       {/* Thumbnail or Placeholder */}
@@ -96,13 +77,8 @@ function RunShortContent({ run, videoId, paceIntensity }: RunShortContentProps) 
 
       {/* Content */}
       <div className="p-4">
-        <div className="flex items-center justify-between">
-          <span className="text-text-primary text-sm font-medium">
-            {formatDate(run.date, 'EEEE, MMM d')}
-          </span>
-          <Badge variant={paceIntensity} size="sm">
-            {run.pace}
-          </Badge>
+        <div className="text-text-primary text-sm font-medium">
+          {formatDate(run.date, 'EEEE, MMM d')}
         </div>
 
         <div className="text-text-muted mt-3 flex items-center gap-4 text-sm">
