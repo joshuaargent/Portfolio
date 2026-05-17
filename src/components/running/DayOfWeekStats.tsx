@@ -38,7 +38,7 @@ export function DayOfWeekStats({ runs }: DayOfWeekProps) {
     <Card>
       <div className="flex items-center gap-2 mb-4">
         <BarChart3 className="h-4 w-4 text-text-muted" />
-        <span className="font-semibold">Runs by Day</span>
+        <span className="font-semibold">Distance per Day</span>
       </div>
       
       {/* Bar chart - show distance for more variation */}

@@ -20,12 +20,22 @@ export interface RunShortCardProps {
 // ============================================
 
 export function RunShortCard({ run, videoId }: RunShortCardProps) {
-  const feelingColors = {
-    great: 'health',
-    good: 'accent',
-    tired: 'performance',
-    rough: 'default',
-  } as const;
+  // Walk threshold: pace > 8:30 min/km (510 sec/km)
+  const WALK_PACE_THRESHOLD = 510;
+  const paceSeconds = run.paceSeconds || 0;
+  
+  // Calculate intensity based on pace
+  const getPaceIntensity = (pace: number): 'accent' | 'performance' | 'default' => {
+    if (!pace || pace <= 0 || pace > WALK_PACE_THRESHOLD) return 'default';
+    // Fast (< 5:00/km): accent
+    // Moderate (5:00-6:00/km): performance
+    // Slow (> 6:00/km): default
+    if (pace < 300) return 'accent';
+    if (pace < 360) return 'performance';
+    return 'default';
+  };
+  
+  const paceIntensity = getPaceIntensity(paceSeconds);
 
   return (
     <Card padding="none" hover className="group overflow-hidden">
@@ -35,10 +45,10 @@ export function RunShortCard({ run, videoId }: RunShortCardProps) {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <RunShortContent run={run} videoId={videoId} feelingColors={feelingColors} />
+          <RunShortContent run={run} videoId={videoId} paceIntensity={paceIntensity} />
         </Link>
       ) : (
-        <RunShortContent run={run} videoId={videoId} feelingColors={feelingColors} />
+        <RunShortContent run={run} videoId={videoId} paceIntensity={paceIntensity} />
       )}
     </Card>
   );
@@ -51,10 +61,10 @@ export function RunShortCard({ run, videoId }: RunShortCardProps) {
 interface RunShortContentProps {
   run: RunLog;
   videoId?: string;
-  feelingColors: Record<string, 'health' | 'accent' | 'performance' | 'default'>;
+  paceIntensity: 'accent' | 'performance' | 'default';
 }
 
-function RunShortContent({ run, videoId, feelingColors }: RunShortContentProps) {
+function RunShortContent({ run, videoId, paceIntensity }: RunShortContentProps) {
   return (
     <>
       {/* Thumbnail or Placeholder */}
@@ -90,8 +100,8 @@ function RunShortContent({ run, videoId, feelingColors }: RunShortContentProps) 
           <span className="text-text-primary text-sm font-medium">
             {formatDate(run.date, 'EEEE, MMM d')}
           </span>
-          <Badge variant={feelingColors[run.feeling]} size="sm">
-            {run.feeling}
+          <Badge variant={paceIntensity} size="sm">
+            {run.pace}
           </Badge>
         </div>
 
