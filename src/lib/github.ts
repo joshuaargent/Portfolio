@@ -133,7 +133,7 @@ export async function getGitHubReadme(owner: string, repo: string): Promise<stri
     }
 
     // Parse as JSON
-    let data: { content?: string };
+    let data: { content?: string; encoding?: string };
     try {
       data = JSON.parse(responseText);
     } catch {
@@ -145,9 +145,15 @@ export async function getGitHubReadme(owner: string, repo: string): Promise<stri
       console.log(`Empty readme for ${owner}/${repo}`);
       return null;
     }
+
+    // GitHub API returns content in base64 encoding, need to decode it
+    let readmeContent = data.content;
+    if (data.encoding === 'base64') {
+      readmeContent = Buffer.from(readmeContent, 'base64').toString('utf-8');
+    }
     
-    console.log(`Successfully fetched readme for ${owner}/${repo}: ${data.content.length} chars`);
-    return data.content;
+    console.log(`Successfully fetched readme for ${owner}/${repo}: ${readmeContent.length} chars`);
+    return readmeContent;
   } catch (error) {
     console.error('Error fetching GitHub README:', error);
     return null;
