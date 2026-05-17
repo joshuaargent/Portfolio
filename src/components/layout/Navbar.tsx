@@ -50,9 +50,10 @@ export function Navbar() {
     <>
       <header
         className={cn(
-          'fixed top-0 right-0 left-0 z-50 transition-all duration-200',
+          'fixed top-0 right-0 left-0 z-[50] transition-all duration-200',
           isScrolled ? 'bg-bg-primary/95 border-border border-b backdrop-blur-md' : 'bg-transparent'
         )}
+        style={{ transform: 'translateZ(0)' }}
       >
         <nav className="container">
           <div className="flex h-16 items-center justify-between">
@@ -104,7 +105,8 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="bg-bg-primary fixed inset-0 z-40 pt-16 md:hidden"
+            className="bg-bg-primary fixed inset-0 z-[45] pt-16 md:hidden"
+            style={{ transform: 'translateZ(0)' }}
           >
             <nav className="container py-6">
               <div className="flex flex-col gap-1">
