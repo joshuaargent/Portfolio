@@ -277,8 +277,8 @@ export async function getStravaStats(): Promise<RunningStats | null> {
 
   // Calculate average per day (since first run)
   const firstRunDate = new Date(chronological[0]?.date || new Date());
-  const today = new Date();
-  const daysSinceFirstRun = Math.max(1, Math.floor((today.getTime() - firstRunDate.getTime()) / (1000 * 60 * 60 * 24)) + 1);
+  const now = new Date();
+  const daysSinceFirstRun = Math.max(1, Math.floor((now.getTime() - firstRunDate.getTime()) / (1000 * 60 * 60 * 24)) + 1);
   const avgPerDay = daysSinceFirstRun > 0 ? totalDistance / daysSinceFirstRun : 0;
 
   return {
