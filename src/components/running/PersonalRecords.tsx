@@ -268,11 +268,13 @@ function calculateRacePredictions(runs: RunLog[], consistency: { percent: number
       const isWalk = run.paceSeconds > WALK_PACE_THRESHOLD;
       
       if (isWalk) {
-        const activityWeight = 0.1;
+        // Walks count very minimally (5%) - they don't reflect running fitness
+        const activityWeight = 0.05;
         const weight = recencyWeight * activityWeight;
         weightedPaceSum += run.paceSeconds * weight;
         totalWeight += weight;
       } else {
+        // Runs count fully (100%) - these reflect actual running ability
         const activityWeight = 1.0;
         const weight = recencyWeight * activityWeight;
         weightedPaceSum += run.paceSeconds * weight;

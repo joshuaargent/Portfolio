@@ -8,27 +8,29 @@ import { RunLog } from '@/types';
 // Walk threshold: pace > 8:30 min/km (510 sec/km) is considered a walk
 const WALK_PACE_THRESHOLD = 510;
 
-// Calculate dynamic intensity based on pace (faster = more intense color)
-function getIntensityColor(paceSeconds: number | undefined): string {
+// Calculate dynamic intensity based on pace relative to average
+// Use average pace as the "moderate" baseline
+function getIntensityColor(paceSeconds: number | undefined, avgPace: number): string {
   if (!paceSeconds || paceSeconds <= 0 || paceSeconds > WALK_PACE_THRESHOLD) {
+    return 'bg-accent/70';
+  }
+  
+  // Use average pace as baseline (= 70% intensity)
+  const avgPaceValue = avgPace || 330; // default to 5:30/km if no average
+  
+  if (paceSeconds <= avgPaceValue - 30) {
+    // ~30 sec/km faster than average = full intensity
     return 'bg-accent';
   }
   
-  // Baseline: 5:00/km (300 sec/km) = 100% intensity
-  // Slower paces = lower intensity
-  const baselinePace = 300;
-  const minPace = 420; // 7:00/km = minimum intensity
-  
-  if (paceSeconds >= minPace) {
+  if (paceSeconds >= avgPaceValue + 30) {
+    // ~30 sec/km slower than average = minimum intensity
     return 'bg-accent/40';
   }
   
-  if (paceSeconds <= baselinePace) {
-    return 'bg-accent';
-  }
-  
-  // Interpolate between 40% and 100%
-  const ratio = (minPace - paceSeconds) / (minPace - baselinePace);
+  // Interpolate between 40% and 100% based on difference from average
+  const diff = paceSeconds - avgPaceValue;
+  const ratio = 1 - (diff / 60); // -30 to +30 range
   const intensity = Math.round(40 + ratio * 60);
   return `bg-accent/${intensity}`;
 }
@@ -40,13 +42,14 @@ function getIntensityColor(paceSeconds: number | undefined): string {
 export interface StreakCalendarProps {
   runs: RunLog[];
   year?: number;
+  avgPace?: number;
 }
 
 // ============================================
 // Component
 // ============================================
 
-export function StreakCalendar({ runs, year = new Date().getFullYear() }: StreakCalendarProps) {
+export function StreakCalendar({ runs, year = new Date().getFullYear(), avgPace }: StreakCalendarProps) {
   const calendarData = useMemo(() => {
     // Create a map of dates to runs
     const runMap = new Map<string, RunLog>();
@@ -161,7 +164,7 @@ export function StreakCalendar({ runs, year = new Date().getFullYear() }: Streak
                     'h-3 w-3 rounded-sm transition-colors',
                     !day.isCurrentYear && 'bg-transparent',
                     day.isCurrentYear && !day.run && 'bg-bg-secondary',
-                    day.run && getIntensityColor(day.run.paceSeconds)
+                    day.run && getIntensityColor(day.run.paceSeconds, avgPace)
                   )}
                   title={day.run ? `${day.date}: ${day.run.distance}km` : day.date}
                 />
