@@ -1,4 +1,5 @@
 import { GitHubRepo } from '@/types';
+import { parseMarkdown } from './markdown';
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const GITHUB_USERNAME = process.env.GITHUB_USERNAME;
@@ -152,8 +153,11 @@ export async function getGitHubReadme(owner: string, repo: string): Promise<stri
       readmeContent = Buffer.from(readmeContent, 'base64').toString('utf-8');
     }
     
+    // Convert markdown to HTML for display
+    const readmeHtml = parseMarkdown(readmeContent);
+    
     console.log(`Successfully fetched readme for ${owner}/${repo}: ${readmeContent.length} chars`);
-    return readmeContent;
+    return readmeHtml;
   } catch (error) {
     console.error('Error fetching GitHub README:', error);
     return null;

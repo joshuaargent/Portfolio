@@ -22,6 +22,7 @@
     "framer-motion": "^12.38.0",
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.563.0",
+    "marked": "^18.0.3",
     "next": "^16.2.6",
     "next-mdx-remote": "^6.0.0",
     "postcss": "^8.5.10",
