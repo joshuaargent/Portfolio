@@ -32,20 +32,18 @@ async function refreshAccessToken(): Promise<string | null> {
     const data = await response.json();
     return data.access_token;
   } catch (error) {
-    console.error('Error refreshing Strava token:', error);
+    // Fail silently - return null for graceful degradation
     return null;
   }
 }
 
 export async function getStravaActivities(): Promise<RunLog[]> {
   if (!isConfigured()) {
-    console.log('Strava not configured, using fallback data');
+    // Return empty when not configured
     return [];
   }
 
   try {
-    console.log('Fetching Strava activities...');
-
     // Try with current token first
     let response = await fetch(`${BASE_URL}/athlete/activities?per_page=100`, {
       headers: {
@@ -56,7 +54,6 @@ export async function getStravaActivities(): Promise<RunLog[]> {
 
     // If 401, token expired - try to refresh
     if (response.status === 401) {
-      console.log('Token expired, attempting refresh...');
       const newToken = await refreshAccessToken();
       if (newToken) {
         response = await fetch(`${BASE_URL}/athlete/activities?per_page=100`, {
@@ -68,20 +65,16 @@ export async function getStravaActivities(): Promise<RunLog[]> {
       }
     }
 
-    console.log('Strava API response status:', response.status, response.statusText);
-
-    // Log response body for debugging
+    // Handle error responses
     if (!response.ok) {
       const errorBody = await response.text();
-      console.error('Strava API error response:', errorBody);
-      throw new Error(`Strava API error: ${response.status} ${response.statusText} - ${errorBody}`);
+      throw new Error(`Strava API error: ${response.status} ${response.statusText}`);
     }
 
     const activities = await response.json();
-    console.log(`Fetched ${activities.length} activities from Strava`);
     return processActivities(activities);
   } catch (error) {
-    console.error('Error fetching Strava activities:', error);
+    // Fail silently - return empty array for graceful degradation
     return [];
   }
 }

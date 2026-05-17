@@ -14,6 +14,7 @@ export const siteConfig: SiteConfig = {
     github: 'https://github.com/joshuaargent',
     instagram: 'https://instagram.com/joshua_argent',
     facebook: 'https://facebook.com/joshua_argent',
+    strava: 'https://strava.com/athletes/your-athlete-id',
     email: 'argentjackjoshua@outlook.com',
   },
   author: {
@@ -58,8 +59,9 @@ export const footerNav = {
   ],
   social: [
     { label: 'YouTube', href: 'https://youtube.com/@joshua_argent' },
-    { label: 'GitHub', href: 'https://github.com/joshuaargent' },
     { label: 'Instagram', href: 'https://instagram.com/joshua_argent' },
+    { label: 'Strava', href: 'https://strava.com/athletes/your-athlete-id' },
+    { label: 'GitHub', href: 'https://github.com/joshuaargent' },
     { label: 'Facebook', href: 'https://facebook.com/joshua_argent' },
   ],
 };
@@ -177,6 +179,7 @@ export const externalLinks = {
   github: 'https://github.com/joshuaargent',
   instagram: 'https://instagram.com/joshua_argent',
   facebook: 'https://facebook.com/joshua_argent',
+  strava: 'https://strava.com/athletes/your-athlete-id',
   email: 'mailto:argentjackjoshua@outlook.com',
 } as const;
 

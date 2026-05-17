@@ -13,6 +13,7 @@ export interface SiteConfig {
     github: string;
     instagram: string;
     facebook: string;
+    strava: string;
     email: string;
   };
   author: {

@@ -7,7 +7,6 @@ const BASE_URL = 'https://api.github.com';
 
 export async function getGitHubRepos(): Promise<GitHubRepo[]> {
   if (!GITHUB_USERNAME) {
-    console.warn('GitHub username not configured');
     return [];
   }
 
@@ -47,7 +46,6 @@ export async function getGitHubRepos(): Promise<GitHubRepo[]> {
         page++;
         // Safety limit to prevent infinite loops
         if (page > 10) {
-          console.warn('GitHub API: Reached max pages (10), truncating');
           hasNextPage = false;
         }
       }
@@ -71,7 +69,7 @@ export async function getGitHubRepos(): Promise<GitHubRepo[]> {
         isFork: repo.fork,
       }));
   } catch (error) {
-    console.error('Error fetching GitHub repos:', error);
+    // Fail silently - return empty array for graceful degradation
     return [];
   }
 }
@@ -97,7 +95,7 @@ export async function getGitHubProfile() {
 
     return await response.json();
   } catch (error) {
-    console.error('Error fetching GitHub profile:', error);
+    // Fail silently
     return null;
   }
 }
@@ -109,8 +107,6 @@ export async function getGitHubReadme(owner: string, repo: string): Promise<stri
 
   if (GITHUB_TOKEN) {
     headers.Authorization = `token ${GITHUB_TOKEN}`;
-  } else {
-    console.warn('No GitHub token configured - README fetch may be rate limited');
   }
 
   try {
@@ -120,7 +116,6 @@ export async function getGitHubReadme(owner: string, repo: string): Promise<stri
     });
 
     if (!response.ok) {
-      console.error(`GitHub readme failed: ${response.status} for ${owner}/${repo}`);
       return null;
     }
 
@@ -129,7 +124,6 @@ export async function getGitHubReadme(owner: string, repo: string): Promise<stri
     
     // Check if we got HTML instead of JSON (rate limiting or error pages)
     if (responseText.trim().startsWith('<')) {
-      console.warn(`GitHub readme: HTML response for ${owner}/${repo} (likely rate limited or access denied)`);
       return null;
     }
 
@@ -138,12 +132,10 @@ export async function getGitHubReadme(owner: string, repo: string): Promise<stri
     try {
       data = JSON.parse(responseText);
     } catch {
-      console.warn(`GitHub readme: Failed to parse JSON for ${owner}/${repo}`);
       return null;
     }
 
     if (!data.content) {
-      console.log(`Empty readme for ${owner}/${repo}`);
       return null;
     }
 
@@ -156,10 +148,9 @@ export async function getGitHubReadme(owner: string, repo: string): Promise<stri
     // Convert markdown to HTML for display
     const readmeHtml = parseMarkdown(readmeContent);
     
-    console.log(`Successfully fetched readme for ${owner}/${repo}: ${readmeContent.length} chars`);
     return readmeHtml;
   } catch (error) {
-    console.error('Error fetching GitHub README:', error);
+    // Fail silently
     return null;
   }
 }

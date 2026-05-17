@@ -85,6 +85,21 @@ export function Footer() {
                   <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.413c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.571.238 2.571.238v2.941h-1.455c-1.434 0-1.881.897-1.881 1.818v2.187h3.219l-.484 3.469h-2.735v8.385C19.612 23.027 24 18.062 24 12.073z" />
                 </svg>
               </a>
+              <a
+                href={siteConfig.links.strava}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 text-text-secondary hover:text-text-primary hover:bg-bg-primary rounded-lg transition-colors"
+                aria-label="Strava"
+              >
+                <svg
+                  className="h-5 w-5"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066l-2.084 8.116zM12.735 8.403L9.141 0H0l5.338 15.597h3.182l.215-1.397 3.182-7.797h-3.182l.215-2.055 1.833-4.944h-2.918z" />
+                </svg>
+              </a>
             </div>
           </div>
 

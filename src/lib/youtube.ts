@@ -6,7 +6,6 @@ const BASE_URL = 'https://www.googleapis.com/youtube/v3';
 
 export async function getYouTubeStats(): Promise<YouTubeStats | null> {
   if (!YOUTUBE_API_KEY || !YOUTUBE_CHANNEL_ID) {
-    console.warn('YouTube API key or channel ID not configured');
     return null;
   }
 
@@ -29,14 +28,13 @@ export async function getYouTubeStats(): Promise<YouTubeStats | null> {
       viewCount: parseInt(stats.viewCount || '0'),
     };
   } catch (error) {
-    console.error('Error fetching YouTube stats:', error);
+    // Fail silently
     return null;
   }
 }
 
 export async function getYouTubeVideos(): Promise<Video[]> {
   if (!YOUTUBE_API_KEY || !YOUTUBE_CHANNEL_ID) {
-    console.warn('YouTube API key or channel ID not configured');
     return [];
   }
 
@@ -90,7 +88,7 @@ export async function getYouTubeVideos(): Promise<Video[]> {
 
     return videos;
   } catch (error) {
-    console.error('Error fetching YouTube videos:', error);
+    // Fail silently
     return [];
   }
 }
