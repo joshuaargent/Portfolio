@@ -179,15 +179,15 @@ export function StreakCalendar({ runs, year = new Date().getFullYear(), avgPace 
         <div className="text-text-secondary flex flex-wrap gap-4 text-xs">
           <span className="flex items-center gap-1.5">
             <span className="bg-accent h-3 w-3 rounded-sm" />
-            Fast (&lt;5:00/km)
+            Faster than avg
           </span>
           <span className="flex items-center gap-1.5">
             <span className="bg-accent/70 h-3 w-3 rounded-sm" />
-            Moderate
+            At average
           </span>
           <span className="flex items-center gap-1.5">
             <span className="bg-accent/40 h-3 w-3 rounded-sm" />
-            Slow (&gt;7:00/km)
+            Slower than avg
           </span>
         </div>
       </div>
