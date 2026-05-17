@@ -148,21 +148,31 @@ export async function getStravaStats(): Promise<RunningStats | null> {
   const mostRecentRunDate = new Date(sortedActivities[0].date);
   mostRecentRunDate.setHours(0, 0, 0, 0);
   
-  // Create a map of date strings for fast lookup
-  const runDateSet = new Set(sortedActivities.map(r => r.date));
+  // Check if streak is still active (most recent run within 2 days of today)
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const daysSinceLastRun = Math.floor((today.getTime() - mostRecentRunDate.getTime()) / (1000 * 60 * 60 * 24));
   
-  // Start counting from the most recent run date
-  const checkDate = new Date(mostRecentRunDate);
-  
-  while (true) {
-    const dateStr = checkDate.toISOString().split('T')[0];
-    if (runDateSet.has(dateStr)) {
-      currentStreak++;
-      checkDate.setDate(checkDate.getDate() - 1);
-    } else {
-      // If most recent data is not today, check if streak was broken before data starts
-      // Otherwise, streak is broken
-      break;
+  // If more than 1 day since last run, streak is broken
+  if (daysSinceLastRun > 1) {
+    currentStreak = 0;
+  } else {
+    // Create a map of date strings for fast lookup
+    const runDateSet = new Set(sortedActivities.map(r => r.date));
+    
+    // Start counting from the most recent run date
+    const checkDate = new Date(mostRecentRunDate);
+    
+    while (true) {
+      const dateStr = checkDate.toISOString().split('T')[0];
+      if (runDateSet.has(dateStr)) {
+        currentStreak++;
+        checkDate.setDate(checkDate.getDate() - 1);
+      } else {
+        // If most recent data is not today, check if streak was broken before data starts
+        // Otherwise, streak is broken
+        break;
+      }
     }
   }
 
@@ -267,8 +277,8 @@ export async function getStravaStats(): Promise<RunningStats | null> {
 
   // Calculate average per day (since first run)
   const firstRunDate = new Date(chronological[0]?.date || new Date());
-  const today = new Date();
-  const daysSinceFirstRun = Math.max(1, Math.floor((today.getTime() - firstRunDate.getTime()) / (1000 * 60 * 60 * 24)) + 1);
+  const now = new Date();
+  const daysSinceFirstRun = Math.max(1, Math.floor((now.getTime() - firstRunDate.getTime()) / (1000 * 60 * 60 * 24)) + 1);
   const avgPerDay = daysSinceFirstRun > 0 ? totalDistance / daysSinceFirstRun : 0;
 
   return {
@@ -284,6 +294,7 @@ export async function getStravaStats(): Promise<RunningStats | null> {
     averageDistance: Math.round(avgPerDay * 100) / 100,
     thisWeekRuns,
     thisMonthRuns,
+    mostRecentDate: sortedByDate[0]?.date || new Date().toISOString(),
     // New fields
     totalElevation,
     averageElevation,

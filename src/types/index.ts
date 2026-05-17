@@ -124,6 +124,7 @@ export interface RunningStats {
   averageDistance: number;
   thisWeekRuns: number;
   thisMonthRuns: number;
+  mostRecentDate: string; // The date of the most recent run (for calculating relative stats)
   // New fields
   totalElevation: number;
   averageElevation: number;

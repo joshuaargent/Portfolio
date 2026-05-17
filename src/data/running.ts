@@ -25,6 +25,7 @@ export async function getRunningStats(): Promise<RunningStats> {
       averageDistance: 0,
       thisWeekRuns: 0,
       thisMonthRuns: 0,
+      mostRecentDate: new Date().toISOString(),
       totalElevation: 0,
       averageElevation: 0,
       fastestPace: 0,
