@@ -164,7 +164,7 @@ export function StreakCalendar({ runs, year = new Date().getFullYear(), avgPace 
                     'h-3 w-3 rounded-sm transition-colors',
                     !day.isCurrentYear && 'bg-transparent',
                     day.isCurrentYear && !day.run && 'bg-bg-secondary',
-                    day.run && getIntensityColor(day.run.paceSeconds, avgPace)
+                    day.run && getIntensityColor(day.run.paceSeconds, avgPace || 0)
                   )}
                   title={day.run ? `${day.date}: ${day.run.distance}km` : day.date}
                 />
