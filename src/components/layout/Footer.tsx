@@ -94,10 +94,23 @@ export function Footer() {
               >
                 <svg
                   className="h-5 w-5"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
+                  viewBox="0 0 16 16"
                 >
-                  <path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066l-2.084 8.116zM12.735 8.403L9.141 0H0l5.338 15.597h3.182l.215-1.397 3.182-7.797h-3.182l.215-2.055 1.833-4.944h-2.918z" />
+                  <path fill="currentColor" d="M6.731 0 2 9.125h2.788L6.73 5.497l1.93 3.628h2.766zm4.694 9.125-1.372 2.756L8.66 9.125H6.547L10.053 16l3.484-6.875z"/>
+                </svg>
+              </a>
+              <a
+                href={siteConfig.links.tiktok}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 text-text-secondary hover:text-text-primary hover:bg-bg-primary rounded-lg transition-colors"
+                aria-label="TikTok"
+              >
+                <svg
+                  className="h-5 w-5"
+                  viewBox="0 0 16 16"
+                >
+                  <path fill="currentColor" d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"/>
                 </svg>
               </a>
             </div>

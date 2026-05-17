@@ -179,6 +179,28 @@ export function Navbar() {
                       <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.413c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.571.238 2.571.238v2.941h-1.455c-1.434 0-1.881.897-1.881 1.818v2.187h3.219l-.484 3.469h-2.735v8.385C19.612 23.027 24 18.062 24 12.073z" />
                     </svg>
                   </a>
+                  <a
+                    href={siteConfig.links.strava}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-text-secondary hover:text-text-primary p-2 transition-colors"
+                    aria-label="Strava"
+                  >
+                    <svg className="h-5 w-5" viewBox="0 0 16 16">
+                      <path fill="currentColor" d="M6.731 0 2 9.125h2.788L6.73 5.497l1.93 3.628h2.766zm4.694 9.125-1.372 2.756L8.66 9.125H6.547L10.053 16l3.484-6.875z"/>
+                    </svg>
+                  </a>
+                  <a
+                    href={siteConfig.links.tiktok}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-text-secondary hover:text-text-primary p-2 transition-colors"
+                    aria-label="TikTok"
+                  >
+                    <svg className="h-5 w-5" viewBox="0 0 16 16">
+                      <path fill="currentColor" d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"/>
+                    </svg>
+                  </a>
                 </div>
               </div>
             </nav>

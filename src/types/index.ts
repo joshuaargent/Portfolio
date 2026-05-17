@@ -14,6 +14,7 @@ export interface SiteConfig {
     instagram: string;
     facebook: string;
     strava: string;
+    tiktok: string;
     email: string;
   };
   author: {

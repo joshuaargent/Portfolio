@@ -136,32 +136,32 @@ export function StreakCalendar({ runs, year, avgPace }: StreakCalendarProps) {
       {/* Month labels */}
       <div className="mb-1 flex md:mb-2">
         {months.map((month, index) => (
-          <span key={month} className="text-text-muted text-[6px] leading-tight md:text-xs" style={{ width: `${100 / 12}%` }}>
+          <span key={month} className="text-text-muted flex-1 text-[6px] leading-tight text-center md:text-xs">
             {index % 2 === 0 ? month : ''}
           </span>
         ))}
       </div>
 
       {/* Calendar grid */}
-      <div className="flex gap-px md:gap-1">
+      <div className="flex overflow-hidden gap-px md:gap-1">
         {/* Day labels - hidden on mobile */}
         <div className="text-text-muted hidden flex-col gap-px pr-1 text-xs md:flex md:gap-1 md:pr-2">
           {days.map((day, index) => (
-            <span key={index} className="flex h-1.5 items-center md:h-3">
+            <span key={index} className="flex flex-1 items-center md:h-3">
               {index % 2 === 1 ? day : ''}
             </span>
           ))}
         </div>
 
-        {/* Weeks - fixed to fit container */}
-        <div className="flex flex-1 gap-px md:gap-1">
+        {/* Weeks - flex to fill container */}
+        <div className="flex flex-1 justify-between gap-px md:gap-1">
           {weeks.map((week, weekIndex) => (
-            <div key={weekIndex} className="flex flex-col gap-px md:gap-1">
+            <div key={weekIndex} className="flex flex-col flex-1 justify-between gap-px md:gap-1 self-start">
               {week.map((day, dayIndex) => (
                 <div
                   key={dayIndex}
                   className={cn(
-                    'h-1.5 w-1.5 rounded-sm transition-colors md:h-3 md:w-3',
+                    'aspect-square rounded-sm transition-colors h-full min-h-[6px] md:h-3 md:w-3',
                     !day.isCurrentYear && 'bg-transparent',
                     day.isCurrentYear && !day.run && 'bg-bg-secondary',
                     day.run && getIntensityColor(day.run.paceSeconds, avgPace || 0)

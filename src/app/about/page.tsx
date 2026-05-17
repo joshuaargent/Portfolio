@@ -256,6 +256,28 @@ export default async function AboutPage() {
                       <Facebook className="h-5 w-5 text-blue-600" />
                       <span className="text-text-secondary text-sm">@joshua_argent</span>
                     </a>
+                    <a
+                      href={socialLinks.strava}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:bg-bg-secondary flex items-center gap-3 rounded-lg p-2 transition-colors"
+                    >
+                      <svg className="h-5 w-5 text-orange-500" viewBox="0 0 16 16">
+                        <path fill="currentColor" d="M6.731 0 2 9.125h2.788L6.73 5.497l1.93 3.628h2.766zm4.694 9.125-1.372 2.756L8.66 9.125H6.547L10.053 16l3.484-6.875z"/>
+                      </svg>
+                      <span className="text-text-secondary text-sm">Strava</span>
+                    </a>
+                    <a
+                      href={socialLinks.tiktok}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:bg-bg-secondary flex items-center gap-3 rounded-lg p-2 transition-colors"
+                    >
+                      <svg className="h-5 w-5" viewBox="0 0 16 16">
+                        <path fill="black" d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"/>
+                      </svg>
+                      <span className="text-text-secondary text-sm">@joshuaargent5</span>
+                    </a>
                   </div>
                 </Card>
 
