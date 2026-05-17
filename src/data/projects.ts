@@ -1,29 +1,8 @@
 import { Project } from '@/types';
 import { getGitHubRepos } from '@/lib/github';
-import { siteConfig } from '@/lib/constants';
-
-// Fallback static data
-const fallbackProjects: Project[] = [
-  {
-    slug: 'personal-portfolio',
-    name: 'Personal Portfolio',
-    description: 'My personal website built with Next.js.',
-    longDescription: '<p>This website serves as my central hub.</p>',
-    techStack: ['Next.js', 'TypeScript', 'Tailwind CSS'],
-    liveUrl: siteConfig.url,
-    repoUrl: `${siteConfig.links.github}/portfolio`,
-    screenshots: ['/images/projects/portfolio-1.png'],
-    status: 'active',
-    featured: true,
-    tags: ['web', 'personal'],
-    createdAt: '2025-01-01',
-  },
-];
 
 export async function getProjects(): Promise<Project[]> {
   const repos = await getGitHubRepos();
-
-  if (repos.length === 0) return fallbackProjects;
 
   return repos.map((repo) => ({
     slug: repo.name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
@@ -34,8 +13,6 @@ export async function getProjects(): Promise<Project[]> {
     liveUrl: repo.homepage || undefined,
     repoUrl: repo.url,
     screenshots: [],
-    // GitHub doesn't provide reliable completion status - only show for manually defined projects
-    status: undefined,
     featured: repo.stars > 10,
     tags: repo.topics,
     stars: repo.stars,
