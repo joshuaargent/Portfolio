@@ -31,7 +31,7 @@ export function GoalTracker({ stats, runs, weeklyGoal = runningGoals.weekly, mon
   
   const thisWeekRuns = runs.filter((run) => {
     const runDate = new Date(run.date);
-    return runDate >= weekAgo && runDate <= mostRecentDate;
+    return runDate > weekAgo && runDate <= mostRecentDate;
   });
   
   const thisWeekDistance = thisWeekRuns.reduce((sum, run) => sum + run.distance, 0);

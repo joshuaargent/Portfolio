@@ -1,6 +1,6 @@
 import { Card } from '@/components/ui/Card';
 import { RunningStats, RunLog } from '@/types';
-import { Trophy, Route, TrendingUp, Activity } from 'lucide-react';
+import { Trophy, Route, TrendingUp, TrendingDown, Activity } from 'lucide-react';
 
 // ============================================
 // Types
@@ -36,20 +36,27 @@ export function PersonalRecords({ stats, runs }: PersonalRecordsProps) {
   const predictions = calculateRacePredictions(runs);
   const consistency = calculateConsistency(runs);
 
+  // Determine if pace trend is positive (lower pace = faster = green)
+  const paceImproved = predictions.paceTrend > 0;
+
   return (
     <Card className="space-y-6">
       {/* Section 1: Personal Records */}
       <div>
-        <h3 className="text-text-muted text-sm font-medium mb-3">Personal Records</h3>
+        <h3 className="text-text-secondary text-sm font-medium mb-3">Personal Records</h3>
         <div className="grid grid-cols-2 gap-4">
           <RecordItem 
-            icon={<Trophy className="h-5 w-5 text-yellow-500" />}
+            icon={<Trophy className="h-5 w-5" />}
+            iconBg="bg-yellow-500/10"
+            iconColor="text-yellow-600"
             label="Best Pace"
             value={formatPace(stats.fastestPace)}
             subtext={formatDate(stats.fastestPaceDate)}
           />
           <RecordItem 
-            icon={<Route className="h-5 w-5 text-blue-500" />}
+            icon={<Route className="h-5 w-5" />}
+            iconBg="bg-blue-500/10"
+            iconColor="text-blue-600"
             label="Longest Run"
             value={`${stats.longestRun?.toFixed(1) || 'N/A'} km`}
             subtext={formatDate(stats.longestRunDate)}
@@ -59,7 +66,7 @@ export function PersonalRecords({ stats, runs }: PersonalRecordsProps) {
 
       {/* Section 2: Race Predictions */}
       <div>
-        <h3 className="text-text-muted text-sm font-medium mb-3">Race Predictions</h3>
+        <h3 className="text-text-secondary text-sm font-medium mb-3">Race Predictions</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           <PredictionItem 
             label="5k"
@@ -89,20 +96,24 @@ export function PersonalRecords({ stats, runs }: PersonalRecordsProps) {
       </div>
 
       {/* Section 3: Trends */}
-      <div className="grid grid-cols-2 gap-4 pt-2 border-t border-bg-secondary">
+      <div className="grid grid-cols-2 gap-4 pt-2 border-t border-border">
         <TrendItem 
           label="Consistency"
           value={`${consistency.percent}%`}
           subtext={`${consistency.runDays} of ${consistency.totalDays} days`}
-          icon={<Activity className="h-5 w-5 text-green-500" />}
+          icon={<Activity className="h-5 w-5" />}
+          iconBg="bg-green-500/10"
+          iconColor="text-green-600"
           trendPositive={consistency.percent >= 80}
         />
         <TrendItem 
           label="Pace Trend"
           value={`${predictions.paceTrend > 0 ? '+' : ''}${predictions.paceTrend}%`}
           subtext="Last 6 vs previous 6"
-          icon={<TrendingUp className={`h-5 w-5 ${predictions.paceTrend > 0 ? 'text-green-500' : 'text-red-500'}`} />}
-          trendPositive={predictions.paceTrend >= 0}
+          icon={paceImproved ? <TrendingDown className="h-5 w-5" /> : <TrendingUp className="h-5 w-5" />}
+          iconBg={paceImproved ? "bg-green-500/10" : "bg-red-500/10"}
+          iconColor={paceImproved ? "text-green-600" : "text-red-600"}
+          trendPositive={paceImproved}
         />
       </div>
     </Card>
@@ -113,16 +124,23 @@ export function PersonalRecords({ stats, runs }: PersonalRecordsProps) {
 // Record Item
 // ============================================
 
-function RecordItem({ icon, label, value, subtext }: { icon: React.ReactNode; label: string; value: string; subtext: string }) {
+function RecordItem({ icon, iconBg, iconColor, label, value, subtext }: { 
+  icon: React.ReactNode; 
+  iconBg?: string;
+  iconColor?: string;
+  label: string; 
+  value: string; 
+  subtext: string 
+}) {
   return (
     <div className="flex items-center gap-3">
-      <div className="bg-bg-secondary rounded-lg p-2.5 flex-shrink-0">
-        {icon}
+      <div className={`${iconBg || 'bg-bg-secondary'} rounded-lg p-2.5 flex-shrink-0`}>
+        <span className={iconColor || 'text-text-muted'}>{icon}</span>
       </div>
       <div className="min-w-0">
-        <p className="text-text-muted text-xs">{label}</p>
+        <p className="text-text-secondary text-xs">{label}</p>
         <p className="text-text-primary font-bold text-lg truncate">{value}</p>
-        {subtext && <p className="text-text-muted text-xs truncate">{subtext}</p>}
+        {subtext && <p className="text-text-secondary text-xs truncate">{subtext}</p>}
       </div>
     </div>
   );
@@ -135,9 +153,9 @@ function RecordItem({ icon, label, value, subtext }: { icon: React.ReactNode; la
 function PredictionItem({ label, current, target, isMet }: { label: string; current: string; target: string; isMet: boolean }) {
   return (
     <div className={`text-center p-3 rounded-lg ${isMet ? 'bg-green-500/10' : 'bg-bg-secondary'}`}>
-      <p className="text-text-muted text-xs mb-1">{label}</p>
-      <p className={`text-xl font-bold ${isMet ? 'text-green-500' : 'text-text-primary'}`}>{current}</p>
-      <p className="text-text-muted text-xs">Target: {target}</p>
+      <p className="text-text-secondary text-xs mb-1">{label}</p>
+      <p className={`text-xl font-bold ${isMet ? 'text-green-600' : 'text-text-primary'}`}>{current}</p>
+      <p className="text-text-secondary text-xs">Target: {target}</p>
     </div>
   );
 }
@@ -146,22 +164,24 @@ function PredictionItem({ label, current, target, isMet }: { label: string; curr
 // Trend Item
 // ============================================
 
-function TrendItem({ label, value, subtext, icon, trendPositive }: { 
+function TrendItem({ label, value, subtext, icon, iconBg, iconColor, trendPositive }: { 
   label: string; 
   value: string; 
   subtext: string; 
   icon: React.ReactNode;
+  iconBg?: string;
+  iconColor?: string;
   trendPositive: boolean;
 }) {
   return (
     <div className="flex items-center gap-3">
-      <div className="bg-bg-secondary rounded-lg p-2.5 flex-shrink-0">
-        {icon}
+      <div className={`${iconBg || 'bg-bg-secondary'} rounded-lg p-2.5 flex-shrink-0`}>
+        <span className={iconColor || 'text-text-muted'}>{icon}</span>
       </div>
       <div>
-        <p className="text-text-muted text-xs">{label}</p>
-        <p className={`font-bold text-lg ${trendPositive ? 'text-green-500' : 'text-text-primary'}`}>{value}</p>
-        <p className="text-text-muted text-xs">{subtext}</p>
+        <p className="text-text-secondary text-xs">{label}</p>
+        <p className={`font-bold text-lg ${trendPositive ? 'text-green-600' : 'text-text-primary'}`}>{value}</p>
+        <p className="text-text-secondary text-xs">{subtext}</p>
       </div>
     </div>
   );
@@ -182,6 +202,9 @@ interface RacePredictions {
   marathonSecs: number;
   paceTrend: number;
 }
+
+// Walk threshold: pace > 8:30 min/km (510 sec/km) is considered a walk
+const WALK_PACE_THRESHOLD = 510;
 
 function calculateRacePredictions(runs: RunLog[]): RacePredictions {
   const result: RacePredictions = {
@@ -205,20 +228,33 @@ function calculateRacePredictions(runs: RunLog[]): RacePredictions {
   const recentRuns = sortedRuns.slice(0, Math.min(10, sortedRuns.length));
   const previousRuns = sortedRuns.slice(10, Math.min(20, sortedRuns.length));
 
-  // Calculate weighted average pace - but weigh runs higher than walks
+  // Calculate weighted average pace - runs count MUCH more than walks
   let totalWeight = 0;
   let weightedPaceSum = 0;
+  let runCount = 0;
+  let walkCount = 0;
   
   recentRuns.forEach((run, index) => {
     if (run.paceSeconds && run.paceSeconds > 0) {
       const recencyWeight = recentRuns.length - index;
-      // Detect walks vs runs: pace > 9 min/km (540 sec/km) is likely a walk
-      const isWalk = run.paceSeconds > 540;
-      const activityWeight = isWalk ? 0.5 : 1.0; // Walks count less
+      // Detect walks vs runs: pace > 8:30 min/km (510 sec/km) is likely a walk
+      const isWalk = run.paceSeconds > WALK_PACE_THRESHOLD;
       
-      const weight = recencyWeight * activityWeight;
-      weightedPaceSum += run.paceSeconds * weight;
-      totalWeight += weight;
+      if (isWalk) {
+        // Walks count very minimally (10%) - they don't reflect running fitness
+        const activityWeight = 0.1;
+        const weight = recencyWeight * activityWeight;
+        weightedPaceSum += run.paceSeconds * weight;
+        totalWeight += weight;
+        walkCount++;
+      } else {
+        // Runs count fully (100%) - these reflect actual running ability
+        const activityWeight = 1.0;
+        const weight = recencyWeight * activityWeight;
+        weightedPaceSum += run.paceSeconds * weight;
+        totalWeight += weight;
+        runCount++;
+      }
     }
   });
 
@@ -262,12 +298,18 @@ function calculateRacePredictions(runs: RunLog[]): RacePredictions {
   result.marathon = marathonResult.time;
   result.marathonSecs = marathonResult.secs;
 
-  // Calculate pace trend (last 6 vs previous 6)
+  // Calculate pace trend (last 6 vs previous 6) - only using actual runs
   if (recentRuns.length >= 3 && previousRuns.length >= 3) {
-    const recentAvg = recentRuns.reduce((sum, r) => sum + (r.paceSeconds || 0), 0) / recentRuns.length;
-    const previousAvg = previousRuns.reduce((sum, r) => sum + (r.paceSeconds || 0), 0) / previousRuns.length;
-    if (previousAvg > 0) {
-      result.paceTrend = Math.round(((previousAvg - recentAvg) / previousAvg) * 100);
+    const recentRunPaces = recentRuns.filter(r => r.paceSeconds && r.paceSeconds > 0 && r.paceSeconds <= WALK_PACE_THRESHOLD);
+    const previousRunPaces = previousRuns.filter(r => r.paceSeconds && r.paceSeconds > 0 && r.paceSeconds <= WALK_PACE_THRESHOLD);
+    
+    if (recentRunPaces.length > 0 && previousRunPaces.length > 0) {
+      const recentAvg = recentRunPaces.reduce((sum, r) => sum + r.paceSeconds!, 0) / recentRunPaces.length;
+      const previousAvg = previousRunPaces.reduce((sum, r) => sum + r.paceSeconds!, 0) / previousRunPaces.length;
+      if (previousAvg > 0) {
+        // Positive = improvement (lower pace = faster)
+        result.paceTrend = Math.round(((previousAvg - recentAvg) / previousAvg) * 100);
+      }
     }
   }
 
