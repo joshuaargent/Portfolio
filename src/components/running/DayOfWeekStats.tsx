@@ -31,16 +31,17 @@ export function DayOfWeekStats({ runs }: DayOfWeekProps) {
   const avgDistance = totalDistance / 7; // Average across ALL 7 days
   
   // Calculate height: average = 50%, less = below, more = above
-  // Scale: min 20%, max 100%
   const getHeight = (dist: number): number => {
-    if (avgDistance === 0) return 50; // Default to middle
+    if (avgDistance === 0) return 50;
+    if (dist === 0) return 20;
     
     const ratio = dist / avgDistance;
-    // ratio = 1 → 50%
-    // ratio = 0 → 20%
-    // ratio = 2 → 100%
-    const height = 20 + (ratio * 30);
-    return Math.max(20, Math.min(100, height));
+    // ratio 0 → 20%
+    // ratio 1 → 50%
+    // ratio 2 → 80%
+    // Max clamped at 100% when ratio >= 2.67
+    const height = 20 + ratio * 30;
+    return Math.min(100, Math.max(20, height));
   };
   
   // Find favorite day
