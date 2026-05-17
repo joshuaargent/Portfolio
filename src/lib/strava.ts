@@ -212,9 +212,17 @@ export async function getStravaStats(): Promise<RunningStats | null> {
   // Calculate this week runs relative to the most recent data date
   const weekAgo = new Date(dataMostRecentDate);
   weekAgo.setDate(weekAgo.getDate() - 7);
+  weekAgo.setHours(0, 0, 0, 0);
+  
+  // Set most recent date to midnight for comparison
+  const recentDateMidnight = new Date(dataMostRecentDate);
+  recentDateMidnight.setHours(0, 0, 0, 0);
+  
   const thisWeekRuns = activities.filter((run) => {
     const runDate = new Date(run.date);
-    return runDate >= weekAgo && runDate <= dataMostRecentDate;
+    runDate.setHours(0, 0, 0, 0);
+    // Only runs strictly after the 7-day-ago date
+    return runDate.getTime() > weekAgo.getTime() && runDate.getTime() <= recentDateMidnight.getTime();
   }).length;
 
   // Calculate this month runs relative to the most recent data month
@@ -275,11 +283,11 @@ export async function getStravaStats(): Promise<RunningStats | null> {
     }
   }
 
-  // Calculate average per day (since first run)
+  // Calculate average per day (from first recorded run to most recent run)
   const firstRunDate = new Date(chronological[0]?.date || new Date());
-  const now = new Date();
-  const daysSinceFirstRun = Math.max(1, Math.floor((now.getTime() - firstRunDate.getTime()) / (1000 * 60 * 60 * 24)) + 1);
-  const avgPerDay = daysSinceFirstRun > 0 ? totalDistance / daysSinceFirstRun : 0;
+  const lastRunDate = new Date(sortedByDate[0]?.date || new Date());
+  const daysBetweenRuns = Math.max(1, Math.floor((lastRunDate.getTime() - firstRunDate.getTime()) / (1000 * 60 * 60 * 24)) + 1);
+  const avgPerDay = daysBetweenRuns > 0 ? totalDistance / daysBetweenRuns : 0;
 
   return {
     currentStreak,

@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { Card } from '@/components/ui/Card';
-import { Badge } from '@/components/ui/Badge';
 import { formatDate, getYouTubeThumbnail } from '@/lib/utils';
 import { Play, Clock, Zap } from 'lucide-react';
 import Image from 'next/image';
@@ -20,13 +19,6 @@ export interface RunShortCardProps {
 // ============================================
 
 export function RunShortCard({ run, videoId }: RunShortCardProps) {
-  const feelingColors = {
-    great: 'health',
-    good: 'accent',
-    tired: 'performance',
-    rough: 'default',
-  } as const;
-
   return (
     <Card padding="none" hover className="group overflow-hidden">
       {videoId ? (
@@ -35,10 +27,10 @@ export function RunShortCard({ run, videoId }: RunShortCardProps) {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <RunShortContent run={run} videoId={videoId} feelingColors={feelingColors} />
+          <RunShortContent run={run} videoId={videoId} />
         </Link>
       ) : (
-        <RunShortContent run={run} videoId={videoId} feelingColors={feelingColors} />
+        <RunShortContent run={run} videoId={videoId} />
       )}
     </Card>
   );
@@ -51,10 +43,9 @@ export function RunShortCard({ run, videoId }: RunShortCardProps) {
 interface RunShortContentProps {
   run: RunLog;
   videoId?: string;
-  feelingColors: Record<string, 'health' | 'accent' | 'performance' | 'default'>;
 }
 
-function RunShortContent({ run, videoId, feelingColors }: RunShortContentProps) {
+function RunShortContent({ run, videoId }: RunShortContentProps) {
   return (
     <>
       {/* Thumbnail or Placeholder */}
@@ -86,13 +77,8 @@ function RunShortContent({ run, videoId, feelingColors }: RunShortContentProps) 
 
       {/* Content */}
       <div className="p-4">
-        <div className="flex items-center justify-between">
-          <span className="text-text-primary text-sm font-medium">
-            {formatDate(run.date, 'EEEE, MMM d')}
-          </span>
-          <Badge variant={feelingColors[run.feeling]} size="sm">
-            {run.feeling}
-          </Badge>
+        <div className="text-text-primary text-sm font-medium">
+          {formatDate(run.date, 'EEEE, MMM d')}
         </div>
 
         <div className="text-text-muted mt-3 flex items-center gap-4 text-sm">

@@ -21,8 +21,12 @@ export function StreakCounter({ stats }: StreakCounterProps) {
   
   // Get the most recent run date to show context for "this week"
   const mostRecentDate = stats.mostRecentDate ? new Date(stats.mostRecentDate) : new Date();
+  mostRecentDate.setHours(0, 0, 0, 0);
+  
   const weekAgo = new Date(mostRecentDate);
   weekAgo.setDate(weekAgo.getDate() - 7);
+  weekAgo.setHours(0, 0, 0, 0);
+  
   const dateRangeText = `Since ${weekAgo.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
   
   return (

@@ -25,13 +25,18 @@ export function GoalTracker({ stats, runs, weeklyGoal = runningGoals.weekly, mon
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
   const mostRecentDate = sortedRuns.length > 0 ? new Date(sortedRuns[0].date) : new Date();
+  mostRecentDate.setHours(0, 0, 0, 0);
   
-  const weekAgo = new Date(mostRecentDate);
-  weekAgo.setDate(weekAgo.getDate() - 7);
+  // Go back exactly 7 days from most recent date
+  const sevenDaysAgo = new Date(mostRecentDate);
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+  sevenDaysAgo.setHours(0, 0, 0, 0);
   
   const thisWeekRuns = runs.filter((run) => {
     const runDate = new Date(run.date);
-    return runDate > weekAgo && runDate <= mostRecentDate;
+    runDate.setHours(0, 0, 0, 0);
+    // Only runs strictly after the 7-day-ago date (not including that day)
+    return runDate.getTime() > sevenDaysAgo.getTime();
   });
   
   const thisWeekDistance = thisWeekRuns.reduce((sum, run) => sum + run.distance, 0);
@@ -108,6 +113,9 @@ function GoalCard({ icon, title, current, goal, progress, unit, subtitle, isProj
   const isComplete = progress >= 100;
   const progressClamped = Math.min(progress, 100);
   
+  // Format distance consistently - show 1 decimal place
+  const formattedCurrent = current.toFixed(1);
+  
   return (
     <Card>
       <div className="flex items-center gap-3 mb-3">
@@ -116,8 +124,8 @@ function GoalCard({ icon, title, current, goal, progress, unit, subtitle, isProj
       </div>
       
       <div className="flex justify-between items-end mb-2">
-        <span className="text-2xl font-bold">{Math.round(current * 10) / 10} / {goal}{unit}</span>
-        <span className={`text-sm ${isComplete ? 'text-green-500' : 'text-text-muted'}`}>
+        <span className="text-2xl font-bold">{formattedCurrent} / {goal}{unit}</span>
+        <span className={`text-sm ${isComplete ? 'text-green-500' : 'text-text-secondary'}`}>
           {progress}%
         </span>
       </div>
@@ -133,11 +141,11 @@ function GoalCard({ icon, title, current, goal, progress, unit, subtitle, isProj
       </div>
       
       <div className="flex justify-between mt-1">
-        <span className={`text-xs ${isComplete ? 'text-green-500' : 'text-text-muted'}`}>
-          {isComplete ? 'goal reached!' : `${Math.max(0, Math.round(goal - current))} ${unit} left`}
+        <span className={`text-xs ${isComplete ? 'text-green-500' : 'text-text-secondary'}`}>
+          {isComplete ? 'goal reached!' : `${Math.max(0, (goal - current)).toFixed(1)} ${unit} left`}
         </span>
         {subtitle && (
-          <span className="text-xs text-text-muted">{subtitle}</span>
+          <span className="text-xs text-text-secondary">{subtitle}</span>
         )}
       </div>
     </Card>

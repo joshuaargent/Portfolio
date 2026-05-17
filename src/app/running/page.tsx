@@ -7,7 +7,6 @@ import { SectionHeading } from '@/components/shared/SectionHeading';
 import { Card } from '@/components/ui/Card';
 import { PersonalRecords } from '@/components/running/PersonalRecords';
 import { GoalTracker } from '@/components/running/GoalTracker';
-import { DayOfWeekStats } from '@/components/running/DayOfWeekStats';
 import { getRunningStats, getRunLogs, getRecentRuns } from '@/data/running';
 import { runningGoals } from '@/lib/constants';
 
@@ -63,12 +62,7 @@ export default async function RunningPage() {
 
           {/* Calendar */}
           <div className="mb-12">
-            <StreakCalendar runs={allRuns} />
-          </div>
-
-          {/* Day of Week */}
-          <div className="mb-12">
-            <DayOfWeekStats runs={allRuns} />
+            <StreakCalendar runs={allRuns} avgPace={stats.averagePaceSeconds} />
           </div>
 
           {/* Recent Runs */}

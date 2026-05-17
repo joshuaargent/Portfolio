@@ -33,8 +33,8 @@ export function PersonalRecords({ stats, runs }: PersonalRecordsProps) {
     }
   };
 
-  const predictions = calculateRacePredictions(runs);
   const consistency = calculateConsistency(runs);
+  const predictions = calculateRacePredictions(runs, consistency);
 
   // Determine if pace trend is positive (lower pace = faster = green)
   const paceImproved = predictions.paceTrend > 0;
@@ -188,7 +188,7 @@ function TrendItem({ label, value, subtext, icon, iconBg, iconColor, trendPositi
 }
 
 // ============================================
-// Race Time Predictions (Smart Algorithm)
+// Race Time Predictions
 // ============================================
 
 interface RacePredictions {
@@ -201,12 +201,14 @@ interface RacePredictions {
   halfSecs: number;
   marathonSecs: number;
   paceTrend: number;
+  avgPace: number;
 }
 
-// Walk threshold: pace > 8:30 min/km (510 sec/km) is considered a walk
-const WALK_PACE_THRESHOLD = 510;
-
-function calculateRacePredictions(runs: RunLog[]): RacePredictions {
+// How predictions work:
+// 1. Calculate average pace from all activities (runs + walks)
+// 2. Apply recency weighting (recent runs matter more)
+// 3. For longer races, add small fatigue factor
+function calculateRacePredictions(runs: RunLog[], consistency: { percent: number }): RacePredictions {
   const result: RacePredictions = {
     fiveK: 'N/A',
     tenK: 'N/A',
@@ -217,6 +219,7 @@ function calculateRacePredictions(runs: RunLog[]): RacePredictions {
     halfSecs: 0,
     marathonSecs: 0,
     paceTrend: 0,
+    avgPace: 0,
   };
 
   if (runs.length < 3) return result;
@@ -225,93 +228,84 @@ function calculateRacePredictions(runs: RunLog[]): RacePredictions {
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
 
+  // Recent = last 10 runs
   const recentRuns = sortedRuns.slice(0, Math.min(10, sortedRuns.length));
   const previousRuns = sortedRuns.slice(10, Math.min(20, sortedRuns.length));
 
-  // Calculate weighted average pace - runs count MUCH more than walks
-  let totalWeight = 0;
-  let weightedPaceSum = 0;
-  let runCount = 0;
-  let walkCount = 0;
-  
-  recentRuns.forEach((run, index) => {
-    if (run.paceSeconds && run.paceSeconds > 0) {
-      const recencyWeight = recentRuns.length - index;
-      // Detect walks vs runs: pace > 8:30 min/km (510 sec/km) is likely a walk
-      const isWalk = run.paceSeconds > WALK_PACE_THRESHOLD;
-      
-      if (isWalk) {
-        // Walks count very minimally (10%) - they don't reflect running fitness
-        const activityWeight = 0.1;
-        const weight = recencyWeight * activityWeight;
-        weightedPaceSum += run.paceSeconds * weight;
-        totalWeight += weight;
-        walkCount++;
-      } else {
-        // Runs count fully (100%) - these reflect actual running ability
-        const activityWeight = 1.0;
-        const weight = recencyWeight * activityWeight;
-        weightedPaceSum += run.paceSeconds * weight;
-        totalWeight += weight;
-        runCount++;
-      }
-    }
-  });
-
-  if (totalWeight === 0) return result;
-
-  const basePace = weightedPaceSum / totalWeight;
-
-  // Calculate fatigue factor based on consistency
-  const consistency = calculateConsistency(runs);
-  const fatigueFactor = 1 + (0.05 * (100 - consistency.percent) / 100);
-
-  // Race-specific adjustments
-  const raceFactors = {
-    fiveK: 1.0,
-    tenK: 1.05,
-    half: 1.12,
-    marathon: 1.20,
-  };
-
-  const predictRaceTime = (basePace: number, distanceKm: number, factor: number, fatigue: number): { time: string; secs: number } => {
-    const adjustedPace = basePace * factor * fatigue;
-    const totalSeconds = adjustedPace * distanceKm;
-    return { time: formatTime(totalSeconds), secs: totalSeconds };
-  };
-
-  const fiveKResult = predictRaceTime(basePace, 5, raceFactors.fiveK, fatigueFactor);
-  result.fiveK = fiveKResult.time;
-  result.fiveKSecs = fiveKResult.secs;
-
-  const tenKResult = predictRaceTime(basePace, 10, raceFactors.tenK, fatigueFactor);
-  result.tenK = tenKResult.time;
-  result.tenKSecs = tenKResult.secs;
-
-  const halfFatigue = fatigueFactor + 0.02;
-  const halfResult = predictRaceTime(basePace, 21.1, raceFactors.half, halfFatigue);
-  result.halfMarathon = halfResult.time;
-  result.halfSecs = halfResult.secs;
-
-  const marathonFatigue = fatigueFactor + 0.05;
-  const marathonResult = predictRaceTime(basePace, 42.195, raceFactors.marathon, marathonFatigue);
-  result.marathon = marathonResult.time;
-  result.marathonSecs = marathonResult.secs;
-
-  // Calculate pace trend (last 6 vs previous 6) - only using actual runs
-  if (recentRuns.length >= 3 && previousRuns.length >= 3) {
-    const recentRunPaces = recentRuns.filter(r => r.paceSeconds && r.paceSeconds > 0 && r.paceSeconds <= WALK_PACE_THRESHOLD);
-    const previousRunPaces = previousRuns.filter(r => r.paceSeconds && r.paceSeconds > 0 && r.paceSeconds <= WALK_PACE_THRESHOLD);
+  // All activities (runs AND walks) for pace trend
+  const allPaces = recentRuns
+    .filter(r => r.paceSeconds && r.paceSeconds > 0)
+    .map(r => r.paceSeconds);
     
-    if (recentRunPaces.length > 0 && previousRunPaces.length > 0) {
-      const recentAvg = recentRunPaces.reduce((sum, r) => sum + r.paceSeconds!, 0) / recentRunPaces.length;
-      const previousAvg = previousRunPaces.reduce((sum, r) => sum + r.paceSeconds!, 0) / previousRunPaces.length;
-      if (previousAvg > 0) {
-        // Positive = improvement (lower pace = faster)
-        result.paceTrend = Math.round(((previousAvg - recentAvg) / previousAvg) * 100);
+  const prevAllPaces = previousRuns
+    .filter(r => r.paceSeconds && r.paceSeconds > 0)
+    .map(r => r.paceSeconds);
+
+  // Pace trend - simple comparison
+  // Needs at least 1 activity in each period
+  let paceTrend = 0;
+  if (allPaces.length > 0 && prevAllPaces.length > 0) {
+    const recentAvg = allPaces.reduce((sum, p) => sum + p, 0) / allPaces.length;
+    const prevAvg = prevAllPaces.reduce((sum, p) => sum + p, 0) / prevAllPaces.length;
+    if (prevAvg > 0) {
+      paceTrend = Math.round(((prevAvg - recentAvg) / prevAvg) * 100);
+    }
+  } else if (allPaces.length >= 3 && prevAllPaces.length === 0) {
+    // Not enough previous data - compare first 3 vs next 3
+    const first3 = allPaces.slice(0, 3);
+    const next3 = allPaces.slice(3, 6);
+    if (first3.length > 0 && next3.length > 0) {
+      const firstAvg = first3.reduce((sum, p) => sum + p, 0) / first3.length;
+      const nextAvg = next3.reduce((sum, p) => sum + p, 0) / next3.length;
+      if (firstAvg > 0) {
+        paceTrend = Math.round(((firstAvg - nextAvg) / firstAvg) * 100);
       }
     }
   }
+
+  // Runs only (pace <= 8:30/km) for predictions
+  const runPaces = sortedRuns
+    .filter(r => r.paceSeconds && r.paceSeconds > 0 && r.paceSeconds <= 510)
+    .map(r => r.paceSeconds);
+
+  // Need at least one run for predictions
+  if (runPaces.length === 0) return result;
+
+  // Average pace (runs only)
+  const avgPace = runPaces.slice(0, 5).reduce((sum, p) => sum + p, 0) / Math.min(runPaces.length, 5);
+  const overallPace = runPaces.reduce((sum, p) => sum + p, 0) / runPaces.length;
+  const overallPace_42 = runPaces.slice(0, 20).reduce((sum, p) => sum + p, 0) / Math.min(runPaces.length, 20);
+
+  // Calculate predictions using RUNS ONLY
+  const predict = (paceSec: number, km: number) => {
+    const seconds = paceSec * km;
+    return { time: formatTime(seconds), secs: seconds };
+  };
+
+  result.avgPace = avgPace;
+  result.paceTrend = paceTrend;
+
+  // 5K
+  const fiveK = predict(avgPace, 5);
+  result.fiveK = fiveK.time;
+  result.fiveKSecs = fiveK.secs;
+
+  // 10K
+  const tenK = predict(overallPace, 10);
+  result.tenK = tenK.time;
+  result.tenKSecs = tenK.secs;
+
+  // Half marathon
+  const halfPace = overallPace_42 * 1.03;
+  const half = predict(halfPace, 21.1);
+  result.halfMarathon = half.time;
+  result.halfSecs = half.secs;
+
+  // Marathon
+  const marathonPace = overallPace_42 * 1.06;
+  const marathon = predict(marathonPace, 42.195);
+  result.marathon = marathon.time;
+  result.marathonSecs = marathon.secs;
 
   return result;
 }

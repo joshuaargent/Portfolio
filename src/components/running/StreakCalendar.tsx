@@ -5,6 +5,36 @@ import { cn, formatDate } from '@/lib/utils';
 import { Card } from '@/components/ui/Card';
 import { RunLog } from '@/types';
 
+// Walk threshold: pace > 8:30 min/km (510 sec/km) is considered a walk
+const WALK_PACE_THRESHOLD = 510;
+
+// Calculate dynamic intensity based on pace relative to average
+// Use average pace as the "moderate" baseline
+function getIntensityColor(paceSeconds: number | undefined, avgPace: number): string {
+  if (!paceSeconds || paceSeconds <= 0 || paceSeconds > WALK_PACE_THRESHOLD) {
+    return 'bg-accent/70';
+  }
+  
+  // Use average pace as baseline (= 70% intensity)
+  const avgPaceValue = avgPace || 330; // default to 5:30/km if no average
+  
+  if (paceSeconds <= avgPaceValue - 30) {
+    // ~30 sec/km faster than average = full intensity
+    return 'bg-accent';
+  }
+  
+  if (paceSeconds >= avgPaceValue + 30) {
+    // ~30 sec/km slower than average = minimum intensity
+    return 'bg-accent/40';
+  }
+  
+  // Interpolate between 40% and 100% based on difference from average
+  const diff = paceSeconds - avgPaceValue;
+  const ratio = 1 - (diff / 60); // -30 to +30 range
+  const intensity = Math.round(40 + ratio * 60);
+  return `bg-accent/${intensity}`;
+}
+
 // ============================================
 // Types
 // ============================================
@@ -12,13 +42,14 @@ import { RunLog } from '@/types';
 export interface StreakCalendarProps {
   runs: RunLog[];
   year?: number;
+  avgPace?: number;
 }
 
 // ============================================
 // Component
 // ============================================
 
-export function StreakCalendar({ runs, year = new Date().getFullYear() }: StreakCalendarProps) {
+export function StreakCalendar({ runs, year = new Date().getFullYear(), avgPace }: StreakCalendarProps) {
   const calendarData = useMemo(() => {
     // Create a map of dates to runs
     const runMap = new Map<string, RunLog>();
@@ -133,11 +164,7 @@ export function StreakCalendar({ runs, year = new Date().getFullYear() }: Streak
                     'h-3 w-3 rounded-sm transition-colors',
                     !day.isCurrentYear && 'bg-transparent',
                     day.isCurrentYear && !day.run && 'bg-bg-secondary',
-                    day.run && 'bg-accent',
-                    day.run?.feeling === 'great' && 'bg-accent',
-                    day.run?.feeling === 'good' && 'bg-accent/80',
-                    day.run?.feeling === 'tired' && 'bg-accent/60',
-                    day.run?.feeling === 'rough' && 'bg-accent/40'
+                    day.run && getIntensityColor(day.run.paceSeconds, avgPace || 0)
                   )}
                   title={day.run ? `${day.date}: ${day.run.distance}km` : day.date}
                 />
@@ -149,18 +176,18 @@ export function StreakCalendar({ runs, year = new Date().getFullYear() }: Streak
 
       {/* Legend */}
       <div className="border-border mt-6 border-t pt-4">
-        <div className="text-text-muted flex flex-wrap gap-4 text-xs">
+        <div className="text-text-secondary flex flex-wrap gap-4 text-xs">
           <span className="flex items-center gap-1.5">
             <span className="bg-accent h-3 w-3 rounded-sm" />
-            Great run
+            Faster than avg
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="bg-accent/60 h-3 w-3 rounded-sm" />
-            Tired
+            <span className="bg-accent/70 h-3 w-3 rounded-sm" />
+            At average
           </span>
           <span className="flex items-center gap-1.5">
             <span className="bg-accent/40 h-3 w-3 rounded-sm" />
-            Rough day
+            Slower than avg
           </span>
         </div>
       </div>
