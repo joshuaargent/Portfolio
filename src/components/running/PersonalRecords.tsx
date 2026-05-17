@@ -204,11 +204,8 @@ interface RacePredictions {
   avgPace: number;
 }
 
-// Walk threshold: pace > 8:30 min/km (510 sec/km) is considered a walk
-const WALK_PACE_THRESHOLD = 510;
-
 // How predictions work:
-// 1. Calculate average pace from your runs only (walks excluded)
+// 1. Calculate average pace from all activities (runs + walks)
 // 2. Apply recency weighting (recent runs matter more)
 // 3. For longer races, add small fatigue factor
 function calculateRacePredictions(runs: RunLog[], consistency: { percent: number }): RacePredictions {
@@ -235,40 +232,40 @@ function calculateRacePredictions(runs: RunLog[], consistency: { percent: number
   const recentRuns = sortedRuns.slice(0, Math.min(10, sortedRuns.length));
   const previousRuns = sortedRuns.slice(10, Math.min(20, sortedRuns.length));
 
-  // Get ONLY runs (pace <= 8:30/km)
-  const runPaces = recentRuns
-    .filter(r => r.paceSeconds && r.paceSeconds > 0 && r.paceSeconds <= WALK_PACE_THRESHOLD)
+  // All activities (runs AND walks) for pace trend
+  const allPaces = recentRuns
+    .filter(r => r.paceSeconds && r.paceSeconds > 0)
     .map(r => r.paceSeconds);
     
-  const prevRunPaces = previousRuns
-    .filter(r => r.paceSeconds && r.paceSeconds > 0 && r.paceSeconds <= WALK_PACE_THRESHOLD)
+  const prevAllPaces = previousRuns
+    .filter(r => r.paceSeconds && r.paceSeconds > 0)
     .map(r => r.paceSeconds);
 
-  // Need at least one run to predict
-  if (runPaces.length === 0) return result;
+  // Need at least one activity to predict
+  if (allPaces.length === 0) return result;
 
-  // Simple average pace
-  const avgPace = runPaces.reduce((sum, p) => sum + p, 0) / runPaces.length;
+  // Simple average pace (runs + walks)
+  const avgPace = allPaces.reduce((sum, p) => sum + p, 0) / allPaces.length;
   
-  // Recent weighted pace (slightly favor recent runs)
-  const weightedPace = runPaces.reduce((sum, pace, i) => sum + pace * (runPaces.length - i), 0) 
-    / (runPaces.reduce((sum, _, i) => sum + (runPaces.length - i), 0));
+  // Recent weighted pace (slightly favor recent)
+  const weightedPace = allPaces.reduce((sum, pace, i) => sum + pace * (allPaces.length - i), 0) 
+    / (allPaces.reduce((sum, _, i) => sum + (allPaces.length - i), 0));
     
-  // Overall pace (more runs for stability)
-  const allRunPaces = sortedRuns
-    .filter(r => r.paceSeconds && r.paceSeconds > 0 && r.paceSeconds <= WALK_PACE_THRESHOLD)
+  // Overall pace (more activities for stability)
+  const allOverallPaces = sortedRuns
+    .filter(r => r.paceSeconds && r.paceSeconds > 0)
     .slice(0, 20)
     .map(r => r.paceSeconds);
     
-  const overallPace = allRunPaces.length > 0
-    ? allRunPaces.reduce((sum, p) => sum + p, 0) / allRunPaces.length
+  const overallPace = allOverallPaces.length > 0
+    ? allOverallPaces.reduce((sum, p) => sum + p, 0) / allOverallPaces.length
     : avgPace;
 
-  // Pace trend
+  // Pace trend (runs + walks)
   let paceTrend = 0;
-  if (runPaces.length > 0 && prevRunPaces.length > 0) {
-    const recentAvg = runPaces.reduce((sum, p) => sum + p, 0) / runPaces.length;
-    const prevAvg = prevRunPaces.reduce((sum, p) => sum + p, 0) / prevRunPaces.length;
+  if (allPaces.length > 0 && prevAllPaces.length > 0) {
+    const recentAvg = allPaces.reduce((sum, p) => sum + p, 0) / allPaces.length;
+    const prevAvg = prevAllPaces.reduce((sum, p) => sum + p, 0) / prevAllPaces.length;
     if (prevAvg > 0) {
       paceTrend = Math.round(((prevAvg - recentAvg) / prevAvg) * 100);
     }
