@@ -241,26 +241,8 @@ function calculateRacePredictions(runs: RunLog[], consistency: { percent: number
     .filter(r => r.paceSeconds && r.paceSeconds > 0)
     .map(r => r.paceSeconds);
 
-  // Runs only (pace <= 8:30/km) for predictions
-  const runPaces = recentRuns
-    .filter(r => r.paceSeconds && r.paceSeconds > 0 && r.paceSeconds <= 510)
-    .map(r => r.paceSeconds);
-
-  const allRunPaces = sortedRuns
-    .filter(r => r.paceSeconds && r.paceSeconds > 0 && r.paceSeconds <= 510)
-    .slice(0, 20)
-    .map(r => r.paceSeconds);
-
-  // Need at least one run for predictions
-  if (runPaces.length === 0) return result;
-
-  // Average pace (runs only)
-  const avgPace = runPaces.reduce((sum, p) => sum + p, 0) / runPaces.length;
-  const overallPace = allRunPaces.length > 0
-    ? allRunPaces.reduce((sum, p) => sum + p, 0) / allRunPaces.length
-    : avgPace;
-
-  // Pace trend uses all activities (runs + walks)
+  // Pace trend - simple comparison
+  // Needs at least 1 activity in each period
   let paceTrend = 0;
   if (allPaces.length > 0 && prevAllPaces.length > 0) {
     const recentAvg = allPaces.reduce((sum, p) => sum + p, 0) / allPaces.length;
@@ -268,7 +250,31 @@ function calculateRacePredictions(runs: RunLog[], consistency: { percent: number
     if (prevAvg > 0) {
       paceTrend = Math.round(((prevAvg - recentAvg) / prevAvg) * 100);
     }
+  } else if (allPaces.length >= 3 && prevAllPaces.length === 0) {
+    // Not enough previous data - compare first 3 vs next 3
+    const first3 = allPaces.slice(0, 3);
+    const next3 = allPaces.slice(3, 6);
+    if (first3.length > 0 && next3.length > 0) {
+      const firstAvg = first3.reduce((sum, p) => sum + p, 0) / first3.length;
+      const nextAvg = next3.reduce((sum, p) => sum + p, 0) / next3.length;
+      if (firstAvg > 0) {
+        paceTrend = Math.round(((firstAvg - nextAvg) / firstAvg) * 100);
+      }
+    }
   }
+
+  // Runs only (pace <= 8:30/km) for predictions
+  const runPaces = sortedRuns
+    .filter(r => r.paceSeconds && r.paceSeconds > 0 && r.paceSeconds <= 510)
+    .map(r => r.paceSeconds);
+
+  // Need at least one run for predictions
+  if (runPaces.length === 0) return result;
+
+  // Average pace (runs only)
+  const avgPace = runPaces.slice(0, 5).reduce((sum, p) => sum + p, 0) / Math.min(runPaces.length, 5);
+  const overallPace = runPaces.reduce((sum, p) => sum + p, 0) / runPaces.length;
+  const overallPace_42 = runPaces.slice(0, 20).reduce((sum, p) => sum + p, 0) / Math.min(runPaces.length, 20);
 
   // Calculate predictions using RUNS ONLY
   const predict = (paceSec: number, km: number) => {
@@ -290,13 +296,13 @@ function calculateRacePredictions(runs: RunLog[], consistency: { percent: number
   result.tenKSecs = tenK.secs;
 
   // Half marathon
-  const halfPace = overallPace * 1.03;
+  const halfPace = overallPace_42 * 1.03;
   const half = predict(halfPace, 21.1);
   result.halfMarathon = half.time;
   result.halfSecs = half.secs;
 
   // Marathon
-  const marathonPace = overallPace * 1.06;
+  const marathonPace = overallPace_42 * 1.06;
   const marathon = predict(marathonPace, 42.195);
   result.marathon = marathon.time;
   result.marathonSecs = marathon.secs;
