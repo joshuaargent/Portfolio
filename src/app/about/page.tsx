@@ -18,7 +18,7 @@ import { ArrowRight, Download, Mail, Youtube, Github, Instagram, Facebook } from
 
 export const metadata: Metadata = {
   title: 'About',
-  description: `Learn more about ${personalInfo.name} — runner, reader, Coder, and content creator.`,
+  description: `Learn more about ${personalInfo.name} | runner, reader, Coder, and content creator.`,
 };
 
 // ============================================
@@ -34,12 +34,8 @@ export default async function AboutPage() {
   ]);
 
   const runningValue = `Day ${stats.currentStreak} of daily 5km`;
-  const readingValue = currentBook
-    ? currentBook.title
-    : "No book currently reading";
-  const buildingValue = projects.length > 0
-    ? projects[0].name
-    : "Working on something";
+  const readingValue = currentBook ? currentBook.title : 'No book currently reading';
+  const buildingValue = projects.length > 0 ? projects[0].name : 'Working on something';
 
   return (
     <>
@@ -60,10 +56,11 @@ export default async function AboutPage() {
                 <h2 className="text-text-primary mb-6 text-2xl font-bold">What I Do</h2>
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                   <Card>
-                    <h3 className="text-text-primary text-lg font-semibold">🏃 Running</h3>
+                    <h3 className="text-text-primary text-lg font-semibold">Running</h3>
                     <p className="text-text-secondary mt-2">
-                      I run 5km every day. It's not about speed—it's about showing up consistently
-                      and building discipline that carries into everything else.
+                      I run 5km every day. It's not primarily about speed, but mainly the discipline
+                      and consistency that carries over to other aspects of life and drives you to
+                      success.
                     </p>
                     <Link
                       href="/running"
@@ -74,10 +71,11 @@ export default async function AboutPage() {
                   </Card>
 
                   <Card>
-                    <h3 className="text-text-primary text-lg font-semibold">📚 Reading</h3>
+                    <h3 className="text-text-primary text-lg font-semibold">Reading</h3>
                     <p className="text-text-secondary mt-2">
-                      I read one book per week and create videos summarizing the key ideas. It's my
-                      way of learning in public and helping others learn too.
+                      I read one book per week and create videos that analyse the key ideas.
+                      Teaching others is important for shared growth and also helps you learn the
+                      information.
                     </p>
                     <Link
                       href="/reading"
@@ -88,10 +86,10 @@ export default async function AboutPage() {
                   </Card>
 
                   <Card>
-                    <h3 className="text-text-primary text-lg font-semibold">💻 Coding</h3>
+                    <h3 className="text-text-primary text-lg font-semibold">Coding</h3>
                     <p className="text-text-secondary mt-2">
-                      I build things with code—web applications, tools, and products that solve real
-                      problems. Clean, maintainable software is my focus.
+                      I am a full stack developer so I code websites, tools, and products that solve
+                      actual problems people have. Clean, maintainable software is my primary focus.
                     </p>
                     <Link
                       href="/code"
@@ -102,10 +100,11 @@ export default async function AboutPage() {
                   </Card>
 
                   <Card>
-                    <h3 className="text-text-primary text-lg font-semibold">🎥 Content</h3>
+                    <h3 className="text-text-primary text-lg font-semibold">ontent</h3>
                     <p className="text-text-secondary mt-2">
                       I create content about faith, learning, psychology, health, and performance.
-                      One long-form video and seven shorts every week.
+                      One long form video and twenty shorts a week; I will do more long form in
+                      future.
                     </p>
                     <Link
                       href="/content"
@@ -126,12 +125,12 @@ export default async function AboutPage() {
                       <span className="text-accent">01</span>
                     </div>
                     <div>
-                      <h3 className="text-text-primary font-semibold">
-                        Consistency Over Intensity
-                      </h3>
+                      <h3 className="text-text-primary font-semibold">Faith is Foundational</h3>
                       <p className="text-text-secondary mt-1">
-                        Small actions, repeated daily, compound into extraordinary results. I'd
-                        rather do something moderately every day than intensely once a week.
+                        Faith is at the root of what I do, how I work, how I treat others, and how I
+                        approach life. The Lord has to come before all things. I fail a lot with
+                        this and I aim to grow to become better at sinning less. Praise the Lord who
+                        has saved us even though we will always fall short.
                       </p>
                     </div>
                   </div>
@@ -141,10 +140,12 @@ export default async function AboutPage() {
                       <span className="text-accent">02</span>
                     </div>
                     <div>
-                      <h3 className="text-text-primary font-semibold">Learn in Public</h3>
+                      <h3 className="text-text-primary font-semibold">Honesty and Integrity</h3>
                       <p className="text-text-secondary mt-1">
-                        Sharing what I learn helps me understand it better and helps others along
-                        the way. Teaching is the best form of learning.
+                        Being honest is a staple of being an good person. Sometimes the truth can be
+                        offensive to others and you may not like the truth very much; it is key that
+                        you stay truthful even in light of aversion. Integrity is also about having
+                        a consistent character no matter who your audience is.
                       </p>
                     </div>
                   </div>
@@ -154,10 +155,14 @@ export default async function AboutPage() {
                       <span className="text-accent">03</span>
                     </div>
                     <div>
-                      <h3 className="text-text-primary font-semibold">Build Things That Matter</h3>
+                      <h3 className="text-text-primary font-semibold">
+                        Discipline and Consistency
+                      </h3>
                       <p className="text-text-secondary mt-1">
-                        Whether it's code, content, or habits—I focus on creating things that
-                        provide real value to real people.
+                        I obsess over things that matter to me; if I don't do something every day,
+                        I'm not likely to do it very often. Even if you aren't motivated to do
+                        something you can still be consistent and disciplined which I think is a
+                        major attribute amongst those who succeed.
                       </p>
                     </div>
                   </div>
@@ -167,10 +172,12 @@ export default async function AboutPage() {
                       <span className="text-accent">04</span>
                     </div>
                     <div>
-                      <h3 className="text-text-primary font-semibold">Faith as Foundation</h3>
+                      <h3 className="text-text-primary font-semibold">Love and Appreciation</h3>
                       <p className="text-text-secondary mt-1">
-                        My faith informs everything I do—how I work, how I treat others, and how I
-                        approach challenges. It's the foundation of my life.
+                        Love is about helping and putting the needs of others before yourself. Love
+                        isn't always doing what a person wants. Showing appreciation is incredibly
+                        underdone. Next time you dislike or want someone to do something, try first
+                        to find the things you appreciate about them.
                       </p>
                     </div>
                   </div>
@@ -192,9 +199,13 @@ export default async function AboutPage() {
                       sizes="128px"
                     />
                   </div>
-                  <h2 className="text-text-primary text-center text-xl font-semibold">{personalInfo.name}</h2>
+                  <h2 className="text-text-primary text-center text-xl font-semibold">
+                    {personalInfo.name}
+                  </h2>
                   <p className="text-text-secondary mt-1 text-center">{personalInfo.tagline}</p>
-                  <p className="text-text-muted mt-1 text-center text-sm">{personalInfo.location}</p>
+                  <p className="text-text-muted mt-1 text-center text-sm">
+                    {personalInfo.location}
+                  </p>
                 </Card>
 
                 {/* Quick Links */}
@@ -263,9 +274,12 @@ export default async function AboutPage() {
                       className="hover:bg-bg-secondary flex items-center gap-3 rounded-lg p-2 transition-colors"
                     >
                       <svg className="h-5 w-5 text-orange-500" viewBox="0 0 16 16">
-                        <path fill="currentColor" d="M6.731 0 2 9.125h2.788L6.73 5.497l1.93 3.628h2.766zm4.694 9.125-1.372 2.756L8.66 9.125H6.547L10.053 16l3.484-6.875z"/>
+                        <path
+                          fill="currentColor"
+                          d="M6.731 0 2 9.125h2.788L6.73 5.497l1.93 3.628h2.766zm4.694 9.125-1.372 2.756L8.66 9.125H6.547L10.053 16l3.484-6.875z"
+                        />
                       </svg>
-                      <span className="text-text-secondary text-sm">Strava</span>
+                      <span className="text-text-secondary text-sm">@500534339</span>
                     </a>
                     <a
                       href={socialLinks.tiktok}
@@ -274,7 +288,10 @@ export default async function AboutPage() {
                       className="hover:bg-bg-secondary flex items-center gap-3 rounded-lg p-2 transition-colors"
                     >
                       <svg className="h-5 w-5" viewBox="0 0 16 16">
-                        <path fill="black" d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"/>
+                        <path
+                          fill="black"
+                          d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"
+                        />
                       </svg>
                       <span className="text-text-secondary text-sm">@joshuaargent5</span>
                     </a>
@@ -286,15 +303,15 @@ export default async function AboutPage() {
                   <h3 className="text-text-primary mb-4 font-semibold">What I'm Doing Now</h3>
                   <div className="space-y-3 text-sm">
                     <div>
-                      <span className="text-text-muted">📖 Reading:</span>
+                      <span className="text-text-muted">Reading:</span>
                       <span className="text-text-secondary ml-2">{readingValue}</span>
                     </div>
                     <div>
-                      <span className="text-text-muted">🏃 Running:</span>
+                      <span className="text-text-muted">Running:</span>
                       <span className="text-text-secondary ml-2">{runningValue}</span>
                     </div>
                     <div>
-                      <span className="text-text-muted">💻 Building:</span>
+                      <span className="text-text-muted">Building:</span>
                       <span className="text-text-secondary ml-2">{buildingValue}</span>
                     </div>
                   </div>
