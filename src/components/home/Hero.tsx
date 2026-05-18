@@ -17,8 +17,8 @@ export function Hero() {
               Hi, I&apos;m <span className="text-accent">Joshua Argent</span>
             </h1>
             <p className="text-text-secondary mx-auto mt-6 max-w-xl text-lg md:text-xl lg:mx-0">
-              I run 5km every day. I read one book a week. I build things with code. I share what I
-              learn about faith, learning, psychology, health, and performance.
+              I run 5km a day, read a lot and share what I learn about fitness and faith. I also
+              build websites for friends, communities and businesses.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start">
               <Link

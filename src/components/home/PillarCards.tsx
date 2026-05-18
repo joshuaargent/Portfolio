@@ -39,21 +39,24 @@ export async function PillarCards() {
   const pillars: Pillar[] = [
     {
       title: 'Running',
-      description: '5km every day. Building consistency, one step at a time.',
+      description:
+        '5km every day. Staying consistent and disciplined is a key component to success.',
       icon: <Activity className="h-6 w-6" />,
       href: '/running',
       stats: `${stats.currentStreak} day streak`,
     },
     {
       title: 'Reading',
-      description: 'One book per week. Distilling key ideas into actionable insights.',
+      description:
+        'One book per week. Sharing my analysis with actionable steps to help you improve.',
       icon: <BookOpen className="h-6 w-6" />,
       href: '/reading',
       stats: `${books.length} books`,
     },
     {
       title: 'Code',
-      description: 'Building things that solve real problems. Clean, maintainable software.',
+      description:
+        'Building websites for friends, communities and businesses. Clean, maintainable software.',
       icon: <Code className="h-6 w-6" />,
       href: '/code',
       stats: `${projects.length} projects`,
