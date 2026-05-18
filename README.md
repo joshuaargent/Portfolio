@@ -7,18 +7,18 @@
 
 > A personal hub for running, reading, coding, and content creation. Built with Next.js, React, and Tailwind CSS.
 
-## ✨ Features
+## Features
 
-- **🏃 Running Tracker** - Daily 5km streak tracking with Strava integration
-- **📚 Reading Tracker** - Book library with reviews and progress tracking  
-- **💻 Code Portfolio** - GitHub repository showcase with live stats
-- **📺 YouTube Integration** - Video content organization and tracking
-- **✍️ Blog** - Personal articles on running, habits, and learning
-- **📄 CV/Resume** - Professional experience and skills
-- **📧 Contact** - Simple contact form with newsletter signup
-- **📱 Responsive** - Fast, mobile-first design
+- **Running Tracker** - Daily 5km streak tracking with Strava integration
+- **Reading Tracker** - Book library with reviews and progress tracking  
+- **Code Portfolio** - GitHub repository showcase with live stats
+- **YouTube Integration** - Video content organization and tracking
+- **Blog** - Personal articles on running, habits, and learning
+- **CV/Resume** - Professional experience and skills
+- **Contact** - Simple contact form with newsletter signup
+- **Responsive** - Fast, mobile-first design
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Category | Technology |
 |----------|-----------|
@@ -158,7 +158,7 @@ YOUTUBE_API_KEY=your-youtube-api-key
 NEWSLETTER_API_KEY=your-newsletter-key
 ```
 
-## 📝 Available Scripts
+## Available Scripts
 
 | Script | Description |
 |--------|-------------|
@@ -202,7 +202,7 @@ Fetches repository data, stats, and READMEs for the code portfolio section. Rate
 ### YouTube
 Displays video content organized by category (long-form, shorts, running shorts).
 
-## 🎨 Design System
+## Design System
 
 ### Colors
 
@@ -223,17 +223,17 @@ Displays video content organized by category (long-form, shorts, running shorts)
 | Blog | Lora |
 | Code | JetBrains Mono |
 
-## 🧪 Code Quality
+## Code Quality
 
-### ✅ Verification Passed
+### Verification Passed
 
 | Check | Status |
 |-------|--------|
-| TypeScript | ✅ No type errors (`tsc --noEmit`) |
-| Build | ✅ Successfully compiles |
-| Tests | ✅ 13 passing (Vitest) |
-| Lint | ✅ Passes |
-| Console.log | ✅ None in production |
+| TypeScript | No type errors (`tsc --noEmit`) |
+| Build | Successfully compiles |
+| Tests | 13 passing (Vitest) |
+| Lint | Passes |
+| Console.log | None in production |
 
 ### 📊 Project Stats
 
