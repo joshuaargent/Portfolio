@@ -39,7 +39,7 @@ export default async function AboutPage() {
 
   return (
     <>
-      <PageHeader title="About Me" description="Runner. Reader. Coder. Here's my story." />
+      <PageHeader title="About Me" description="Runner. Reader. Coder." />
 
       <section className="pb-12 md:pb-16">
         <div className="container">
@@ -100,7 +100,7 @@ export default async function AboutPage() {
                   </Card>
 
                   <Card>
-                    <h3 className="text-text-primary text-lg font-semibold">ontent</h3>
+                    <h3 className="text-text-primary text-lg font-semibold">Content</h3>
                     <p className="text-text-secondary mt-2">
                       I create content about faith, learning, psychology, health, and performance.
                       One long form video and twenty shorts a week; I will do more long form in
