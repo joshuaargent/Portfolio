@@ -235,7 +235,7 @@ Displays video content organized by category (long-form, shorts, running shorts)
 | Lint | Passes |
 | Console.log | None in production |
 
-### 📊 Project Stats
+### Project Stats
 
 - **105** TypeScript/TSX files
 - **66** React components
@@ -243,18 +243,18 @@ Displays video content organized by category (long-form, shorts, running shorts)
 - **7** Utility libraries
 - **13** Passing tests
 
-### 🏗 Architecture
+### Architecture
 
 - Serverless-ready with Vercel
 - Static generation for optimal performance
 - API routes for dynamic content
 - Type-safe end-to-end
 
-## 📄 License
+## License
 
 MIT License - feel free to use this as a template for your own portfolio.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 Built with [Next.js](https://nextjs.org), [Tailwind CSS](https://tailwindcss.com), and [Vercel](https://vercel.com).
 
