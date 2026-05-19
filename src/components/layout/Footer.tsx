@@ -24,7 +24,7 @@ export function Footer() {
             <p className="mt-3 text-sm text-text-secondary max-w-xs">
               {siteConfig.description}
             </p>
-            <div className="mt-4 flex items-center gap-3">
+            <div className="mt-4 flex flex-wrap items-center gap-3">
               <a
                 href={siteConfig.links.youtube}
                 target="_blank"

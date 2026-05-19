@@ -30,9 +30,9 @@ export const nowData = {
     description: 'Day 87 of daily 5km',
   },
   reading: {
-    title: 'Atomic Habits',
-    author: 'James Clear',
-    progress: 60,
+    title: 'How to Win Friends and Influence People',
+    author: 'Dale Carnegie',
+    progress: 0,
   },
   building: {
     project: 'Personal Portfolio',

@@ -86,7 +86,11 @@ export default async function CodePage() {
                     GitHub.
                   </p>
                 </div>
-                <Button asChild>
+                <Button
+                  asChild
+                  style={{ backgroundColor: '#0D9488', color: '#ffffff' }}
+                  className="hover:opacity-90"
+                >
                   <a
                     href="https://github.com/yourusername"
                     target="_blank"

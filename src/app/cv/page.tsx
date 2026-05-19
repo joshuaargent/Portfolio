@@ -34,13 +34,22 @@ export default async function CVPage() {
         description="My professional experience, education, and skills."
       >
         <div className="flex flex-wrap items-center justify-center gap-3">
-          <Button asChild>
+          <Button
+            asChild
+            style={{ backgroundColor: '#0D9488', color: '#ffffff' }}
+            className="hover:opacity-90"
+          >
             <a href="/cv.pdf" download>
               <Download className="mr-2 h-4 w-4" />
               Download PDF
             </a>
           </Button>
-          <Button variant="outline" asChild>
+          <Button
+            variant="outline"
+            asChild
+            style={{ backgroundColor: '#0D9488', color: '#ffffff' }}
+            className="hover:opacity-90"
+          >
             <Link href="/contact">
               <Mail className="mr-2 h-4 w-4" />
               Contact Me
