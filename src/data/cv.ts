@@ -54,17 +54,34 @@ I'm open to apprenticeships and junior dev roles where I can build things, not j
       company: "Royal Air Force",
       location: "United Kingdom",
       startDate: "2025-03",
-      current: true,
+      current: false,
+      endDate: "2025-03",
       description:
-        "One-week work experience placement at RAF. It was good to see what a professional environment looks like and understand how things work in bigger organisations.",
+        "One-week virtual work experience placement at RAF. It was good to see what a professional environment looks like and understand how things work in bigger organisations.",
       highlights: [
-        "In progress – March 2025",
+        "Virtual placement",
         "SpringPod programme",
       ],
       techStack: [],
     },
     {
       id: "4",
+      role: "Wheeler Programme",
+      company: "Wellington College",
+      location: "Berkshire, UK",
+      startDate: "2020-09",
+      endDate: "2022-07",
+      current: false,
+      description:
+        "Wheeler Programme at Wellington College - a fully funded educational programme for state school students. Took part in various academic and enrichment activities.",
+      highlights: [
+        "Selected student",
+        " Widening Access programme",
+      ],
+      techStack: [],
+    },
+    {
+      id: "5",
       role: "Work Experience (School Placement)",
       company: "Lenovo",
       location: "United Kingdom",
