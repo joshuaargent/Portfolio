@@ -7,8 +7,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { mainNav } from '@/lib/constants';
 import { siteConfig } from '@/lib/constants';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { useTheme } from '@/components/providers/ThemeProvider';
 
 // ============================================
 // Navbar Component
@@ -18,6 +19,7 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { theme, toggleTheme } = useTheme();
 
   // Handle scroll effect
   useEffect(() => {
@@ -81,13 +83,28 @@ export function Navbar() {
                   {item.label}
                 </Link>
               ))}
+              
+              {/* Theme Toggle */}
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={toggleTheme}
+                aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                className="ml-1"
+              >
+                {theme === 'dark' ? (
+                  <Sun className="h-5 w-5 text-text-primary" />
+                ) : (
+                  <Moon className="h-5 w-5 text-text-primary" />
+                )}
+              </Button>
             </div>
 
             {/* Mobile Menu Button */}
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden"
+              className="md:hidden text-text-primary"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
             >
@@ -134,6 +151,29 @@ export function Navbar() {
 
               {/* Mobile Menu Footer */}
               <div className="border-border mt-8 border-t pt-8">
+                {/* Theme Toggle for Mobile */}
+                <div className="mb-6 flex justify-center">
+                  <button
+                    onClick={() => {
+                      toggleTheme();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-200 px-4 py-2 border border-border bg-bg-card text-text-primary hover:bg-bg-secondary"
+                  >
+                    {theme === 'dark' ? (
+                      <>
+                        <Sun className="h-4 w-4" />
+                        <span>Light Mode</span>
+                      </>
+                    ) : (
+                      <>
+                        <Moon className="h-4 w-4" />
+                        <span>Dark Mode</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+                
                 <div className="flex items-center justify-center gap-4">
                   <a
                     href={siteConfig.links.youtube}

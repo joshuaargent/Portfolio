@@ -100,13 +100,14 @@ export function ProjectCard({ project, showImage = true }: ProjectCardProps) {
         {/* Actions */}
         <div className="mt-6 flex flex-wrap gap-2">
           {project.liveUrl && (
-            <Button
-              size="sm"
-              asChild
-              style={{ backgroundColor: '#0D9488', color: '#ffffff' }}
-              className="hover:opacity-90"
-            >
-              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+            <Button size="sm" asChild>
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ backgroundColor: '#0D9488', color: '#ffffff' }}
+                className="hover:opacity-90 inline-flex items-center"
+              >
                 <ExternalLink className="mr-1.5 h-3.5 w-3.5" />
                 Demo
               </a>

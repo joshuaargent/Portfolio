@@ -7,7 +7,7 @@ import { SectionHeading } from '@/components/shared/SectionHeading';
 import { Card } from '@/components/ui/Card';
 import { PersonalRecords } from '@/components/running/PersonalRecords';
 import { GoalTracker } from '@/components/running/GoalTracker';
-import { getRunningStats, getRunLogs, getRecentRuns } from '@/data/running';
+import { getRunningStats, getRunLogs, getRecentRunsWithVideos, type RunWithVideo } from '@/data/running';
 import { runningGoals } from '@/lib/constants';
 
 // ============================================
@@ -27,7 +27,7 @@ export default async function RunningPage() {
   const [stats, allRuns, recentRuns] = await Promise.all([
     getRunningStats(),
     getRunLogs(),
-    getRecentRuns(6),
+    getRecentRunsWithVideos(6),
   ]);
 
   return (
@@ -74,7 +74,7 @@ export default async function RunningPage() {
             />
             <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {recentRuns.map((run) => (
-                <RunShortCard key={run.id} run={run} />
+                <RunShortCard key={run.id} run={run} video={run.video} />
               ))}
             </div>
           </div>

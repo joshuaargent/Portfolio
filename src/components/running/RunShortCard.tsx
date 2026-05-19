@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { Card } from '@/components/ui/Card';
 import { formatDate, getYouTubeThumbnail } from '@/lib/utils';
-import { Play, Clock, Zap } from 'lucide-react';
+import { Play, Clock, Zap, Eye } from 'lucide-react';
 import Image from 'next/image';
-import { RunLog } from '@/types';
+import { RunLog, Video } from '@/types';
 
 // ============================================
 // Types
@@ -11,14 +11,16 @@ import { RunLog } from '@/types';
 
 export interface RunShortCardProps {
   run: RunLog;
-  videoId?: string;
+  video?: Video;
 }
 
 // ============================================
 // Component
 // ============================================
 
-export function RunShortCard({ run, videoId }: RunShortCardProps) {
+export function RunShortCard({ run, video }: RunShortCardProps) {
+  const videoId = video?.youtubeId;
+  
   return (
     <Card padding="none" hover className="group overflow-hidden">
       {videoId ? (
@@ -27,10 +29,10 @@ export function RunShortCard({ run, videoId }: RunShortCardProps) {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <RunShortContent run={run} videoId={videoId} />
+          <RunShortContent run={run} video={video} />
         </Link>
       ) : (
-        <RunShortContent run={run} videoId={videoId} />
+        <RunShortContent run={run} video={video} />
       )}
     </Card>
   );
@@ -42,10 +44,12 @@ export function RunShortCard({ run, videoId }: RunShortCardProps) {
 
 interface RunShortContentProps {
   run: RunLog;
-  videoId?: string;
+  video?: Video;
 }
 
-function RunShortContent({ run, videoId }: RunShortContentProps) {
+function RunShortContent({ run, video }: RunShortContentProps) {
+  const videoId = video?.youtubeId;
+  
   return (
     <>
       {/* Thumbnail or Placeholder */}
@@ -54,7 +58,7 @@ function RunShortContent({ run, videoId }: RunShortContentProps) {
           <>
             <Image
               src={getYouTubeThumbnail(videoId)}
-              alt={`Run on ${run.date}`}
+              alt={video?.title || `Run on ${run.date}`}
               fill
               className="object-cover transition-transform duration-300 group-hover:scale-105"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -91,6 +95,14 @@ function RunShortContent({ run, videoId }: RunShortContentProps) {
             {run.pace} /km
           </span>
         </div>
+
+        {/* View count if video available */}
+        {video?.viewCount && (
+          <div className="text-text-muted mt-2 flex items-center gap-1 text-sm">
+            <Eye className="h-3.5 w-3.5" />
+            <span>{video.viewCount.toLocaleString()} views</span>
+          </div>
+        )}
 
         {run.notes && <p className="text-text-secondary mt-3 line-clamp-2 text-sm">{run.notes}</p>}
       </div>
