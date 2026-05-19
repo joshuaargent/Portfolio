@@ -155,6 +155,12 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
               "prose-ol:text-text-secondary",
               "prose-img:rounded-xl prose-img:border prose-img:border-border",
               "prose-hr:border-border",
+              "prose-table:border prose-table:border-border",
+              "prose-thead:bg-accent-light prose-thead:text-text-primary",
+              "prose-th:border prose-th:border-border prose-th:px-4 prose-th:py-2 prose-th:text-left",
+              "prose-td:border prose-td:border-border prose-td:px-4 prose-td:py-2",
+              "prose-tr:border prose-tr:border-border",
+              "prose-tr:hover:bg-accent-light/50",
               "dark:prose-invert"
             )}
             dangerouslySetInnerHTML={{ __html: project.readme }}

@@ -30,16 +30,21 @@ export default function Error({
           Sorry, an unexpected error occurred. Please try again or go back to the homepage.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-          <Button onClick={reset}>
+          <Button
+            onClick={reset}
+            style={{ backgroundColor: '#0D9488', color: '#ffffff' }}
+            className="hover:opacity-90"
+          >
             <RefreshCw className="mr-2 h-4 w-4" />
             Try Again
           </Button>
-          <Button variant="outline" asChild>
-            <a href="/">
-              <Home className="mr-2 h-4 w-4" />
-              Go Home
-            </a>
-          </Button>
+          <a
+            href="/"
+            className="focus-visible:ring-accent inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-[#E7E5E4] bg-transparent px-5 text-base font-medium text-[#1C1917] transition-all duration-200 hover:bg-[#F5F5F4] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+          >
+            <Home className="mr-2 h-4 w-4" />
+            Go Home
+          </a>
         </div>
       </div>
     </div>

@@ -18,16 +18,23 @@ export default async function CodePage() {
   const [allProjects, featuredProjects] = await Promise.all([getProjects(), getFeaturedProjects()]);
 
   const techStack = [
-    'Next.js',
     'TypeScript',
+    'JavaScript',
+    'HTML5',
+    'CSS3',
+    'Python',
+    'Next.js',
     'React',
+    'Express.js',
     'Node.js',
-    'PostgreSQL',
-    'Tailwind CSS',
-    'Prisma',
-    'tRPC',
-    'Docker',
-    'AWS',
+    'YouTube API',
+    'GitHub API',
+    'Strava API',
+    'Vercel',
+    'Netlify',
+    'Render',
+    'Git',
+    'GitHub',
   ];
 
   return (
@@ -79,11 +86,10 @@ export default async function CodePage() {
               <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
                 <div>
                   <h3 className="text-text-primary text-xl font-semibold">
-                    Open Source Contributions
+                    More Projects
                   </h3>
                   <p className="text-text-secondary mt-2">
-                    I believe in giving back to the community. Check out my open source work on
-                    GitHub.
+                    Check out more of my projects on GitHub.
                   </p>
                 </div>
                 <Button
@@ -92,7 +98,7 @@ export default async function CodePage() {
                   className="hover:opacity-90"
                 >
                   <a
-                    href="https://github.com/yourusername"
+                    href="https://github.com/joshuaargent"
                     target="_blank"
                     rel="noopener noreferrer"
                   >

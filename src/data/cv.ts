@@ -5,28 +5,85 @@ import { CVData } from "@/types";
 // ============================================
 
 export const cvData: CVData = {
-  summary: `Year 12 student with practical experience in full-stack web development and over a year of retail work. Reliable, quick to learn, and able to follow instructions and contribute effectively in both technical and non-technical environments. Currently building web projects and learning Python and machine learning concepts.`,
+  summary: `I'm a Year 12 student who builds things with code. I run 5km every day, read a lot, and create stuff that helps people.
+
+This portfolio is something I built from scratch with Next.js. It pulls real data from YouTube, GitHub, and Strava APIs – I wanted to build something that actually works, not just something that looks nice.
+
+Currently working on Exam Spec Adaptive Revision – an AI tool that turns your study notes into flashcards and exam questions. More on that soon.
+
+I'm open to apprenticeships and junior dev roles where I can build things, not just talk about them. But I'm also not closing myself off to other opportunities either.`,
 
   experience: [
     {
       id: "1",
+      role: "Head of Sport and Wellbeing",
+      company: "Collingwood College",
+      location: "Surrey, United Kingdom",
+      startDate: "2024-09",
+      current: true,
+      description:
+        "It's a student leadership role where I represent students and help organise sports activities and wellbeing initiatives across the college.",
+      highlights: [
+        "Organise and co-ordinate sports events for students",
+        "Promote wellbeing initiatives and healthy lifestyle choices",
+        "Represent students and communicate with staff",
+        "It's helped me develop leadership and communication skills",
+      ],
+      techStack: ["Leadership", "Event Organisation", "Communication"],
+    },
+    {
+      id: "2",
       role: "Shelf Stocker / Store Assistant",
       company: "Local Newsagents",
       location: "Surrey, United Kingdom",
       startDate: "2024-01",
       current: true,
       description:
-        "Assisted customers and maintained store operations.",
+        "Customer service and shop floor work. It's pretty straightforward – help customers find what they need and keep shelves stocked.",
       highlights: [
-        "Assisted customers and responded to requests accurately and efficiently",
-        "Restocked shelves and maintained an organised shop floor",
-        "Worked reliably during busy periods while managing multiple tasks",
-        "Developed punctuality, consistency, and time-management skills",
+        "Helped customers find what they needed accurately and efficiently",
+        "Restocked shelves and kept the shop floor organised",
+        "Managed multiple tasks during busy periods",
+        "It's built reliability, punctuality, and time-management skills",
       ],
       techStack: ["Customer Service", "Time Management", "Communication"],
     },
     {
-      id: "2",
+      id: "3",
+      role: "RAF Work Experience",
+      company: "Royal Air Force",
+      location: "United Kingdom",
+      startDate: "2025-03",
+      current: false,
+      endDate: "2025-03",
+      description:
+        "One-week virtual work experience placement at RAF. It was good to see what a professional environment looks like and understand how things work in bigger organisations.",
+      highlights: [
+        "Virtual placement",
+        "SpringPod programme",
+      ],
+      techStack: [],
+    },
+    {
+      id: "4",
+      role: "Wheeler Programme",
+      company: "Wellington College",
+      location: "Crowthorne, Berkshire",
+      startDate: "2020-09",
+      endDate: "2022-07",
+      current: false,
+      description:
+        "Five-year fully funded enrichment programme for Year 9 students from partner state schools. Includes five-day residential induction, regular study days at Wellington College, academic consolidation, soft-skills development, mentoring, and work experience placements.",
+      highlights: [
+        "Selected from partner schools (20-24 pupils per cohort)",
+        "Five-day residential induction",
+        "Study days and termly visits",
+        "Academic and enrichment activities",
+      ],
+      techStack: [],
+    },
+    {
+      id: "5",
       role: "Work Experience (School Placement)",
       company: "Lenovo",
       location: "United Kingdom",
@@ -34,20 +91,20 @@ export const cvData: CVData = {
       endDate: "2024-09",
       current: false,
       description:
-        "Observed professional workplace routines and communication standards at a large technology company.",
+        "Week at Lenovo shadowing different teams. It gave me insight into how a large tech company operates and what to expect in a professional environment.",
       highlights: [
         "Observed professional workplace routines and communication standards",
-        "Gained insight into operations within a large technology company",
-        "Developed understanding of expectations in a professional environment",
+        "Gained insight into operations at a large tech company",
+        "Learned what to expect in a professional environment",
       ],
-      techStack: ["Professional Communication", " workplace Awareness"],
+      techStack: ["Professional Communication", "Workplace Awareness"],
     },
   ],
 
   education: [
     {
       id: "1",
-      degree: "A Levels (Current)",
+      degree: "A Levels (Year 12 - 13)",
       institution: "Collingwood College",
       location: "Surrey, United Kingdom",
       startDate: "2024-09",
@@ -89,30 +146,57 @@ export const cvData: CVData = {
       items: ["TypeScript", "JavaScript", "HTML5", "CSS3", "Python"],
     },
     {
-      category: "Frameworks & Libraries",
+      category: "Frameworks",
       items: ["Next.js", "React", "Express.js", "Node.js"],
     },
     {
-      category: "Databases & Hosting",
-      items: ["PostgreSQL (Supabase)", "Vercel", "Netlify", "Render"],
+      category: "APIs",
+      items: ["YouTube Data API", "GitHub API", "Strava API"],
+    },
+    {
+      category: "Hosting",
+      items: ["Vercel", "Netlify", "Render"],
     },
     {
       category: "Tools",
       items: ["Git", "GitHub"],
     },
     {
-      category: "Currently Learning",
-      items: ["Python", "Machine Learning"],
-    },
-    {
       category: "Soft Skills",
       items: [
+        "Leadership",
         "Reliability",
         "Punctuality",
         "Communication",
         "Problem Solving",
-        "Time Management",
-        "Quick Learner",
+        "Consistency",
+      ],
+    },
+  ],
+
+  projects: [
+    {
+      id: "1",
+      name: "Personal Portfolio",
+      description: "This website – I built it with Next.js from scratch. It pulls real data from YouTube, GitHub, and Strava APIs. I wanted something that actually works, not just something that looks nice.",
+      techStack: ["Next.js", "React", "TypeScript", "YouTube API", "GitHub API", "Strava API", "Vercel"],
+      url: "https://github.com/joshuaargent/portfolio",
+      highlights: [
+        "Integrated YouTube, GitHub, and Strava APIs for real-time data display",
+        "Responsive design with modern UI/UX",
+        "Dynamic content fetching from multiple external sources",
+      ],
+    },
+    {
+      id: "2",
+      name: "Exam Spec Adaptive Revision",
+      description: "An AI tool that turns your study notes into flashcards and exam questions by comparing them against the exam spec. It's still in development but the code is on GitHub.",
+      techStack: ["Next.js", "AI/ML", "TypeScript"],
+      url: "https://github.com/joshuaargent/exam-spec-adaptive-revision",
+      highlights: [
+        "AI analysis to compare study notes against exam specifications",
+        "Automatic flashcard and question generation",
+        "Building in public – codebase on GitHub",
       ],
     },
   ],

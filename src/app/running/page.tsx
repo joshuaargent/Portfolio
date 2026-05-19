@@ -107,6 +107,10 @@ export default async function RunningPage() {
                   </li>
                 </ul>
                 <p>
+                  It's not primarily about speed, but mainly the discipline and consistency that carries
+                  over to other aspects of life and drives you to success.
+                </p>
+                <p>
                   If you're thinking about starting a daily running habit, my advice is simple:
                   start with a week. Just one week. See how it feels. You might surprise yourself.
                 </p>
