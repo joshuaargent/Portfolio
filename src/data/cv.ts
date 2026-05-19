@@ -54,12 +54,12 @@ I'm open to apprenticeships and junior dev roles where I can build things, not j
       company: "Royal Air Force",
       location: "United Kingdom",
       startDate: "2025-03",
-      endDate: "2025-03",
-      current: false,
+      current: true,
       description:
         "One-week work experience placement at RAF. It was good to see what a professional environment looks like and understand how things work in bigger organisations.",
       highlights: [
-        "Completed March 2025",
+        "In progress – March 2025",
+        "SpringPod programme",
       ],
       techStack: [],
     },

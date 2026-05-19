@@ -31,11 +31,12 @@ export default async function CVPage() {
     <>
       <PageHeader
         title="CV / Resume"
-        description="Runner. Reader. Coder."
+        description="My professional experience, education, and skills."
       >
         <div className="flex flex-wrap items-center justify-center gap-3">
           <Button
             asChild
+            size="lg"
             style={{ backgroundColor: '#0D9488', color: '#ffffff' }}
             className="hover:opacity-90"
           >
@@ -46,7 +47,8 @@ export default async function CVPage() {
           </Button>
           <Button
             asChild
-            className="border-border text-text-primary hover:bg-bg-secondary inline-flex h-14 items-center justify-center gap-2 rounded-lg border bg-transparent px-7 text-lg font-medium transition-all duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+            size="lg"
+            className="border-border text-text-primary hover:bg-bg-secondary inline-flex items-center justify-center gap-2 rounded-lg border bg-transparent px-7 text-lg font-medium transition-all duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
           >
             <Link href="/contact">
               <Mail className="mr-2 h-4 w-4" />
