@@ -70,14 +70,14 @@ html.dark {
   --color-accent-light: #134e4a;
 
   --color-bg-primary: #0c0a09;
-  --color-bg-secondary: #1c1917;
+  --color-bg-secondary: #292524;
   --color-bg-card: #1c1917;
 
   --color-text-primary: #fafaf9;
   --color-text-secondary: #a8a29e;
   --color-text-muted: #78716c;
 
-  --color-border: #292524;
+  --color-border: #37352f;
 
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);

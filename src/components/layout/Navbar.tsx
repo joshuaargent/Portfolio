@@ -104,7 +104,7 @@ export function Navbar() {
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden"
+              className="md:hidden text-text-primary"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
             >
@@ -153,13 +153,12 @@ export function Navbar() {
               <div className="border-border mt-8 border-t pt-8">
                 {/* Theme Toggle for Mobile */}
                 <div className="mb-6 flex justify-center">
-                  <Button
-                    variant="outline"
+                  <button
                     onClick={() => {
                       toggleTheme();
                       setIsMobileMenuOpen(false);
                     }}
-                    className="gap-2"
+                    className="inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-200 px-4 py-2 border border-border bg-bg-card text-text-primary hover:bg-bg-secondary"
                   >
                     {theme === 'dark' ? (
                       <>
@@ -172,7 +171,7 @@ export function Navbar() {
                         <span>Dark Mode</span>
                       </>
                     )}
-                  </Button>
+                  </button>
                 </div>
                 
                 <div className="flex items-center justify-center gap-4">

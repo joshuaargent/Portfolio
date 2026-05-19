@@ -59,25 +59,25 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     switch (variant) {
       case 'primary':
-        variantStyles = 'bg-[#0D9488] text-white hover:bg-[#0F766E] shadow-sm';
+        variantStyles = 'bg-accent text-white hover:bg-accent-hover shadow-sm';
         break;
       case 'secondary':
-        variantStyles = 'bg-[#F5F5F4] text-[#1C1917] hover:bg-[#E7E5E4] border border-[#E7E5E4]';
+        variantStyles = 'bg-bg-secondary text-text-primary hover:bg-border border border-border';
         break;
       case 'outline':
-        variantStyles = 'border border-[#E7E5E4] bg-transparent text-[#1C1917] hover:bg-[#F5F5F4]';
+        variantStyles = 'border border-border bg-transparent text-text-primary hover:bg-bg-secondary';
         break;
       case 'ghost':
-        variantStyles = 'text-[#1C1917] hover:bg-[#F5F5F4]';
+        variantStyles = 'text-text-primary hover:bg-bg-secondary';
         break;
       case 'link':
-        variantStyles = 'text-[#0D9488] hover:text-[#0F766E] underline-offset-4 hover:underline';
+        variantStyles = 'text-accent hover:text-accent-hover underline-offset-4 hover:underline';
         break;
       case 'danger':
         variantStyles = 'bg-red-600 text-white hover:bg-red-700';
         break;
       default:
-        variantStyles = 'bg-[#0D9488] text-white hover:bg-[#0F766E]';
+        variantStyles = 'bg-accent text-white hover:bg-accent-hover';
     }
 
     const buttonStyles = cn(buttonBaseStyles, variantStyles, sizeStyles[size], className);
