@@ -11,7 +11,7 @@ This portfolio is something I built from scratch with Next.js. It pulls real dat
 
 Currently working on Exam Spec Adaptive Revision – an AI tool that turns your study notes into flashcards and exam questions. More on that soon.
 
-I'm open to apprenticeships and junior dev roles where I can actually build things, not just talk about them. But I'm also not closing myself off to other opportunities either.`,
+I'm open to apprenticeships and junior dev roles where I can build things, not just talk about them. But I'm also not closing myself off to other opportunities either.`,
 
   experience: [
     {
