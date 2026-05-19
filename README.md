@@ -35,7 +35,7 @@
 | Date Utilities | date-fns |
 | Class Utilities | clsx + tailwind-merge |
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 portfolio/
@@ -89,7 +89,7 @@ portfolio/
 └── package.json     # Dependencies and scripts
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -133,7 +133,7 @@ npm run build
 npm run start
 ```
 
-## 🔧 Environment Variables
+## Environment Variables
 
 Create a `.env.local` file with the following variables:
 
