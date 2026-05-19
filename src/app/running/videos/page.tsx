@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { RunningVideosClient } from '@/components/running/RunningVideosClient';
-import { getRunningShorts } from '@/data/videos';
+import { getRunningVideosWithRuns } from '@/data/running';
 
 // ============================================
 // Metadata
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 // ============================================
 
 export default async function RunningVideosPage() {
-  const videos = await getRunningShorts();
+  const videosWithRuns = await getRunningVideosWithRuns();
 
   return (
     <>
@@ -28,7 +28,7 @@ export default async function RunningVideosPage() {
 
       <section className="pb-12 md:pb-16">
         <div className="container">
-          <RunningVideosClient videos={videos} />
+          <RunningVideosClient videosWithRuns={videosWithRuns} />
         </div>
       </section>
     </>

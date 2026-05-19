@@ -1,16 +1,22 @@
 'use client';
 
 import { useState } from 'react';
-import { VideoGrid } from '@/components/video/VideoGrid';
+import { RunningVideoCard } from '@/components/running/RunningVideoCard';
 import { Pagination } from '@/components/shared/Pagination';
-import { Video } from '@/types';
+import { Video, RunLog } from '@/types';
 
 // ============================================
 // Types
 // ============================================
 
+// Video paired with run data from Strava
+interface VideoWithRun {
+  video: Video;
+  run?: RunLog;
+}
+
 interface RunningVideosClientProps {
-  videos: Video[];
+  videosWithRuns: VideoWithRun[];
 }
 
 // ============================================
@@ -19,22 +25,22 @@ interface RunningVideosClientProps {
 
 const ITEMS_PER_PAGE = 12;
 
-export function RunningVideosClient({ videos }: RunningVideosClientProps) {
+export function RunningVideosClient({ videosWithRuns }: RunningVideosClientProps) {
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(videos.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(videosWithRuns.length / ITEMS_PER_PAGE);
   
-  const paginatedVideos = videos.slice(
+  const paginatedVideos = videosWithRuns.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE
   );
 
   return (
     <div>
-      <VideoGrid
-        videos={paginatedVideos}
-        columns={3}
-        emptyMessage="No running videos yet. Check back soon!"
-      />
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {paginatedVideos.map((item) => (
+          <RunningVideoCard key={item.video.id} video={item.video} run={item.run} />
+        ))}
+      </div>
       
       {totalPages > 1 && (
         <div className="mt-8">

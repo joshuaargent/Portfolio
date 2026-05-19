@@ -1,5 +1,6 @@
-import { RunLog, RunningStats } from '@/types';
+import { RunLog, RunningStats, Video } from '@/types';
 import { getStravaActivities, getStravaStats } from '@/lib/strava';
+import { getRunningShorts } from '@/data/videos';
 
 // ============================================
 // Run Logs
@@ -48,9 +49,64 @@ export async function getRecentRuns(limit: number = 10): Promise<RunLog[]> {
   return runs.slice(0, limit);
 }
 
+// Extended run type with video data
+export interface RunWithVideo extends RunLog {
+  video?: Video;
+}
+
+// Match runs to their YouTube shorts by title
+export async function getRecentRunsWithVideos(limit: number = 6): Promise<RunWithVideo[]> {
+  const [runs, videos] = await Promise.all([
+    getRunLogs(),
+    getRunningShorts(),
+  ]);
+  
+  const recentRuns = runs.slice(0, limit);
+  
+  return recentRuns.map((run) => {
+    // Try to find a matching video by title
+    // Strava titles typically contain the date and distance
+    // e.g., "Morning Run" or with pace info
+    const matchingVideo = videos.find((video) => {
+      const videoTitle = video.title.toLowerCase();
+      const runDate = run.date.replace(/-/g, '');
+      
+      // Check if video title contains the date or distance
+      // Running shorts often have titles like "5km in X:XX" or just date
+      return videoTitle.includes(run.distance.toString()) || 
+             videoTitle.includes(runDate) ||
+             videoTitle.includes(run.date);
+    });
+    
+    return {
+      ...run,
+      video: matchingVideo,
+    };
+  });
+}
+
 export async function getCurrentStreak(): Promise<number> {
   const stats = await getRunningStats();
   return stats.currentStreak;
+}
+
+// Get all running videos with their associated run data from Strava
+export async function getRunningVideosWithRuns(): Promise<{ video: Video; run?: RunLog }[]> {
+  const [runs, videos] = await Promise.all([
+    getRunLogs(),
+    getRunningShorts(),
+  ]);
+  
+  return videos.map((video) => {
+    // Try to find matching run by date
+    const runDate = new Date(video.publishedAt).toISOString().split('T')[0];
+    const matchingRun = runs.find((run) => run.date === runDate);
+    
+    return {
+      video,
+      run: matchingRun,
+    };
+  });
 }
 
 export async function getRunByDate(date: string): Promise<RunLog | undefined> {
