@@ -18,16 +18,23 @@ export default async function CodePage() {
   const [allProjects, featuredProjects] = await Promise.all([getProjects(), getFeaturedProjects()]);
 
   const techStack = [
-    'Next.js',
     'TypeScript',
+    'JavaScript',
+    'HTML5',
+    'CSS3',
+    'Python',
+    'Next.js',
     'React',
+    'Express.js',
     'Node.js',
-    'PostgreSQL',
-    'Tailwind CSS',
-    'Prisma',
-    'tRPC',
-    'Docker',
-    'AWS',
+    'YouTube API',
+    'GitHub API',
+    'Strava API',
+    'Vercel',
+    'Netlify',
+    'Render',
+    'Git',
+    'GitHub',
   ];
 
   return (

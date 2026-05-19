@@ -50,8 +50,8 @@ export default async function ReadingPage() {
               <h2 className="text-text-primary mb-4 text-2xl font-bold">My Reading Philosophy</h2>
               <div className="prose max-w-none">
                 <p>
-                  I read one book per week. It&apos;s not about speed reading or skipping
-                  pages—it&apos;s about making reading a daily habit and being intentional about
+                  I read one book per week. It's not about speed reading or skipping
+                  pages—it's about making reading a daily habit and being intentional about
                   what I read.
                 </p>
                 <h3>How I Read</h3>
@@ -76,6 +76,9 @@ export default async function ReadingPage() {
                   I focus on books about faith, psychology, health, performance, and learning. I
                   believe in reading widely but deeply—understanding a few books well is better than
                   skimming many.
+                </p>
+                <p>
+                  Teaching others is important for shared growth and also helps you learn the information.
                 </p>
               </div>
             </Card>

@@ -16,7 +16,11 @@ export default function NotFound() {
           Sorry, the page you're looking for doesn't exist or has been moved.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-          <Button asChild>
+          <Button
+            asChild
+            style={{ backgroundColor: '#0D9488', color: '#ffffff' }}
+            className="hover:opacity-90"
+          >
             <Link href="/">
               <Home className="mr-2 h-4 w-4" />
               Go Home

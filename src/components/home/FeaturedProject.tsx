@@ -56,7 +56,11 @@ export function FeaturedProject({ project }: FeaturedProjectProps) {
 
               <div className="mt-8 flex flex-wrap gap-3">
                 {project.liveUrl && (
-                  <Button asChild>
+                  <Button
+                    asChild
+                    style={{ backgroundColor: '#0D9488', color: '#ffffff' }}
+                    className="hover:opacity-90"
+                  >
                     <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
                       <ExternalLink className="mr-2 h-4 w-4" />
                       Live Demo

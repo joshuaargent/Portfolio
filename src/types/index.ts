@@ -206,11 +206,21 @@ export interface Skill {
   items: string[];
 }
 
+export interface ProjectEntry {
+  id: string;
+  name: string;
+  description: string;
+  techStack: string[];
+  url?: string;
+  highlights: string[];
+}
+
 export interface CVData {
   summary: string;
   experience: Experience[];
   education: Education[];
   skills: Skill[];
+  projects?: ProjectEntry[];
   certifications: Certification[];
 }
 
