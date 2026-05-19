@@ -141,6 +141,61 @@ export default async function CVPage() {
 
             <div>
               <h2 className="text-text-primary mb-6 flex items-center gap-2 text-2xl font-bold">
+                <Code className="text-accent h-5 w-5" />
+                Projects
+              </h2>
+              <div className="space-y-6">
+                {cv.projects &&
+                  cv.projects.map((project) => (
+                    <Card key={project.id}>
+                      <div className="mb-3 flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
+                        <div>
+                          <h3 className="text-text-primary text-xl font-semibold">
+                            {project.name}
+                          </h3>
+                          <p className="text-text-secondary">{project.description}</p>
+                        </div>
+                        {project.url && (
+                          <a
+                            href={project.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-accent hover:text-accent-hover flex items-center gap-1 text-sm"
+                          >
+                            <ExternalLink className="h-4 w-4" />
+                            View Code
+                          </a>
+                        )}
+                      </div>
+                      {project.techStack && project.techStack.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5">
+                          {project.techStack.map((tech) => (
+                            <Badge key={tech} variant="default" size="sm">
+                              {tech}
+                            </Badge>
+                          ))}
+                        </div>
+                      )}
+                      {project.highlights && project.highlights.length > 0 && (
+                        <ul className="mt-3 space-y-1">
+                          {project.highlights.map((highlight, index) => (
+                            <li
+                              key={index}
+                              className="text-text-secondary flex items-start gap-2 text-sm"
+                            >
+                              <span className="text-accent mt-1">•</span>
+                              {highlight}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </Card>
+                  ))}
+              </div>
+            </div>
+
+            <div>
+              <h2 className="text-text-primary mb-6 flex items-center gap-2 text-2xl font-bold">
                 <Briefcase className="text-accent h-5 w-5" />
                 Work Experience
               </h2>
@@ -283,61 +338,6 @@ export default async function CVPage() {
                   ))}
                 </ul>
               </Card>
-            </div>
-
-            <div>
-              <h2 className="text-text-primary mb-6 flex items-center gap-2 text-2xl font-bold">
-                <Code className="text-accent h-5 w-5" />
-                Projects
-              </h2>
-              <div className="space-y-6">
-                {cv.projects &&
-                  cv.projects.map((project) => (
-                    <Card key={project.id}>
-                      <div className="mb-3 flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
-                        <div>
-                          <h3 className="text-text-primary text-xl font-semibold">
-                            {project.name}
-                          </h3>
-                          <p className="text-text-secondary">{project.description}</p>
-                        </div>
-                        {project.url && (
-                          <a
-                            href={project.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-accent hover:text-accent-hover flex items-center gap-1 text-sm"
-                          >
-                            <ExternalLink className="h-4 w-4" />
-                            View Code
-                          </a>
-                        )}
-                      </div>
-                      {project.techStack && project.techStack.length > 0 && (
-                        <div className="flex flex-wrap gap-1.5">
-                          {project.techStack.map((tech) => (
-                            <Badge key={tech} variant="default" size="sm">
-                              {tech}
-                            </Badge>
-                          ))}
-                        </div>
-                      )}
-                      {project.highlights && project.highlights.length > 0 && (
-                        <ul className="mt-3 space-y-1">
-                          {project.highlights.map((highlight, index) => (
-                            <li
-                              key={index}
-                              className="text-text-secondary flex items-start gap-2 text-sm"
-                            >
-                              <span className="text-accent mt-1">•</span>
-                              {highlight}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </Card>
-                  ))}
-              </div>
             </div>
 
             <div>
