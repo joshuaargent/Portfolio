@@ -83,6 +83,8 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
             <Button
               size="lg"
               asChild
+              style={{ backgroundColor: '#0D9488', color: '#ffffff' }}
+              className="hover:opacity-90"
             >
               <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
                 <ExternalLink className="mr-2 h-4 w-4" />
