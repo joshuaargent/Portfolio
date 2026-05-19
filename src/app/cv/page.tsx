@@ -75,69 +75,6 @@ export default async function CVPage() {
 
             <div>
               <h2 className="text-text-primary mb-6 flex items-center gap-2 text-2xl font-bold">
-                <Briefcase className="text-accent h-5 w-5" />
-                Experience
-              </h2>
-              <div className="space-y-6">
-                {cv.experience.map((exp) => (
-                  <Card key={exp.id}>
-                    <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
-                      <div>
-                        <h3 className="text-text-primary text-xl font-semibold">{exp.role}</h3>
-                        <p className="text-accent font-medium">{exp.company}</p>
-                      </div>
-                      <div className="text-text-muted text-left text-sm md:text-right">
-                        <p className="flex items-center gap-1 md:justify-end">
-                          <Calendar className="h-4 w-4" />
-                          {formatDate(exp.startDate, 'MMM yyyy')} -{' '}
-                          {exp.current ? 'Present' : formatDate(exp.endDate!, 'MMM yyyy')}
-                        </p>
-                        <p className="flex items-center gap-1 md:justify-end">
-                          <MapPin className="h-4 w-4" />
-                          {exp.location}
-                        </p>
-                      </div>
-                    </div>
-
-                    <p className="text-text-secondary mb-4">{exp.description}</p>
-
-                    {exp.highlights && exp.highlights.length > 0 && (
-                      <>
-                        <h4 className="text-text-primary mb-2 text-sm font-semibold tracking-wider uppercase">
-                          What I learned
-                        </h4>
-                        <ul className="space-y-2">
-                          {exp.highlights.map((highlight, index) => (
-                            <li
-                              key={index}
-                              className="text-text-secondary flex items-start gap-2 text-sm"
-                            >
-                              <span className="text-accent mt-1">•</span>
-                              {highlight}
-                            </li>
-                          ))}
-                        </ul>
-                      </>
-                    )}
-
-                    {exp.techStack && exp.techStack.length > 0 && (
-                      <div className="border-border mt-4 border-t pt-4">
-                        <div className="flex flex-wrap gap-1.5">
-                          {exp.techStack.map((tech) => (
-                            <Badge key={tech} variant="default" size="sm">
-                              {tech}
-                            </Badge>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </Card>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h2 className="text-text-primary mb-6 flex items-center gap-2 text-2xl font-bold">
                 <GraduationCap className="text-accent h-5 w-5" />
                 Education
               </h2>
@@ -200,6 +137,152 @@ export default async function CVPage() {
                   </Card>
                 ))}
               </div>
+            </div>
+
+            <div>
+              <h2 className="text-text-primary mb-6 flex items-center gap-2 text-2xl font-bold">
+                <Briefcase className="text-accent h-5 w-5" />
+                Work Experience
+              </h2>
+              <div className="space-y-6">
+                {cv.workExperience.map((exp) => (
+                  <Card key={exp.id}>
+                    <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
+                      <div>
+                        <h3 className="text-text-primary text-xl font-semibold">{exp.role}</h3>
+                        <p className="text-accent font-medium">{exp.company}</p>
+                      </div>
+                      <div className="text-text-muted text-left text-sm md:text-right">
+                        <p className="flex items-center gap-1 md:justify-end">
+                          <Calendar className="h-4 w-4" />
+                          {formatDate(exp.startDate, 'MMM yyyy')} -{' '}
+                          {exp.current ? 'Present' : formatDate(exp.endDate!, 'MMM yyyy')}
+                        </p>
+                        <p className="flex items-center gap-1 md:justify-end">
+                          <MapPin className="h-4 w-4" />
+                          {exp.location}
+                        </p>
+                      </div>
+                    </div>
+
+                    <p className="text-text-secondary mb-4">{exp.description}</p>
+
+                    {exp.highlights && exp.highlights.length > 0 && (
+                      <>
+                        <h4 className="text-text-primary mb-2 text-sm font-semibold tracking-wider uppercase">
+                          What I learned
+                        </h4>
+                        <ul className="space-y-2">
+                          {exp.highlights.map((highlight, index) => (
+                            <li
+                              key={index}
+                              className="text-text-secondary flex items-start gap-2 text-sm"
+                            >
+                              <span className="text-accent mt-1">•</span>
+                              {highlight}
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    )}
+
+                    {exp.techStack && exp.techStack.length > 0 && (
+                      <div className="border-border mt-4 border-t pt-4">
+                        <div className="flex flex-wrap gap-1.5">
+                          {exp.techStack.map((tech) => (
+                            <Badge key={tech} variant="default" size="sm">
+                              {tech}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </Card>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h2 className="text-text-primary mb-6 flex items-center gap-2 text-2xl font-bold">
+                <Briefcase className="text-accent h-5 w-5" />
+                Employment
+              </h2>
+              <div className="space-y-6">
+                {cv.employment.map((exp) => (
+                  <Card key={exp.id}>
+                    <div className="mb-4 flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
+                      <div>
+                        <h3 className="text-text-primary text-xl font-semibold">{exp.role}</h3>
+                        <p className="text-accent font-medium">{exp.company}</p>
+                      </div>
+                      <div className="text-text-muted text-left text-sm md:text-right">
+                        <p className="flex items-center gap-1 md:justify-end">
+                          <Calendar className="h-4 w-4" />
+                          {formatDate(exp.startDate, 'MMM yyyy')} -{' '}
+                          {exp.current ? 'Present' : formatDate(exp.endDate!, 'MMM yyyy')}
+                        </p>
+                        <p className="flex items-center gap-1 md:justify-end">
+                          <MapPin className="h-4 w-4" />
+                          {exp.location}
+                        </p>
+                      </div>
+                    </div>
+
+                    <p className="text-text-secondary mb-4">{exp.description}</p>
+
+                    {exp.highlights && exp.highlights.length > 0 && (
+                      <>
+                        <h4 className="text-text-primary mb-2 text-sm font-semibold tracking-wider uppercase">
+                          What I learned
+                        </h4>
+                        <ul className="space-y-2">
+                          {exp.highlights.map((highlight, index) => (
+                            <li
+                              key={index}
+                              className="text-text-secondary flex items-start gap-2 text-sm"
+                            >
+                              <span className="text-accent mt-1">•</span>
+                              {highlight}
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    )}
+
+                    {exp.techStack && exp.techStack.length > 0 && (
+                      <div className="border-border mt-4 border-t pt-4">
+                        <div className="flex flex-wrap gap-1.5">
+                          {exp.techStack.map((tech) => (
+                            <Badge key={tech} variant="default" size="sm">
+                              {tech}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </Card>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h2 className="text-text-primary mb-6 flex items-center gap-2 text-2xl font-bold">
+                <Heart className="text-accent h-5 w-5" />
+                Additional Skills & Strengths
+              </h2>
+              <Card>
+                <ul className="space-y-2">
+                  {cv.additionalSkills && cv.additionalSkills.map((skill, index) => (
+                    <li
+                      key={index}
+                      className="text-text-secondary flex items-start gap-2"
+                    >
+                      <span className="text-accent mt-1">•</span>
+                      {skill}
+                    </li>
+                  ))}
+                </ul>
+              </Card>
             </div>
 
             <div>
