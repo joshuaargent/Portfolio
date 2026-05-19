@@ -22,7 +22,6 @@ export default async function CodePage() {
     'JavaScript',
     'HTML5',
     'CSS3',
-    'Python',
     'Next.js',
     'React',
     'Express.js',
@@ -33,8 +32,10 @@ export default async function CodePage() {
     'Vercel',
     'Netlify',
     'Render',
+    'Supabase',
     'Git',
     'GitHub',
+    'PostgreSQL',
   ];
 
   return (

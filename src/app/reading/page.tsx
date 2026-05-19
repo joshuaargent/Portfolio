@@ -68,7 +68,7 @@ export default async function ReadingPage() {
                   I focus on books about faith, psychology, health, performance, and learning. I
                   believe in reading widely but deeply. I don't read may fantasy books but Enid
                   Blyton and C. S. Lewis are noticeable mentions. Teaching others about what I have
-                  read helps me remember and learn and hopefully helps others in their journey.
+                  read helps me remember, learn and hopefully helps others in their journey.
                 </p>
               </div>
             </Card>

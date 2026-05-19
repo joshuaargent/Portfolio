@@ -7,7 +7,7 @@ import { siteConfig } from '@/lib/constants';
 export const personalInfo = {
   name: 'Joshua Argent',
   tagline: 'Runner. Reader. Coder.',
-  bio: `I run 5km a day, read a lot, and share what I learn about fitness and faith. I also build websites for friends, communities and businesses. This website is my central hub for everything I learn, share and create in the aim of personal and shared growth with those who find my content constructive.`,
+  bio: `I run 5km a day, read a lot, and share what I learn about fitness and faith. I also build websites for friends, communities and businesses. This website is my central hub for everything I learn, share and create in the aim of personal and shared growth.`,
   location: 'Surrey, United Kingdom',
   email: 'argentjackjoshua@outlook.com',
   avatar: '/images/avatar.jpg',

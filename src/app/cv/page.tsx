@@ -67,7 +67,9 @@ export default async function CVPage() {
                 Summary
               </h2>
               <Card>
-                <p className="text-text-secondary whitespace-pre-line leading-relaxed">{cv.summary}</p>
+                <p className="text-text-secondary leading-relaxed whitespace-pre-line">
+                  {cv.summary}
+                </p>
               </Card>
             </div>
 
@@ -87,7 +89,7 @@ export default async function CVPage() {
                       <div className="text-text-muted text-left text-sm md:text-right">
                         <p className="flex items-center gap-1 md:justify-end">
                           <Calendar className="h-4 w-4" />
-                          {formatDate(exp.startDate, 'MMM yyyy')} —{' '}
+                          {formatDate(exp.startDate, 'MMM yyyy')} -{' '}
                           {exp.current ? 'Present' : formatDate(exp.endDate!, 'MMM yyyy')}
                         </p>
                         <p className="flex items-center gap-1 md:justify-end">
@@ -150,7 +152,7 @@ export default async function CVPage() {
                       <div className="text-text-muted text-left text-sm md:text-right">
                         <p className="flex items-center gap-1 md:justify-end">
                           <Calendar className="h-4 w-4" />
-                          {formatDate(edu.startDate, 'MMM yyyy')} —{' '}
+                          {formatDate(edu.startDate, 'MMM yyyy')} -{' '}
                           {formatDate(edu.endDate, 'MMM yyyy')}
                         </p>
                         <p className="flex items-center gap-1 md:justify-end">
@@ -206,49 +208,52 @@ export default async function CVPage() {
                 Projects
               </h2>
               <div className="space-y-6">
-                {cv.projects && cv.projects.map((project) => (
-                  <Card key={project.id}>
-                    <div className="mb-3 flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
-                      <div>
-                        <h3 className="text-text-primary text-xl font-semibold">{project.name}</h3>
-                        <p className="text-text-secondary">{project.description}</p>
-                      </div>
-                      {project.url && (
-                        <a
-                          href={project.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-accent hover:text-accent-hover flex items-center gap-1 text-sm"
-                        >
-                          <ExternalLink className="h-4 w-4" />
-                          View Code
-                        </a>
-                      )}
-                    </div>
-                    {project.techStack && project.techStack.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5">
-                        {project.techStack.map((tech) => (
-                          <Badge key={tech} variant="default" size="sm">
-                            {tech}
-                          </Badge>
-                        ))}
-                      </div>
-                    )}
-                    {project.highlights && project.highlights.length > 0 && (
-                      <ul className="mt-3 space-y-1">
-                        {project.highlights.map((highlight, index) => (
-                          <li
-                            key={index}
-                            className="text-text-secondary flex items-start gap-2 text-sm"
+                {cv.projects &&
+                  cv.projects.map((project) => (
+                    <Card key={project.id}>
+                      <div className="mb-3 flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
+                        <div>
+                          <h3 className="text-text-primary text-xl font-semibold">
+                            {project.name}
+                          </h3>
+                          <p className="text-text-secondary">{project.description}</p>
+                        </div>
+                        {project.url && (
+                          <a
+                            href={project.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-accent hover:text-accent-hover flex items-center gap-1 text-sm"
                           >
-                            <span className="text-accent mt-1">•</span>
-                            {highlight}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </Card>
-                ))}
+                            <ExternalLink className="h-4 w-4" />
+                            View Code
+                          </a>
+                        )}
+                      </div>
+                      {project.techStack && project.techStack.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5">
+                          {project.techStack.map((tech) => (
+                            <Badge key={tech} variant="default" size="sm">
+                              {tech}
+                            </Badge>
+                          ))}
+                        </div>
+                      )}
+                      {project.highlights && project.highlights.length > 0 && (
+                        <ul className="mt-3 space-y-1">
+                          {project.highlights.map((highlight, index) => (
+                            <li
+                              key={index}
+                              className="text-text-secondary flex items-start gap-2 text-sm"
+                            >
+                              <span className="text-accent mt-1">•</span>
+                              {highlight}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </Card>
+                  ))}
               </div>
             </div>
 
@@ -273,7 +278,7 @@ export default async function CVPage() {
                     </p>
                   </div>
                   <div>
-                    <h3 className="text-text-primary font-semibold">Building</h3>
+                    <h3 className="text-text-primary font-semibold">Coding</h3>
                     <p className="text-text-secondary text-sm">
                       Working on Exam Spec Adaptive Revision – an AI tool that turns study notes
                       into flashcards and exam questions.
@@ -289,8 +294,7 @@ export default async function CVPage() {
                   Interested in working together?
                 </h2>
                 <p className="text-text-secondary mx-auto mb-6 max-w-md">
-                  I'm always open to opportunities where I can build things. But I'm also not closing
-                  myself off to other possibilities either.
+                  I'm always open to opportunities and to help where possible.
                 </p>
                 <Button
                   size="lg"
