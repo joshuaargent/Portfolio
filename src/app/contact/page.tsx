@@ -199,24 +199,6 @@ export default function ContactPage() {
                       <p className="text-text-muted text-xs">@500534339</p>
                     </div>
                   </a>
-
-                  <a
-                    href={socialLinks.tiktok}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:bg-bg-secondary flex items-center gap-3 rounded-lg p-2 transition-colors"
-                  >
-                    <svg className="h-5 w-5" viewBox="0 0 16 16">
-                      <path
-                        fill="black"
-                        d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"
-                      />
-                    </svg>
-                    <div>
-                      <p className="text-text-primary text-sm font-medium">TikTok</p>
-                      <p className="text-text-muted text-xs">@joshuaargent5</p>
-                    </div>
-                  </a>
                 </div>
               </Card>
 

@@ -14,7 +14,6 @@ export interface SiteConfig {
     instagram: string;
     facebook: string;
     strava: string;
-    tiktok: string;
     email: string;
   };
   author: {
@@ -217,10 +216,12 @@ export interface ProjectEntry {
 
 export interface CVData {
   summary: string;
-  experience: Experience[];
   education: Education[];
   skills: Skill[];
+  workExperience: Experience[];
+  employment: Experience[];
   projects?: ProjectEntry[];
+  additionalSkills?: string[];
   certifications: Certification[];
 }
 

@@ -5,93 +5,9 @@ import { CVData } from '@/types';
 // ============================================
 
 export const cvData: CVData = {
-  summary: `I'm a Year 12 student who builds websites. I run 5km every day, read a lot, and im to be as literate as possible in each of my endeavours. This portfolio is built from scratch with Next.js. It pulls real data from YouTube, GitHub, and Strava APIs – I wanted to create a platform I would actually utilise once I'd finished coding it. I'm currently working on Exam Spec Adaptive Revision – an AI tool that turns your study notes into flashcards and exam questions. I'm open to apprenticeships, junior dev roles and any new experiences, especially where there is active passion for greatness and that actually helps others.`,
+  summary: `Year 12 student full stack developer, skilled in Next.js, TypeScript, and API driven applications. I am currently developing an AI tool that converts study notes into flashcards and exam questions.
 
-  experience: [
-    {
-      id: '1',
-      role: 'Head of Sport and Wellbeing',
-      company: 'Collingwood College',
-      location: 'Surrey, United Kingdom',
-      startDate: '2026-04',
-      current: true,
-      description:
-        "It's a student leadership role where I represent students and help organise sports activities and wellbeing initiatives across the college.",
-      highlights: [
-        'Organise and co-ordinate sports events for students',
-        'Promote wellbeing initiatives and healthy lifestyle choices',
-        'Represent students and communicate with staff',
-        "It's helped me develop leadership and communication skills",
-      ],
-      techStack: ['Leadership', 'Event Organisation', 'Communication'],
-    },
-    {
-      id: '2',
-      role: 'Shelf Stocker / Store Assistant',
-      company: 'Local Newsagents',
-      location: 'Surrey, United Kingdom',
-      startDate: '2024-01',
-      current: true,
-      description:
-        "Customer service and shop floor work. It's pretty straightforward – help customers find what they need and keep shelves stocked.",
-      highlights: [
-        'Helped customers find what they needed accurately and efficiently',
-        'Restocked shelves and kept the shop floor organised',
-        'Managed multiple tasks during busy periods',
-        "It's built reliability, punctuality, and time-management skills",
-      ],
-      techStack: ['Customer Service', 'Time Management', 'Communication'],
-    },
-    {
-      id: '3',
-      role: 'RAF Work Experience',
-      company: 'Royal Air Force',
-      location: 'United Kingdom',
-      startDate: '2025-03',
-      current: false,
-      endDate: '2025-03',
-      description:
-        'One-week virtual work experience placement at RAF. It was good to see what a professional environment looks like and understand how things work in bigger organisations.',
-      highlights: ['Virtual placement', 'SpringPod programme'],
-      techStack: [],
-    },
-    {
-      id: '4',
-      role: 'Wheeler Programme',
-      company: 'Wellington College',
-      location: 'Crowthorne, Berkshire',
-      startDate: '2020-09',
-      endDate: '2022-07',
-      current: true,
-      description:
-        'Five-year fully funded enrichment programme for Year 9 students from partner state schools. Includes five-day residential induction, regular study days at Wellington College, academic consolidation, soft-skills development, mentoring, and work experience placements.',
-      highlights: [
-        'Selected from partner schools (20-24 pupils per cohort)',
-        'Five-day residential induction',
-        'Study days and termly visits',
-        'Academic and enrichment activities',
-      ],
-      techStack: [],
-    },
-    {
-      id: '5',
-      role: 'Lenovo Work Experience',
-      company: 'Lenovo',
-      location: 'Farnborough, United Kingdom',
-      startDate: '2025-11',
-      endDate: '2025-11',
-      current: false,
-      description:
-        'We spent a week at Lenovo shadowing different teams. It gave me insight into how a large tech company operates, how different roles work together and what to expect in a professional environment.',
-      highlights: [
-        'Lead the planning of a hypothetical event which we pitched to the team',
-        'Observed professional workplace routines and communication standards',
-        'Gained insight into operations at a large tech company including meetings',
-        'Learned what to expect in a professional and productive environment',
-      ],
-      techStack: ['Professional Communication', 'Workplace Awareness'],
-    },
-  ],
+Disciplined and consistent. I run 5km daily and read one book per week. Looking for apprenticeships, junior developer roles, or opportunities where I can contribute, learn fast, and build things that help people.`,
 
   education: [
     {
@@ -105,25 +21,29 @@ export const cvData: CVData = {
     },
     {
       id: '2',
+      degree: 'Wheeler Programme',
+      institution: 'Wellington College',
+      location: 'Crowthorne, Berkshire',
+      startDate: '2022-09',
+      endDate: '2027-07',
+      highlights: [
+        'Fully funded 5 year enrichment programme for state school students',
+        'Has led to my communication and leadership skills improving massively',
+        'Regular study days, academic consolidation, and soft skills development',
+      ],
+    },
+    {
+      id: '3',
       degree: 'GCSEs',
       institution: 'Collingwood College',
       location: 'Surrey, United Kingdom',
       startDate: '2020-09',
       endDate: '2025-07',
       highlights: [
-        'Computer Science (8)',
-        'Mathematics (8)',
-        'Geography (8)',
-        'Physics (8)',
-        'Psychology (8)',
-        'Religious Studies (7)',
-        'English Language (7)',
-        'Further Mathematics (6)',
-        'English Literature (6)',
-        'Business (6)',
-        'Biology (6)',
-        'Chemistry (6)',
-        'Engineering Manufacture (Distinction D2)',
+        'Grade 8: Computer Science, Mathematics, Geography, Physics, Psychology',
+        'Grade 7: Religious Studies, English Language',
+        'Grade 6: Further Mathematics, English Literature, Business, Biology, Chemistry',
+        'BTEC: Engineering Manufacture (Distinction D2)',
       ],
     },
   ],
@@ -138,27 +58,88 @@ export const cvData: CVData = {
       items: ['Next.js', 'React', 'Express.js', 'Node.js'],
     },
     {
-      category: 'APIs',
-      items: ['YouTube Data API', 'GitHub API', 'Strava API'],
-    },
-    {
-      category: 'Hosting',
-      items: ['Vercel', 'Netlify', 'Render', 'Supabase'],
+      category: 'Databases & Hosting',
+      items: ['PostgreSQL', 'Vercel', 'Netlify', 'Render', 'Supabase'],
     },
     {
       category: 'Tools',
-      items: ['Git', 'GitHub', 'PostgreSQL'],
+      items: ['Git', 'GitHub'],
+    },
+  ],
+
+  workExperience: [
+    {
+      id: '1',
+      role: 'Head of Sport and Wellbeing',
+      company: 'Collingwood College',
+      location: 'Surrey, United Kingdom',
+      startDate: '2026-04',
+      current: true,
+      description:
+        "Student leadership role representing students and helping organise sports activities and wellbeing initiatives across the college.",
+      highlights: [
+        'Organising and coordinating sports events for students',
+        'Promoting wellbeing initiatives and healthy lifestyle choices',
+        'Representing students and communicating with staff',
+        'Developing leadership and communication skills',
+      ],
+      techStack: ['Leadership', 'Event Organisation', 'Communication'],
     },
     {
-      category: 'Soft Skills',
-      items: [
-        'Leadership',
-        'Reliability',
-        'Punctuality',
-        'Communication',
-        'Problem Solving',
-        'Consistency',
+      id: '2',
+      role: 'Lenovo Work Experience',
+      company: 'Lenovo',
+      location: 'Farnborough, United Kingdom',
+      startDate: '2025-11',
+      current: false,
+      endDate: '2025-11',
+      description:
+        'Week long work experience shadowing different teams at Lenovo. Gained insight into how a large tech company operates and what to expect in a professional environment.',
+      highlights: [
+        'Led planning of a hypothetical event which we pitched to the team',
+        'Observed professional workplace routines and communication standards',
+        'Gained insight into operations at a large tech company',
+        'Learned what to expect in a professional and productive environment',
       ],
+      techStack: ['Professional Communication', 'Workplace Awareness', 'Planning'],
+    },
+    {
+      id: '3',
+      role: 'RAF Virtual Work Experience',
+      company: 'Royal Air Force x Springpod',
+      location: 'United Kingdom',
+      startDate: '2025-04',
+      current: true,
+      description:
+        "First UK Defence virtual work experience programme delivered by Springpod. Exploring the organisation's purpose, history, structure, and the wide range of careers available.",
+      highlights: [
+        'Exploring RAF structure, careers, values, history and',
+        'Insight into life in the RAF including training and career progression',
+        'Learning about RAF personnel, stations, and aircraft operations',
+        'Discovering apprenticeship and graduate pathways within the RAF',
+      ],
+      techStack: ['Career Exploration', 'Professional Awareness', 'Defence Sector'],
+    },
+  ],
+
+  employment: [
+    {
+      id: '1',
+      role: 'Shelf Stocker / Store Assistant',
+      company: 'Local Newsagents',
+      location: 'Crowthorne, United Kingdom',
+      startDate: '2022-09',
+      endDate: '2023-09',
+      current: false,
+      description:
+        "Worked at Crowthorne's local newsagents doing customer service and shop floor work. I helped customers find what they needed and kept shelves stocked and tidy.",
+      highlights: [
+        'Helped customers find what they needed accurately and efficiently',
+        'Restocked shelves and kept the shop floor organised',
+        'Managed multiple tasks during busy periods',
+        "It's built reliability, punctuality, and time management skills",
+      ],
+      techStack: ['Customer Service', 'Time Management', 'Communication'],
     },
   ],
 
@@ -197,6 +178,15 @@ export const cvData: CVData = {
         'Detailed and structured database using PostgreSQL',
       ],
     },
+  ],
+
+  additionalSkills: [
+    'Reliable and punctual with consistent attendance',
+    'Quick learner who adapts well to new tasks and systems',
+    'Comfortable following written and verbal instructions',
+    'Able to manage tasks independently and stay organised',
+    'Clear communicator with customers, colleagues, and supervisors',
+    'Logical and analytical approach to problem solving',
   ],
 
   certifications: [],

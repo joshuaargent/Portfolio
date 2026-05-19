@@ -19,5 +19,4 @@ export const socialLinks = {
   instagram: 'https://instagram.com/joshua_argent',
   facebook: 'https://facebook.com/joshua_argent',
   strava: 'https://www.strava.com/athletes/500534339',
-  tiktok: 'https://tiktok.com/@joshuaargent5',
 };

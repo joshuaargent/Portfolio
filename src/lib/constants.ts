@@ -15,7 +15,6 @@ export const siteConfig: SiteConfig = {
     instagram: 'https://instagram.com/joshua_argent',
     facebook: 'https://facebook.com/joshua_argent',
     strava: 'https://www.strava.com/athletes/500534339',
-    tiktok: 'https://tiktok.com/@joshuaargent5',
     email: 'argentjackjoshua@outlook.com',
   },
   author: {
@@ -61,7 +60,6 @@ export const footerNav = {
   social: [
     { label: 'YouTube', href: 'https://youtube.com/@joshua_argent' },
     { label: 'Instagram', href: 'https://instagram.com/joshua_argent' },
-    { label: 'TikTok', href: 'https://tiktok.com/@joshuaargent5' },
     { label: 'Strava', href: 'https://www.strava.com/athletes/500534339' },
     { label: 'GitHub', href: 'https://github.com/joshuaargent' },
     { label: 'Facebook', href: 'https://facebook.com/joshua_argent' },
