@@ -6,7 +6,7 @@ import { getCompletedBooks } from '@/data/books';
 
 export const metadata: Metadata = {
   title: 'Books',
-  description: "All the books I've read and recommend.",
+  description: "All the books I've read and analysed.",
 };
 
 export default async function BooksPage() {
@@ -14,7 +14,7 @@ export default async function BooksPage() {
 
   return (
     <>
-      <PageHeader title="Books" description="All the books I've read, rated, and recommend." />
+      <PageHeader title="Books" description="All the books I've read, rated, and analysed." />
 
       <section className="pb-12 md:pb-16">
         <div className="container">

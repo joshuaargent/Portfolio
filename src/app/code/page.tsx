@@ -41,7 +41,7 @@ export default async function CodePage() {
     <>
       <PageHeader
         title="Code"
-        description="I build things that solve real problems. Here's what I've been working on."
+        description="I build wesbites and tools. Here's what I've been working on."
       />
 
       <section className="pb-12 md:pb-16">
@@ -58,8 +58,8 @@ export default async function CodePage() {
           <div className="mb-12">
             <SectionHeading
               title="All Projects"
-              subtitle="Everything I've built, from web apps to CLI tools."
-              action={{ label: 'View on GitHub', href: 'https://github.com/yourusername' }}
+              subtitle="Everything I've built, let me know if you have any requests."
+              action={{ label: 'View on GitHub', href: 'https://github.com/joshuaargent' }}
             />
             <div className="mt-6">
               <ProjectGrid projects={allProjects} columns={2} />
@@ -85,9 +85,7 @@ export default async function CodePage() {
             <Card>
               <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
                 <div>
-                  <h3 className="text-text-primary text-xl font-semibold">
-                    More Projects
-                  </h3>
+                  <h3 className="text-text-primary text-xl font-semibold">More Projects</h3>
                   <p className="text-text-secondary mt-2">
                     Check out more of my projects on GitHub.
                   </p>

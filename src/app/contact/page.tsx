@@ -36,7 +36,13 @@ export default function ContactPage() {
                     className="space-y-6"
                   >
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                      <Input label="Name" name="name" type="text" placeholder="Your name" required />
+                      <Input
+                        label="Name"
+                        name="name"
+                        type="text"
+                        placeholder="Your name"
+                        required
+                      />
                       <Input
                         label="Email"
                         name="email"
@@ -71,17 +77,26 @@ export default function ContactPage() {
                   <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-4 text-yellow-800">
                     <p className="font-medium">Contact form not configured</p>
                     <p className="mt-1 text-sm">
-                      To enable the contact form, add your Formspree form ID to the environment variable{' '}
-                      <code className="bg-yellow-100 px-1 py-0.5 rounded">NEXT_PUBLIC_FORMSPREE_FORM_ID</code>.<br />
+                      To enable the contact form, add your Formspree form ID to the environment
+                      variable{' '}
+                      <code className="rounded bg-yellow-100 px-1 py-0.5">
+                        NEXT_PUBLIC_FORMSPREE_FORM_ID
+                      </code>
+                      .<br />
                       Create a form at{' '}
-                      <a href="https://formspree.io" target="_blank" rel="noopener noreferrer" className="underline">
+                      <a
+                        href="https://formspree.io"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="underline"
+                      >
                         formspree.io
                       </a>
                     </p>
                     <div className="mt-4">
                       <a
                         href={`mailto:${personalInfo.email}`}
-                        className="inline-flex items-center gap-2 text-accent hover:text-accent-hover"
+                        className="text-accent hover:text-accent-hover inline-flex items-center gap-2"
                       >
                         <Mail className="h-4 w-4" />
                         {personalInfo.email}
@@ -174,11 +189,14 @@ export default function ContactPage() {
                     className="hover:bg-bg-secondary flex items-center gap-3 rounded-lg p-2 transition-colors"
                   >
                     <svg className="h-5 w-5 text-orange-500" viewBox="0 0 16 16">
-                      <path fill="currentColor" d="M6.731 0 2 9.125h2.788L6.73 5.497l1.93 3.628h2.766zm4.694 9.125-1.372 2.756L8.66 9.125H6.547L10.053 16l3.484-6.875z"/>
+                      <path
+                        fill="currentColor"
+                        d="M6.731 0 2 9.125h2.788L6.73 5.497l1.93 3.628h2.766zm4.694 9.125-1.372 2.756L8.66 9.125H6.547L10.053 16l3.484-6.875z"
+                      />
                     </svg>
                     <div>
                       <p className="text-text-primary text-sm font-medium">Strava</p>
-                      <p className="text-text-muted text-xs">500534339</p>
+                      <p className="text-text-muted text-xs">@500534339</p>
                     </div>
                   </a>
 
@@ -189,7 +207,10 @@ export default function ContactPage() {
                     className="hover:bg-bg-secondary flex items-center gap-3 rounded-lg p-2 transition-colors"
                   >
                     <svg className="h-5 w-5" viewBox="0 0 16 16">
-                      <path fill="black" d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"/>
+                      <path
+                        fill="black"
+                        d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"
+                      />
                     </svg>
                     <div>
                       <p className="text-text-primary text-sm font-medium">TikTok</p>
@@ -202,8 +223,8 @@ export default function ContactPage() {
               <Card className="bg-accent-light">
                 <h3 className="text-text-primary mb-2 font-semibold">Response Time</h3>
                 <p className="text-text-secondary text-sm">
-                  I typically respond within 24-48 hours. For urgent matters, reach out via Instagram
-                  DM.
+                  I typically respond within 24-48 hours. For urgent matters, reach out via
+                  Instagram DM.
                 </p>
               </Card>
             </div>

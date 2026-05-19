@@ -2,7 +2,10 @@ import { Metadata } from 'next';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { SectionHeading } from '@/components/shared/SectionHeading';
 import { Card } from '@/components/ui/Card';
-import { ContentCombinedFilter, type CombinedContent } from '@/components/content/CombinedContentFilter';
+import {
+  ContentCombinedFilter,
+  type CombinedContent,
+} from '@/components/content/CombinedContentFilter';
 import { getContentPieces } from '@/data/content';
 import { getVideos } from '@/data/videos';
 import { contentCategories } from '@/lib/constants';
@@ -20,10 +23,7 @@ export default async function ContentPage({
   const params = await searchParams;
   const initialCategory = params.category || null;
 
-  const [contentPieces, allVideos] = await Promise.all([
-    getContentPieces(),
-    getVideos(),
-  ]);
+  const [contentPieces, allVideos] = await Promise.all([getContentPieces(), getVideos()]);
 
   const categories = contentCategories.map((cat) => ({
     id: cat.id,
@@ -66,27 +66,37 @@ export default async function ContentPage({
         <div className="container">
           <SectionHeading title="Categories" />
           <div className="mt-4">
-            <ContentCombinedFilter content={combinedContent} categories={categories} initialCategory={initialCategory} />
+            <ContentCombinedFilter
+              content={combinedContent}
+              categories={categories}
+              initialCategory={initialCategory}
+            />
           </div>
 
           <div className="mt-16">
             <SectionHeading title="Content Schedule" subtitle="What I create each week." />
             <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
               <Card>
-                <h3 className="text-text-primary font-semibold">1 Long-form Video</h3>
-                <p className="text-text-secondary mt-1 text-sm">Deep dive into the book of the week</p>
+                <h3 className="text-text-primary font-semibold">1 Long Form</h3>
+                <p className="text-text-secondary mt-1 text-sm">
+                  Deep dive into the book of the week
+                </p>
               </Card>
               <Card>
-                <h3 className="text-text-primary font-semibold">7 Short Videos</h3>
-                <p className="text-text-secondary mt-1 text-sm">Key ideas and insights from the book</p>
+                <h3 className="text-text-primary font-semibold">7 Book Shorts</h3>
+                <p className="text-text-secondary mt-1 text-sm">
+                  Key ideas and insights from the book
+                </p>
               </Card>
               <Card>
-                <h3 className="text-text-primary font-semibold">Daily Running Shorts</h3>
+                <h3 className="text-text-primary font-semibold">7 Running Shorts</h3>
                 <p className="text-text-secondary mt-1 text-sm">Quick updates from my daily 5km</p>
               </Card>
               <Card>
                 <h3 className="text-text-primary font-semibold">Weekly Blog Post</h3>
-                <p className="text-text-secondary mt-1 text-sm">Longer thoughts on learning and growth</p>
+                <p className="text-text-secondary mt-1 text-sm">
+                  Longer thoughts on learning and growth
+                </p>
               </Card>
             </div>
           </div>

@@ -7,7 +7,12 @@ import { SectionHeading } from '@/components/shared/SectionHeading';
 import { Card } from '@/components/ui/Card';
 import { PersonalRecords } from '@/components/running/PersonalRecords';
 import { GoalTracker } from '@/components/running/GoalTracker';
-import { getRunningStats, getRunLogs, getRecentRunsWithVideos, type RunWithVideo } from '@/data/running';
+import {
+  getRunningStats,
+  getRunLogs,
+  getRecentRunsWithVideos,
+  type RunWithVideo,
+} from '@/data/running';
 import { runningGoals } from '@/lib/constants';
 
 // ============================================
@@ -16,7 +21,7 @@ import { runningGoals } from '@/lib/constants';
 
 export const metadata: Metadata = {
   title: 'Running',
-  description: 'My daily 5km running journey. Building consistency, one step at a time.',
+  description: "5km every day. Run with me if you're free.",
 };
 
 // ============================================
@@ -32,10 +37,7 @@ export default async function RunningPage() {
 
   return (
     <>
-      <PageHeader
-        title="Running"
-        description="5km every day. Building consistency, one step at a time."
-      />
+      <PageHeader title="Running" description="5km every day. Run with me if you're free." />
 
       <section className="pb-12 md:pb-16">
         <div className="container">
@@ -48,13 +50,22 @@ export default async function RunningPage() {
           <div className="mb-12">
             <SectionHeading title="Goals" subtitle="Track your progress." />
             <div className="mt-6">
-              <GoalTracker stats={stats} runs={allRuns} weeklyGoal={runningGoals.weekly} monthlyGoal={runningGoals.monthly} yearlyGoal={runningGoals.yearly} />
+              <GoalTracker
+                stats={stats}
+                runs={allRuns}
+                weeklyGoal={runningGoals.weekly}
+                monthlyGoal={runningGoals.monthly}
+                yearlyGoal={runningGoals.yearly}
+              />
             </div>
           </div>
 
           {/* Records & Predictions */}
           <div className="mb-12">
-            <SectionHeading title="Records & Predictions" subtitle="Your best moments and what's possible." />
+            <SectionHeading
+              title="Records & Predictions"
+              subtitle="Your best moments and what's possible."
+            />
             <div className="mt-6">
               <PersonalRecords stats={stats} runs={allRuns} />
             </div>
@@ -62,7 +73,11 @@ export default async function RunningPage() {
 
           {/* Calendar */}
           <div className="mb-12">
-            <StreakCalendar runs={allRuns} year={new Date().getFullYear()} avgPace={stats.averagePaceSeconds} />
+            <StreakCalendar
+              runs={allRuns}
+              year={new Date().getFullYear()}
+              avgPace={stats.averagePaceSeconds}
+            />
           </div>
 
           {/* Recent Runs */}
@@ -85,34 +100,31 @@ export default async function RunningPage() {
               <h2 className="text-text-primary mb-4 text-2xl font-bold">My Approach to Running</h2>
               <div className="prose max-w-none">
                 <p>
-                  I started running every day on October 20, 2024. The goal was simple: run 5km
-                  every day, no matter what. Not for speed, not for distance—just for the discipline
-                  of showing up.
+                  I started running every day on the 4th May, 2026. The goal was simple: run 5km
+                  every day, and share that with others. I figured by running and hopefully
+                  inspiring others, I'd being doing two productive actions at once. It's not
+                  primarily about speed, although we all aim for a better time, but for the
+                  discipline and health benefits of doing such a challenge.
                 </p>
                 <p>Here's what I've learned:</p>
                 <ul>
                   <li>
-                    <strong>Start small.</strong> 5km is achievable on even the worst days.
+                    <strong>You can walk.</strong> Push yourself but not know your limits. Walk on
+                    the rest days.
                   </li>
                   <li>
-                    <strong>Consistency beats intensity.</strong> A moderate effort every day beats
-                    a heroic effort once a week.
+                    <strong>Track your progress.</strong> Seeing the streak and the seed grow is
+                    motivating.
                   </li>
                   <li>
-                    <strong>You won't always feel like it.</strong> That's the point. You do it
-                    anyway.
-                  </li>
-                  <li>
-                    <strong>Track your progress.</strong> Seeing the streak grow is motivating.
+                    <strong>You won't always feel like it.</strong> Being disciplined is more
+                    important than how you feel.
                   </li>
                 </ul>
                 <p>
-                  It's not primarily about speed, but mainly the discipline and consistency that carries
-                  over to other aspects of life and drives you to success.
-                </p>
-                <p>
-                  If you're thinking about starting a daily running habit, my advice is simple:
-                  start with a week. Just one week. See how it feels. You might surprise yourself.
+                  If you're thinking about getting more healthy and want to start a habit, my advice
+                  is simple: start now, don't wait and do it when you don't feel like it. Start
+                  running.
                 </p>
               </div>
             </Card>
