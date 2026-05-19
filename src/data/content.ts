@@ -5,56 +5,39 @@ import { ContentPiece } from '@/types';
 // ============================================
 
 export const contentPieces: ContentPiece[] = [
-  {
-    slug: 'building-consistency',
-    title: 'Building Consistency: The Power of Daily Practice',
-    type: 'article',
-    category: 'performance',
-    excerpt:
-      'Why showing up every day matters more than being perfect. Lessons from my 87-day running streak.',
-    publishedAt: '2025-01-10',
-    thumbnail: '/images/content/consistency.jpg',
-    tags: ['consistency', 'habits', 'discipline'],
-    content: `
-      <p>Consistency is the foundation of everything I do. Whether it's running 5km every day, reading one book per week, or creating content regularly, the power of daily practice compounds over time.</p>
-      <h2>Why Consistency Matters</h2>
-      <p>Small actions, repeated daily, lead to extraordinary results. It's not about being perfect—it's about showing up.</p>
-    `,
-  },
-  {
-    slug: 'faith-and-work',
-    title: 'Faith and Work: Finding Purpose in What You Do',
-    type: 'video',
-    category: 'faith',
-    excerpt: 'How my faith influences my approach to work, creativity, and daily life.',
-    publishedAt: '2025-01-05',
-    thumbnail: '/images/content/faith-work.jpg',
-    youtubeId: 'dQw4w9WgXcQ',
-    tags: ['faith', 'purpose', 'work'],
-  },
-  {
-    slug: 'psychology-of-habits',
-    title: 'The Psychology of Habits: Why We Do What We Do',
-    type: 'video',
-    category: 'psychology',
-    excerpt:
-      'Understanding the science behind habit formation and how to use it to your advantage.',
-    publishedAt: '2024-12-20',
-    thumbnail: '/images/content/habits.jpg',
-    youtubeId: 'dQw4w9WgXcQ',
-    tags: ['psychology', 'habits', 'neuroscience'],
-  },
-  {
-    slug: 'health-foundations',
-    title: 'Health Foundations: Sleep, Nutrition, and Movement',
-    type: 'article',
-    category: 'health',
-    excerpt: 'The three pillars of health and why they matter more than any supplement or hack.',
-    publishedAt: '2024-12-15',
-    thumbnail: '/images/content/health.jpg',
-    tags: ['health', 'sleep', 'nutrition', 'exercise'],
-  },
-  // Add more content pieces here...
+  // ============================================
+  // EXAMPLE - Copy this template to add a new article:
+  // ============================================
+  // {
+  //   slug: 'your-article-slug',
+  //   title: 'Your Article Title',
+  //   type: 'article',  // or 'video'
+  //   category: 'health',  // health, psychology, faith, learning, performance
+  //   excerpt: 'A short description of your article (1-2 sentences).',
+  //   publishedAt: '2025-01-01',  // Format: YYYY-MM-DD
+  //   thumbnail: '/images/content/your-image.jpg',
+  //   tags: ['tag1', 'tag2'],
+  //   content: `
+  //     <p>Write your article content here in HTML.</p>
+  //     <h2>Section Heading</h2>
+  //     <p>Your content goes here.</p>
+  //   `,
+  // },
+
+  // ============================================
+  // EXAMPLE - Copy this template to add a new video:
+  // ============================================
+  // {
+  //   slug: 'your-video-slug',
+  //   title: 'Your Video Title',
+  //   type: 'video',
+  //   category: 'health',
+  //   excerpt: 'A short description of your video.',
+  //   publishedAt: '2025-01-01',
+  //   thumbnail: '/images/content/your-thumbnail.jpg',
+  //   youtubeId: 'dQw4w9WgXcQ',  // YouTube video ID
+  //   tags: ['tag1', 'tag2'],
+  // },
 ];
 
 // ============================================
