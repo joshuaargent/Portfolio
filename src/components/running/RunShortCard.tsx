@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Card } from '@/components/ui/Card';
-import { formatDate, getYouTubeThumbnail } from '@/lib/utils';
+import { formatDate, getYouTubeThumbnail, decodeHtmlEntities } from '@/lib/utils';
 import { Play, Clock, Zap, Eye } from 'lucide-react';
 import Image from 'next/image';
 import { RunLog, Video } from '@/types';
@@ -82,7 +82,7 @@ function RunShortContent({ run, video }: RunShortContentProps) {
       {/* Content */}
       <div className="p-4">
         <div className="text-text-primary text-sm font-medium">
-          {video?.title || formatDate(run.date, 'EEEE, MMM d')}
+          {video ? decodeHtmlEntities(video.title) : formatDate(run.date, 'EEEE, MMM d')}
         </div>
 
         <div className="text-text-muted mt-3 flex items-center gap-4 text-sm">

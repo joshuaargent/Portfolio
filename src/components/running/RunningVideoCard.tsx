@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { Card } from '@/components/ui/Card';
-import { formatDate, getYouTubeThumbnail } from '@/lib/utils';
+import { formatDate, getYouTubeThumbnail, decodeHtmlEntities } from '@/lib/utils';
 import { Play, Clock, Zap, Eye } from 'lucide-react';
 import Image from 'next/image';
 import { Video, RunLog } from '@/types';
@@ -66,7 +66,7 @@ function RunningVideoContent({ video, run }: RunningVideoContentProps) {
       {/* Content */}
       <div className="p-4">
         <div className="text-text-primary text-sm font-medium line-clamp-2">
-          {video.title}
+          {decodeHtmlEntities(video.title)}
         </div>
 
         {/* Run stats if available */}

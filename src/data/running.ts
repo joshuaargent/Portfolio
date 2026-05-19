@@ -54,28 +54,20 @@ export interface RunWithVideo extends RunLog {
   video?: Video;
 }
 
-// Match runs to their YouTube shorts by title
+// Match runs to their YouTube shorts by date
 export async function getRecentRunsWithVideos(limit: number = 6): Promise<RunWithVideo[]> {
-  const [runs, videos] = await Promise.all([
+  const [runs, allVideos] = await Promise.all([
     getRunLogs(),
-    getRunningShorts(),
+    getRunningShorts(), // This already filters by video type
   ]);
   
   const recentRuns = runs.slice(0, limit);
   
   return recentRuns.map((run) => {
-    // Try to find a matching video by title
-    // Strava titles typically contain the date and distance
-    // e.g., "Morning Run" or with pace info
-    const matchingVideo = videos.find((video) => {
-      const videoTitle = video.title.toLowerCase();
-      const runDate = run.date.replace(/-/g, '');
-      
-      // Check if video title contains the date or distance
-      // Running shorts often have titles like "5km in X:XX" or just date
-      return videoTitle.includes(run.distance.toString()) || 
-             videoTitle.includes(runDate) ||
-             videoTitle.includes(run.date);
+    // Try to find a matching video by date
+    const matchingVideo = allVideos.find((video) => {
+      const videoDate = new Date(video.publishedAt).toISOString().split('T')[0];
+      return videoDate === run.date;
     });
     
     return {
