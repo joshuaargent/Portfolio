@@ -78,6 +78,9 @@ export const contentCategories = [
   { id: 'health', label: 'Health', color: 'green' },
   { id: 'performance', label: 'Performance', color: 'orange' },
   { id: 'learning', label: 'Learning', color: 'cyan' },
+  { id: 'short', label: 'Shorts', color: 'cyan' },
+  { id: 'long-form', label: 'Long-form', color: 'blue' },
+  { id: 'running-short', label: 'Running', color: 'green' },
 ] as const;
 
 // ============================================

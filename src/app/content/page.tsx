@@ -37,7 +37,7 @@ export default async function ContentPage({
       title: v.title,
       excerpt: v.description,
       type: 'video' as const,
-      category: v.category || 'learning',
+      category: v.type || 'learning', // Use video type as category
       publishedAt: v.publishedAt,
       thumbnail: v.thumbnail,
       youtubeId: v.youtubeId,
