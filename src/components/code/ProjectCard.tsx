@@ -103,8 +103,6 @@ export function ProjectCard({ project, showImage = true }: ProjectCardProps) {
             <Button
               size="sm"
               asChild
-              style={{ backgroundColor: '#0D9488', color: '#ffffff' }}
-              className="hover:opacity-90"
             >
               <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
                 <ExternalLink className="mr-1.5 h-3.5 w-3.5" />
