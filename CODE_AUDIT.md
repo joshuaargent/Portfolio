@@ -171,18 +171,17 @@ All audit items have been completed:
 
 | Feature | Typical Portfolio | Yours |
 |---------|---------------|-------|
-| GitHub |  |  |
-| Blog |  |  |
-| YouTube | ⚠️ |  |
-| TikTok | ❌ |  |
-| Running tracker | ❌ |  |
-| Book reviews | ⚠️ |  |
-| Tests | ❌ |  |
-| TypeScript | ⚠️ |  |
+| GitHub | ✔️ | ✔️ |
+| Blog | ✔️ | ✔️ |
+| YouTube | ⚠️ | ✔️ |
+| Running tracker | ❌ | ✔️ |
+| Book reviews | ⚠️ | ✔️ |
+| Tests | ❌ | ✔️ |
+| TypeScript | ⚠️ | ✔️ |
 
 ### Your Unique Angles
 - Daily 5km streak content
-- Book-a-week habit
+- Book a week habit
 - Faith + psychology niche
 
 ---
