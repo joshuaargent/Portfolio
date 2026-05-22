@@ -4,6 +4,7 @@
 ![React](https://img.shields.io/badge/React-19.2-blue)
 ![TypeScript](https://img.shields.io/badge/TypeScript-6.0-blue)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.2-38bdf8)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 > A personal hub for running, reading, coding, and content creation. Built with Next.js, React, and Tailwind CSS.
 
@@ -245,10 +246,10 @@ Displays video content organized by category (long-form, shorts, running shorts)
 
 ### Architecture
 
-- Serverless-ready with Vercel
+- Serverless ready with Vercel
 - Static generation for optimal performance
 - API routes for dynamic content
-- Type-safe end-to-end
+- Type safe end to end
 
 ## License
 
